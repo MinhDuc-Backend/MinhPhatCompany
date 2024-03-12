@@ -1,0 +1,5598 @@
+swagger: "2.0"
+info:
+  description: "API của Website Hỗ trợ đào tạo SGU"
+  version: "1.0.0"
+  title: "Website Hỗ trợ đào tạo SGU"
+  contact:
+    email: ""
+host: ""
+# localhost:8000
+basePath: "/api"
+schemes:
+- "http"
+- "https"
+tags:
+- name: "ChucNang"
+  description: "Các API của model ChucNang"
+- name: "QuyenTaiKhoan"
+  description: "Các API của model QuyenTaiKhoan"
+- name: "TaiKhoan"
+  description: "Các API của model TaiKhoan"
+- name: "Nganh"
+  description: "Các API của model Nganh"
+- name: "ChuyenNganh"
+  description: "Các API của model ChuyenNganh"
+- name: "SinhVien"
+  description: "Các API của model SinhVien"
+- name: "GiangVien"
+  description: "Các API của model GiangVien"
+- name: "CanhBaoHocTap"
+  description: "Các API của model CanhBaoHocTap"
+- name: "TotNghiep"
+  description: "Các API của model TotNghiep"
+- name: "DangKyChuyenNganh"
+  description: "Các API của model DangKyChuyenNganh"
+- name: "KhoaLuanTotNghiep"
+  description: "Các API của model KhoaLuanTotNghiep"
+- name: "DangKyThucTap"
+  description: "Các API của model DangKyThucTap"
+- name: "SinhVienClient"
+  description: "Các API của model SinhVienClient"
+- name: "GiangVienClient"
+  description: "Các API của model GiangVienClient"
+- name: "DangKyChuyenNganhClient"
+  description: "Các API của model DangKyChuyenNganhClient"
+- name: "KhoaLuanTotNghiepClient"
+  description: "Các API của model KhoaLuanTotNghiepClient"
+- name: "DangKyThucTapClient"
+  description: "Các API của model DangKyThucTapClient"
+paths:
+  /admin/chuc-nang/DanhSachChucNang:
+    get: 
+      tags:
+        - "ChucNang"
+      summary: Admin lấy danh sách chức năng
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã chức năng hoặc tên chức năng
+      responses:
+        200: 
+          description: Lấy danh sách chức năng thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách chức năng thành công",
+            }
+        400:
+          description: Lấy danh sách chức năng thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách chức năng thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/chuc-nang/ChiTietChucNang/{MaCN}:
+    get:
+      tags:
+        - "ChucNang"
+      summary: "Xem chi tiết thông tin chức năng"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaCN
+          type: string
+          required: true
+          description: Mã chức năng
+      responses:
+        200:
+          description: Xem chi tiết thông tin chức năng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin chức năng thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin chức năng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin chức năng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/chuc-nang/Them:
+    post: 
+      tags:
+        - "ChucNang"
+      summary: Thêm chức năng
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaCN
+          type: string
+          description: Mã chức năng
+          required: true
+        - in: formData
+          name: TenChucNang
+          type: string
+          description: Tên chức năng
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình icon chức năng
+          required: true
+      responses:
+        200:
+          description: Thêm chức năng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm chức năng thành công.",
+            }          
+        400:
+          description: Thêm chức năng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm chức năng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/chuc-nang/ChinhSua/{MaCN}:
+    post: 
+      tags:
+        - "ChucNang"
+      summary: Chỉnh sửa thông tin chức năng
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: path
+          name: MaCN
+          type: string
+          required: true
+          description: Mã chức năng
+        - in: formData
+          name: TenChucNang
+          type: string
+          description: Tên chức năng
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình icon chức năng
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin chức năng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin chức năng thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin chức năng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin chức năng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/chuc-nang/Xoa/{MaCN}:
+    delete:
+      tags:
+        - "ChucNang"
+      summary: "Xóa thông tin chức năng"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaCN
+          type: string
+          required: true
+          description: Mã chức năng
+      responses:
+        200:
+          description: Xóa thông tin chức năng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin chức năng thành công.",
+            }
+        400:
+          description: Xóa thông tin chức năng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin chức năng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/quyen-tai-khoan/DanhSachQuyenTK:
+    get: 
+      tags:
+        - "QuyenTaiKhoan"
+      summary: Admin lấy danh sách quyền tài khoản
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã quyền tài khoản hoặc tên quyền tài khoản
+      responses:
+        200: 
+          description: Lấy danh sách quyền tài khoản thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách quyền tài khoản thành công",
+            }
+        400:
+          description: Lấy danh sách quyền tài khoản thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách quyền tài khoản thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/quyen-tai-khoan/ChiTietQuyenTK/{MaQTK}:
+    get:
+      tags:
+        - "QuyenTaiKhoan"
+      summary: "Chi tiết thông tin quyền tài khoản"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaQTK
+          type: string
+          required: true
+          description: Mã quyền tài khoản
+      responses:
+        200:
+          description: Chi tiết thông tin quyền tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin quyền tài khoản thành công.",
+            }
+        400:
+          description: Chi tiết thông tin quyền tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin quyền tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/quyen-tai-khoan/Them:
+    post: 
+      tags:
+        - "QuyenTaiKhoan"
+      summary: Thêm quyền tài khoản
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaQTK
+          type: string
+          required: true
+          description: Mã quyền tài khoản
+        - in: body
+          name: TenQuyenTK
+          type: string
+          required: true
+          description: Tên quyền tài khoản
+        - in: body
+          name: MaCN
+          type: string
+          description: Mảng các mã chức năng con được cách nhau bởi dấu ";". Ví dụ (CN;TK;CHNG)
+        - in: body
+          name: ChucNangCon
+          type: string
+          description: Mảng các tên chức năng con được cách nhau bởi dấu ";" ứng với mã chức năng, các tên cách nhau bởi dấu ",". Ví dụ (Thêm,Sửa,Xóa;Sửa,Xóa;Xem danh sách)
+      responses:
+        200:
+          description: Thêm quyền tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm quyền tài khoản thành công.",
+            }          
+        400:
+          description: Thêm quyền tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm quyền tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/quyen-tai-khoan/ChinhSua/{MaQTK}:
+    put: 
+      tags:
+        - "QuyenTaiKhoan"
+      summary: Chỉnh sửa quyền tài khoản
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaQTK
+          type: string
+          required: true
+          description: Mã quyền tài khoản
+        - in: body
+          name: TenQuyenTK
+          type: string
+          required: true
+          description: Tên quyền tài khoản
+        - in: body
+          name: MaCN
+          type: string
+          description: Mảng các mã chức năng con được cách nhau bởi dấu ";". Ví dụ (CN;TK;CHNG)
+        - in: body
+          name: ChucNangCon
+          type: string
+          description: Mảng các tên chức năng con được cách nhau bởi dấu ";" ứng với mã chức năng, các tên cách nhau bởi dấu ",". Ví dụ (Thêm,Sửa,Xóa;Sửa,Xóa;Xem danh sách)
+      responses:
+        200:
+          description: Chỉnh sửa quyền tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa quyền tài khoản thành công.",
+            }          
+        400:
+          description: Chỉnh sửa quyền tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa quyền tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/quyen-tai-khoan/Xoa/{MaQTK}:
+    delete:
+      tags:
+        - "QuyenTaiKhoan"
+      summary: "Xóa thông tin quyền tài khoản"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaQTK
+          type: string
+          required: true
+          description: Mã quyền tài khoản
+      responses:
+        200:
+          description: Xóa thông tin quyền tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin quyền tài khoản thành công.",
+            }
+        400:
+          description: Xóa thông tin quyền tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin quyền tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tai-khoan/DanhSachTK:
+    get: 
+      tags:
+        - "TaiKhoan"
+      summary: Admin lấy danh sách tài khoản
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã tài khoản hoặc tên đăng nhập hoặc mã quyền tài khoản
+      responses:
+        200: 
+          description: Lấy danh sách tài khoản thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách tài khoản thành công",
+            }
+        400:
+          description: Lấy danh sách tài khoản thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách tài khoản thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/tai-khoan/ChiTietTaiKhoan/{MaTK}:
+    get:
+      tags:
+        - "TaiKhoan"
+      summary: "Chi tiết thông tin tài khoản"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaTK
+          type: string
+          required: true
+          description: Mã tài khoản
+      responses:
+        200:
+          description: Chi tiết thông tin tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin tài khoản thành công.",
+            }
+        400:
+          description: Chi tiết thông tin tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tai-khoan/Them:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Thêm tài khoản
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaTK
+          type: string
+          required: true
+          description: Mã tài khoản
+        - in: body
+          name: MaQTK
+          type: string
+          required: true
+          description: Mã quyền tài khoản
+        - in: body
+          name: TenDangNhap
+          type: string
+          required: true
+          description: Tên đăng nhập
+        - in: body
+          name: MatKhau
+          type: string
+          description: Mật khẩu đăng nhập
+      responses:
+        200:
+          description: Thêm tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm tài khoản thành công.",
+            }          
+        400:
+          description: Thêm tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/tai-khoan/ChinhSua/{MaTK}:
+    put: 
+      tags:
+        - "TaiKhoan"
+      summary: Chỉnh sửa tài khoản
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaTK
+          type: string
+          required: true
+          description: Mã tài khoản
+        - in: body
+          name: MaQTK
+          type: string
+          required: true
+          description: Mã quyền tài khoản
+        - in: body
+          name: TrangThai
+          type: string
+          required: true
+          enum: ['Chưa kích hoạt','Đã kích hoạt']
+          description: Trạng thái tài khoản
+      responses:
+        200:
+          description: Chỉnh sửa tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa tài khoản thành công.",
+            }          
+        400:
+          description: Chỉnh sửa tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/tai-khoan/Xoa/{MaTK}:
+    delete:
+      tags:
+        - "TaiKhoan"
+      summary: "Xóa thông tin tài khoản"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaTK
+          type: string
+          required: true
+          description: Mã tài khoản
+      responses:
+        200:
+          description: Xóa thông tin tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin tài khoản thành công.",
+            }
+        400:
+          description: Xóa thông tin tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/nganh/DanhSachNganh:
+    get: 
+      tags:
+        - "Nganh"
+      summary: Admin lấy danh sách ngành
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã ngành hoặc tên ngành
+      responses:
+        200: 
+          description: Lấy danh sách ngành thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách ngành thành công",
+            }
+        400:
+          description: Lấy danh sách ngành thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách ngành thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/nganh/ChiTietNganh/{MaNganh}:
+    get:
+      tags:
+        - "Nganh"
+      summary: "Chi tiết thông tin ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+      responses:
+        200:
+          description: Chi tiết thông tin ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin ngành thành công.",
+            }
+        400:
+          description: Chi tiết thông tin ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/nganh/Them:
+    post: 
+      tags:
+        - "Nganh"
+      summary: Thêm ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: TenNganh
+          type: string
+          required: true
+          description: Tên ngành
+      responses:
+        200:
+          description: Thêm ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm ngành thành công.",
+            }          
+        400:
+          description: Thêm ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/nganh/ChinhSua/{MaNganh}:
+    put: 
+      tags:
+        - "Nganh"
+      summary: Chỉnh sửa ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: TenNganh
+          type: string
+          required: true
+          description: Tên ngành
+      responses:
+        200:
+          description: Chỉnh sửa ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa ngành thành công.",
+            }          
+        400:
+          description: Chỉnh sửa ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/nganh/Xoa/{MaNganh}:
+    delete:
+      tags:
+        - "Nganh"
+      summary: "Xóa thông tin ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+      responses:
+        200:
+          description: Xóa thông tin ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin ngành thành công.",
+            }
+        400:
+          description: Xóa thông tin ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/chuyen-nganh/DanhSachChuyenNganh:
+    get: 
+      tags:
+        - "ChuyenNganh"
+      summary: Admin lấy danh sách chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã chuyên ngành hoặc tên chuyên ngành
+      responses:
+        200: 
+          description: Lấy danh sách chuyên ngành thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách chuyên ngành thành công",
+            }
+        400:
+          description: Lấy danh sách chuyên ngành thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách chuyên ngành thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/chuyen-nganh/ChiTietChuyenNganh/{MaChuyenNganh}:
+    get:
+      tags:
+        - "ChuyenNganh"
+      summary: "Chi tiết thông tin chuyên ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+      responses:
+        200:
+          description: Chi tiết thông tin chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin chuyên ngành thành công.",
+            }
+        400:
+          description: Chi tiết thông tin chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/chuyen-nganh/Them:
+    post: 
+      tags:
+        - "ChuyenNganh"
+      summary: Thêm chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: TenChuyenNganh
+          type: string
+          required: true
+          description: Tên chuyên ngành
+      responses:
+        200:
+          description: Thêm chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm chuyên ngành thành công.",
+            }          
+        400:
+          description: Thêm chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/chuyen-nganh/ChinhSua/{MaChuyenNganh}:
+    put: 
+      tags:
+        - "ChuyenNganh"
+      summary: Chỉnh sửa chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: TenChuyenNganh
+          type: string
+          required: true
+          description: Tên chuyên ngành
+      responses:
+        200:
+          description: Chỉnh sửa chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa chuyên ngành thành công.",
+            }          
+        400:
+          description: Chỉnh sửa chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/chuyen-nganh/Xoa/{MaChuyenNganh}:
+    delete:
+      tags:
+        - "ChuyenNganh"
+      summary: "Xóa thông tin chuyên ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+      responses:
+        200:
+          description: Xóa thông tin chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin chuyên ngành thành công.",
+            }
+        400:
+          description: Xóa thông tin chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /tai-khoan/DangNhapAdmin:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Đăng nhập tài khoản trang quản trị
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: TenDangNhap
+          type: string
+          required: true
+          description: Tên đăng nhập
+        - in: body
+          name: MatKhau
+          type: string
+          required: true
+          description: Mật khẩu
+      responses:
+        200:
+          description: Đăng nhập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Đăng nhập thành công.",
+            }          
+        400:
+          description: Đăng nhập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Đăng nhập thất bại.",
+            }
+  /tai-khoan/DangNhap:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Đăng nhập tài khoản trang người dùng
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: TenDangNhap
+          type: string
+          required: true
+          description: Tên đăng nhập
+        - in: body
+          name: MatKhau
+          type: string
+          required: true
+          description: Mật khẩu
+      responses:
+        200:
+          description: Đăng nhập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Đăng nhập thành công.",
+            }          
+        400:
+          description: Đăng nhập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Đăng nhập thất bại.",
+            }
+  /admin/sinh-vien/DanhSachSinhVien:
+    get: 
+      tags:
+        - "SinhVien"
+      summary: Admin lấy danh sách sinh viên
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã sinh viên, họ sinh viên, tên sinh viên, email hoặc số điện thoại
+      responses:
+        200: 
+          description: Lấy danh sách sinh viên thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách sinh viên thành công",
+            }
+        400:
+          description: Lấy danh sách sinh viên thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách sinh viên thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/sinh-vien/ChiTietSinhVien/{MaSV}:
+    get:
+      tags:
+        - "SinhVien"
+      summary: "Chi tiết thông tin sinh viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+      responses:
+        200:
+          description: Chi tiết thông tin sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin sinh viên thành công.",
+            }
+        400:
+          description: Chi tiết thông tin sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/sinh-vien/Them:
+    post: 
+      tags:
+        - "SinhVien"
+      summary: Thêm sinh viên
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaSV
+          type: string
+          description: Mã sinh viên
+          required: true
+        - in: formData
+          name: HoSV
+          type: string
+          description: Họ sinh viên
+          required: true
+        - in: formData
+          name: TenSV
+          type: string
+          description: Tên sinh viên
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email sinh viên
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại sinh viên
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính sinh viên
+          required: true
+        - in: formData
+          name: NgaySinh
+          type: string
+          description: Ngày sinh sinh viên
+          required: true
+        - in: formData
+          name: Khoa
+          type: string
+          description: Khóa của sinh viên, ví dụ K19, K20
+          required: true
+        - in: formData
+          name: ChuyenNganh
+          type: string
+          description: Chuyên ngành của sinh viên
+          required: true
+        - in: formData
+          name: Nganh
+          type: string
+          description: Ngành sinh viên học
+          required: true
+        - in: formData
+          name: Lop
+          type: string
+          description: Lớp của sinh viên
+          required: true
+      responses:
+        200:
+          description: Thêm sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm sinh viên thành công.",
+            }          
+        400:
+          description: Thêm sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/sinh-vien/ChinhSua/{MaSV}:
+    put: 
+      tags:
+        - "SinhVien"
+      summary: Chỉnh sửa thông tin sinh viên
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+        - in: formData
+          name: HoSV
+          type: string
+          description: Họ sinh viên
+          required: true
+        - in: formData
+          name: TenSV
+          type: string
+          description: Tên sinh viên
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email sinh viên
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại sinh viên
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính sinh viên
+          required: true
+        - in: formData
+          name: NgaySinh
+          type: string
+          description: Ngày sinh sinh viên
+          required: true
+        - in: formData
+          name: Khoa
+          type: string
+          description: Khóa của sinh viên, ví dụ K19, K20
+          required: true
+        - in: formData
+          name: ChuyenNganh
+          type: string
+          description: Chuyên ngành của sinh viên
+          required: true
+        - in: formData
+          name: Nganh
+          type: string
+          description: Ngành sinh viên học
+          required: true
+        - in: formData
+          name: Lop
+          type: string
+          description: Lớp của sinh viên
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin sinh viên thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/sinh-vien/Xoa/{MaSV}:
+    delete:
+      tags:
+        - "SinhVien"
+      summary: "Xóa thông tin sinh viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+      responses:
+        200:
+          description: Xóa thông tin sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin sinh viên thành công.",
+            }
+        400:
+          description: Xóa thông tin sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/giang-vien/DanhSachGiangVien:
+    get: 
+      tags:
+        - "GiangVien"
+      summary: Admin lấy danh sách giảng viên
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã giảng viên, họ giảng viên, tên giảng viên, email hoặc số điện thoại
+      responses:
+        200: 
+          description: Lấy danh sách giảng viên thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách giảng viên thành công",
+            }
+        400:
+          description: Lấy danh sách giảng viên thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách giảng viên thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/giang-vien/ChiTietGiangVien/{MaGV}:
+    get:
+      tags:
+        - "GiangVien"
+      summary: "Chi tiết thông tin giảng viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Chi tiết thông tin giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin giảng viên thành công.",
+            }
+        400:
+          description: Chi tiết thông tin giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/giang-vien/Them:
+    post: 
+      tags:
+        - "GiangVien"
+      summary: Thêm giảng viên
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaGV
+          type: string
+          description: Mã giảng viên
+          required: true
+        - in: formData
+          name: HoGV
+          type: string
+          description: Họ giảng viên
+          required: true
+        - in: formData
+          name: TenGV
+          type: string
+          description: Tên giảng viên
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email giảng viên
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại giảng viên
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính giảng viên
+          required: true
+        - in: formData
+          name: NgaySinh
+          type: string
+          description: Ngày sinh giảng viên
+          required: true
+        - in: formData
+          name: DonViCongTac
+          type: string
+          description: Đơn vị công tác
+          required: true
+        - in: formData
+          name: ChuyenNganh
+          type: string
+          description: Chuyên ngành của giảng viên
+          required: true
+        - in: formData
+          name: TrinhDo
+          type: string
+          description: Trình độ giảng viên
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình đại diện giảng viên
+      responses:
+        200:
+          description: Thêm giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm giảng viên thành công.",
+            }          
+        400:
+          description: Thêm giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/giang-vien/ChinhSua/{MaGV}:
+    post: 
+      tags:
+        - "GiangVien"
+      summary: Chỉnh sửa thông tin giảng viên
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: formData
+          name: HoGV
+          type: string
+          description: Họ giảng viên
+          required: true
+        - in: formData
+          name: TenGV
+          type: string
+          description: Tên giảng viên
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email giảng viên
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại giảng viên
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính giảng viên
+          required: true
+        - in: formData
+          name: NgaySinh
+          type: string
+          description: Ngày sinh giảng viên
+          required: true
+        - in: formData
+          name: DonViCongTac
+          type: string
+          description: Đơn vị công tác
+          required: true
+        - in: formData
+          name: ChuyenNganh
+          type: string
+          description: Chuyên ngành của giảng viên
+          required: true
+        - in: formData
+          name: TrinhDo
+          type: string
+          description: Trình độ giảng viên
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình đại diện giảng viên
+      responses:
+        200:
+          description: Chỉnh sửa thông tin giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin giảng viên thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/giang-vien/Xoa/{MaGV}:
+    delete:
+      tags:
+        - "GiangVien"
+      summary: "Xóa thông tin giảng viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Xóa thông tin giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin giảng viên thành công.",
+            }
+        400:
+          description: Xóa thông tin giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /tai-khoan/DoiMatKhau:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Đổi mật khẩu
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaSo
+          type: string
+          required: true
+          description: Mã số sinh viên hoặc mã giảng viên
+        - in: body
+          name: MatKhauCu
+          type: string
+          required: true
+          description: Mật khẩu cũ
+        - in: body
+          name: MatKhauMoi
+          type: string
+          required: true
+          description: Mật khẩu mới
+        - in: body
+          name: NhapLaiMatKhauMoi
+          type: string
+          required: true
+          description: Nhập lại mật khẩu mới
+      responses:
+        200:
+          description: Thay đổi mật khẩu thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thay đổi mật khẩu thành công.",
+            }          
+        400:
+          description: Thay đổi mật khẩu thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thay đổi mật khẩu thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/ThemDotCanhBao:
+    post: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Thêm đợt cảnh báo học tập
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaCBHT
+          type: string
+          description: Mã cảnh báo học tập
+          required: true
+        - in: formData
+          name: Ten
+          type: string
+          description: Tên đợt cảnh báo học tập
+          required: true
+        - in: formData
+          name: Dot
+          type: string
+          description: Đợt thứ mấy
+          required: true
+        - in: formData
+          name: NienKhoa
+          type: string
+          description: Niên khóa
+          required: true
+        - in: formData
+          name: KieuCanhBao
+          type: string
+          enum : ['Điểm học tập','Điểm rèn luyện','Chưa import file']
+          description: Kiểu cảnh báo chỉ có 2 kiểu là Điểm học tập hoặc Điểm rèn luyện
+          required: true
+        - in: formData
+          name: KetQuaDRL
+          type: string
+          enum : ['Cảnh báo','Tạm dừng','Buộc thôi học']
+          description: Kết quả điểm rèn luyện
+        - in: formData
+          name: FileExcelPDF
+          type: file
+          description: file excel
+      responses:
+        200:
+          description: Thêm đợt cảnh báo học tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đợt cảnh báo học tập thành công.",
+            }          
+        400:
+          description: Thêm đợt cảnh báo học tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm đợt cảnh báo học tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/canh-bao-hoc-tap/importFile/{MaCBHT}:
+    post: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Import file đợt cảnh báo học tập, điểm rèn luyện
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: path
+          name: MaCBHT
+          type: string
+          description: Mã cảnh báo học tập
+          required: true
+        - in: formData
+          name: KieuCanhBao
+          type: string
+          enum : ['Điểm học tập','Điểm rèn luyện','Chưa import file']
+          description: Kiểu cảnh báo chỉ có 2 kiểu là Điểm học tập hoặc Điểm rèn luyện
+          required: true
+        - in: formData
+          name: KetQuaDRL
+          type: string
+          enum : ['Cảnh báo','Tạm dừng','Buộc thôi học']
+          description: Kết quả điểm rèn luyện
+          required: true
+        - in: formData
+          name: FileExcelPDF
+          type: file
+          description: file excel
+          required: true
+      responses:
+        200:
+          description: Import file đợt cảnh báo học tập, điểm rèn luyện thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Import file đợt cảnh báo học tập, điểm rèn luyện thành công.",
+            }          
+        400:
+          description: Import file đợt cảnh báo học tập, điểm rèn luyện thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Import file đợt cảnh báo học tập, điểm rèn luyện thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/ChinhSuaThongTin/{MaCBHT}:
+    post: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Chỉnh sửa thông tin đợt cảnh báo học tập
+      produces:
+        - application/json    
+      parameters:
+        - in: path
+          name: MaCBHT
+          type: string
+          description: Mã cảnh báo học tập
+          required: true
+        - in: body
+          name: Ten
+          type: string
+          description: Tên đợt cảnh báo học tập
+          required: true
+        - in: body
+          name: Dot
+          type: string
+          description: Đợt thứ mấy
+          required: true
+        - in: body
+          name: NienKhoa
+          type: string
+          description: Niên khóa
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin đợt cảnh báo học tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin đợt cảnh báo học tập thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin đợt cảnh báo học tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin đợt cảnh báo học tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/XoaDanhSachSinhVien/{MaCBHT}:
+    post: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Xóa danh sách sinh viên
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: path
+          name: MaCBHT
+          type: string
+          description: Mã cảnh báo học tập
+          required: true
+      responses:
+        200:
+          description: Xóa danh sách sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa danh sách sinh viên thành công.",
+            }          
+        400:
+          description: Xóa danh sách sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Xóa danh sách sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/XoaDotCanhBao/{MaCBHT}:
+    delete: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Xóa đợt cảnh báo
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: path
+          name: MaCBHT
+          type: string
+          description: Mã cảnh báo học tập
+          required: true
+      responses:
+        200:
+          description: Xóa đợt cảnh báo thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa đợt cảnh báo thành công.",
+            }          
+        400:
+          description: Xóa đợt cảnh báo thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Xóa đợt cảnh báo thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/DanhSachDotCanhBao:
+    get: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Admin lấy danh sách đợt cảnh báo
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        description: mã đợt cảnh báo, tên đợt cảnh báo, đợt cảnh báo, niên khóa đợt cảnh báo
+      - in: query
+        name: KieuCanhBao
+        type: string
+        description: Kiểu cảnh báo
+        enum : ['Điểm học tập','Điểm rèn luyện','Chưa import file']
+        require: true
+      responses:
+        200: 
+          description: Lấy danh sách đợt cảnh báo thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đợt cảnh báo thành công",
+            }
+        400:
+          description: Lấy danh sách đợt cảnh báo thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách đợt cảnh báo thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/ChiTietDotCanhBao/{MaCBHT}:
+    get: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Admin lấy chi tiết đợt cảnh báo
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaCBHT
+        type: string
+        description: Mã đợt cảnh báo học tập
+      responses:
+        200: 
+          description: Lấy chi tiết đợt cảnh báo thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy chi tiết đợt cảnh báo thành công",
+            }
+        400:
+          description: Lấy chi tiết đợt cảnh báo thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy chi tiết đợt cảnh báo thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/tai-khoan/DanhSachTKGiangVien:
+    get: 
+      tags:
+        - "TaiKhoan"
+      summary: Admin lấy danh sách tài khoản giảng viên
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      responses:
+        200: 
+          description: Lấy danh sách tài khoản giảng viên thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách tài khoản giảng viên thành công",
+            }
+        400:
+          description: Lấy danh sách tài khoản giảng viên thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách tài khoản giảng viên thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/tai-khoan/DanhSachTKSinhVien:
+    get: 
+      tags:
+        - "TaiKhoan"
+      summary: Admin lấy danh sách tài khoản sinh viên
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      responses:
+        200: 
+          description: Lấy danh sách tài khoản sinh viên thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách tài khoản sinh viên thành công",
+            }
+        400:
+          description: Lấy danh sách tài khoản sinh viên thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách tài khoản sinh viên thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/ThongKeCBHTSinhVien/{MaCBHT}:
+    post: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Thống kê sinh viên bị cảnh báo
+      produces:
+        - application/json  
+      parameters:
+        - in: path
+          name: MaCBHT
+          type: string
+          description: Mã cảnh báo học tập
+          required: true
+        - in: body
+          name: ThongKeTheo
+          type: string
+          description: Thống kê theo ngành, theo khóa, theo lớp
+          required: true
+        - in: body
+          name: LocTheoNganh
+          type: string
+          description: Lọc theo ngành
+          required: true
+        - in: body
+          name: LocTheoKhoa
+          type: string
+          description: Lọc theo khóa
+          required: true
+      responses:
+        200:
+          description: Thống kê sinh viên bị cảnh báo thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thống kê sinh viên bị cảnh báo thành công.",
+            }          
+        400:
+          description: Thống kê sinh viên bị cảnh báo thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thống kê sinh viên bị cảnh báo thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/canh-bao-hoc-tap/TraCuuCBHTSinhVien:
+    post: 
+      tags:
+        - "CanhBaoHocTap"
+      summary: Tra cứu sinh viên bị cảnh báo
+      produces:
+        - application/json  
+      parameters:
+        - in: body
+          name: MaSV
+          type: string
+          description: Mã sinh viên
+          required: true
+      responses:
+        200:
+          description: Tra cứu sinh viên bị cảnh báo thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Tra cứu sinh viên bị cảnh báo thành công.",
+            }          
+        400:
+          description: Tra cứu sinh viên bị cảnh báo thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Tra cứu sinh viên bị cảnh báo thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tai-khoan/PhucHoiMatKhau/{MaTK}:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Phục hồi mật khẩu
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaTK
+          type: string
+          required: true
+          description: Mã tài khoản
+        - in: body
+          name: MatKhauPhucHoi
+          type: string
+          required: true
+          description: Mật khẩu phục hồi
+      responses:
+        200:
+          description: Phục hồi mật khẩu thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Phục hồi mật khẩu thành công.",
+            }          
+        400:
+          description: Phục hồi mật khẩu thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Phục hồi mật khẩu thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/sinh-vien/importFileSV:
+    post: 
+      tags:
+        - "SinhVien"
+      summary: Import file thông tin sinh viên
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: CapTaiKhoan
+          type: String
+          description: Chọn select có 2 giá trị là "Tạo tài khoản" và "Không tạo tài khoản"
+          required: true
+        - in: formData
+          name: MatKhauMacDinh
+          type: String
+          description: Mật khẩu mặc định của tài khoản
+          required: true
+        - in: formData
+          name: FileExcel
+          type: file
+          description: file excel
+          required: true
+      responses:
+        200:
+          description: Import file thông tin sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Import file thông tin sinh viên thành công.",
+            }          
+        400:
+          description: Import file thông tin sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Import file thông tin sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tot-nghiep/DanhSachDotTotNghiep:
+    get: 
+      tags:
+        - "TotNghiep"
+      summary: Admin lấy danh sách đợt tốt nghiệp
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        description: mã đợt tốt nghiệp, tên đợt tốt nghiệp, niên khóa đợt tốt nghiệp
+      responses:
+        200: 
+          description: Lấy danh sách đợt tốt nghiệp thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đợt tốt nghiệp thành công",
+            }
+        400:
+          description: Lấy danh sách đợt tốt nghiệp thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách đợt tốt nghiệp thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/tot-nghiep/ChiTietDotTotNghiep/{MaTN}:
+    get: 
+      tags:
+        - "TotNghiep"
+      summary: Admin lấy chi tiết đợt tốt nghiệp
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaTN
+        type: string
+        description: Mã đợt tốt nghiệp
+      responses:
+        200: 
+          description: Lấy chi tiết đợt tốt nghiệp thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy chi tiết đợt tốt nghiệp thành công",
+            }
+        400:
+          description: Lấy chi tiết đợt tốt nghiệp thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy chi tiết đợt tốt nghiệp thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/tot-nghiep/ThemDotTotNghiep:
+    post: 
+      tags:
+        - "TotNghiep"
+      summary: Thêm đợt tốt nghiệp
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaTN
+          type: string
+          description: Mã đợt tốt nghiệp
+          required: true
+        - in: formData
+          name: Ten
+          type: string
+          description: Tên đợt tốt nghiệp
+          required: true
+        - in: formData
+          name: NienKhoa
+          type: string
+          description: Niên khóa
+          required: true
+        - in: formData
+          name: FilePDF
+          type: file
+          description: file pdf
+      responses:
+        200:
+          description: Thêm đợt tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đợt tốt nghiệp thành công.",
+            }          
+        400:
+          description: Thêm đợt tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm đợt tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/tot-nghiep/importFile/{MaTN}:
+    post: 
+      tags:
+        - "TotNghiep"
+      summary: Import file đợt tốt nghiệp
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: path
+          name: MaTN
+          type: string
+          description: Mã tốt nghiệp
+          required: true
+        - in: formData
+          name: FilePDF
+          type: file
+          description: file pdf
+          required: true
+      responses:
+        200:
+          description: Import file đợt tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Import file đợt tốt nghiệp thành công.",
+            }          
+        400:
+          description: Import file đợt tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Import file đợt tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tot-nghiep/ChinhSuaThongTin/{MaTN}:
+    post: 
+      tags:
+        - "TotNghiep"
+      summary: Chỉnh sửa thông tin đợt tốt nghiệp
+      produces:
+        - application/json   
+      parameters:
+        - in: path
+          name: MaTN
+          type: string
+          description: Mã tốt nghiệp
+          required: true
+        - in: body
+          name: Ten
+          type: string
+          description: Tên đợt tốt nghiệp
+          required: true
+        - in: body
+          name: NienKhoa
+          type: string
+          description: Niên khóa tốt nghiệp
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin đợt tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin đợt tốt nghiệp thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin đợt tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin đợt tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tot-nghiep/XoaDanhSachSinhVien/{MaTN}:
+    post: 
+      tags:
+        - "TotNghiep"
+      summary: Xóa danh sách sinh viên
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaTN
+          type: string
+          description: Mã cảnh báo tốt nghiệp
+          required: true
+      responses:
+        200:
+          description: Xóa danh sách sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa danh sách sinh viên thành công.",
+            }          
+        400:
+          description: Xóa danh sách sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Xóa danh sách sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tot-nghiep/XoaDotTotNghiep/{MaTN}:
+    delete: 
+      tags:
+        - "TotNghiep"
+      summary: Xóa đợt tốt nghiệp
+      produces:
+        - application/json    
+      parameters:
+        - in: path
+          name: MaTN
+          type: string
+          description: Mã tốt nghiệp
+          required: true
+      responses:
+        200:
+          description: Xóa đợt tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa đợt tốt nghiệp thành công.",
+            }          
+        400:
+          description: Xóa đợt tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Xóa đợt tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tot-nghiep/ThongKeTotNghiepSinhVien/{MaTN}:
+    post: 
+      tags:
+        - "TotNghiep"
+      summary: Thống kê sinh viên tốt nghiệp
+      produces:
+        - application/json  
+      parameters:
+        - in: path
+          name: MaTN
+          type: string
+          description: Mã tốt nghiệp
+          required: true
+        - in: body
+          name: ThongKeTheo
+          type: string
+          description: Thống kê theo ngành, theo lớp
+          required: true
+        - in: body
+          name: LocTheoNganh
+          type: string
+          description: Lọc theo ngành
+          required: true
+        - in: body
+          name: KieuThongKe
+          type: string
+          description: Kiểu thống kê
+          enum: ['Xếp loại','Tốt nghiệp']
+          required: true
+      responses:
+        200:
+          description: Thống kê sinh viên tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thống kê sinh viên tốt nghiệp thành công.",
+            }          
+        400:
+          description: Thống kê sinh viên tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thống kê sinh viên tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tot-nghiep/TraCuuSinhVienTotNghiep:
+    get: 
+      tags:
+        - "TotNghiep"
+      summary: Tra cứu sinh viên tốt nghiệp
+      produces:
+        - application/json  
+      parameters:
+        - in: body
+          name: MaSV
+          type: string
+          description: Mã sinh viên
+          required: true
+      responses:
+        200:
+          description: Tra cứu sinh viên tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Tra cứu sinh viên tốt nghiệp thành công.",
+            }          
+        400:
+          description: Tra cứu sinh viên tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Tra cứu sinh viên tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tai-khoan/KichHoatTaiKhoan/{MaTK}:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Kích hoạt tài khoản
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaTK
+          type: string
+          required: true
+          description: Mã tài khoản
+      responses:
+        200:
+          description: Kích hoạt tài khoản thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Kích hoạt tài khoản thành công.",
+            }          
+        400:
+          description: Kích hoạt tài khoản thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Kích hoạt tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []  
+  /admin/dk-chuyen-nganh/DanhSachDKCN:
+    get: 
+      tags:
+        - "DangKyChuyenNganh"
+      summary: Admin lấy danh sách đăng ký chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã đăng ký chuyên ngành hoặc tên đăng ký chuyên ngành
+      responses:
+        200: 
+          description: Lấy danh sách đăng ký chuyên ngành thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đăng ký chuyên ngành thành công",
+            }
+        400:
+          description: Lấy danh sách đăng ký chuyên ngành thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách đăng ký chuyên ngành thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/ChiTietDKCN/{MaDKCN}:
+    get:
+      tags:
+        - "DangKyChuyenNganh"
+      summary: "Xem chi tiết thông tin đăng ký chuyên ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+      responses:
+        200:
+          description: Xem chi tiết thông tin đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin đăng ký chuyên ngành thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/Them:
+    post: 
+      tags:
+        - "DangKyChuyenNganh"
+      summary: Thêm đăng ký chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên đăng ký chuyên ngành
+        - in: body
+          name: Khoa
+          type: string
+          required: true
+          description: Khóa đăng ký chuyên ngành (ví dụ 2019, 2020, 2021)
+        - in: body
+          name: ThoiGianBD
+          type: string
+          required: true
+          description: Thời gian bắt đầu đăng ký
+        - in: body
+          name: ThoiGianKT
+          type: string
+          required: true
+          description: Thời gian kết thúc đăng ký
+      responses:
+        200:
+          description: Thêm đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đăng ký chuyên ngành thành công.",
+            }          
+        400:
+          description: Thêm đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/dk-chuyen-nganh/ChinhSua/{MaDKCN}:
+    put: 
+      tags:
+        - "DangKyChuyenNganh"
+      summary: Chỉnh sửa đăng ký chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên đăng ký chuyên ngành
+        - in: body
+          name: Khoa
+          type: string
+          required: true
+          description: Khóa đăng ký chuyên ngành (ví dụ 2019, 2020, 2021)
+        - in: body
+          name: ThoiGianBD
+          type: string
+          required: true
+          description: Thời gian bắt đầu đăng ký
+        - in: body
+          name: ThoiGianKT
+          type: string
+          required: true
+          description: Thời gian kết thúc đăng ký
+      responses:
+        200:
+          description: Chỉnh sửa đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa đăng ký chuyên ngành thành công.",
+            }          
+        400:
+          description: Chỉnh sửa đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/Xoa/{MaDKCN}:
+    delete:
+      tags:
+        - "DangKyChuyenNganh"
+      summary: "Xóa thông tin đăng ký chuyên ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+      responses:
+        200:
+          description: Xóa thông tin đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin đăng ký chuyên ngành thành công.",
+            }
+        400:
+          description: Xóa thông tin đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/ThemChuyenNganhDangKy/{MaDKCN}:
+    post:
+      tags:
+        - "DangKyChuyenNganh"
+      summary: "Thêm thông tin chuyên ngành để sinh viên đăng ký"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+        - in: body
+          name: ToiDa
+          type: string
+          required: true
+          description: Số lượng tối đa cho sinh viên đăng ký
+      responses:
+        200:
+          description: Thêm thông tin chuyên ngành để sinh viên đăng ký thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm thông tin chuyên ngành để sinh viên đăng ký thành công.",
+            }
+        400:
+          description: Thêm thông tin chuyên ngành để sinh viên đăng ký thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm thông tin chuyên ngành để sinh viên đăng ký thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/SuaChuyenNganhDangKy/{MaDKCN}:
+    post:
+      tags:
+        - "DangKyChuyenNganh"
+      summary: "Sửa thông tin chuyên ngành để sinh viên đăng ký"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+        - in: body
+          name: SoLuong
+          type: string
+          required: true
+          description: Số lượng tối đa
+      responses:
+        200:
+          description: Sửa thông tin chuyên ngành để sinh viên đăng ký thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Sửa thông tin chuyên ngành để sinh viên đăng ký thành công.",
+            }
+        400:
+          description: Sửa thông tin chuyên ngành để sinh viên đăng ký thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Sửa thông tin chuyên ngành để sinh viên đăng ký thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/TuDongCapNhatTrangThaiDKCN:
+    get:
+      tags:
+        - "DangKyChuyenNganh"
+      summary: "Tự động cập nhập trạng thái của các đợt đăng ký chuyên ngành"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Tự động cập nhập trạng thái thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Tự động cập nhập trạng thái thành công.",
+            }
+        400:
+          description: Tự động cập nhập trạng thái thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Tự động cập nhập trạng thái thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/DanhSachKLTN:
+    get: 
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: Admin lấy danh sách các đợt đăng ký khóa luận tốt nghiệp
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã khóa luận tốt nghiệp hoặc tên khóa luận tốt nghiệp
+      responses:
+        200: 
+          description: Lấy danh sách khóa luận tốt nghiệp thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách khóa luận tốt nghiệp thành công",
+            }
+        400:
+          description: Lấy danh sách khóa luận tốt nghiệp thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách khóa luận tốt nghiệp thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ChiTietKLTN/{MaKLTN}:
+    get:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Xem chi tiết thông tin khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Xem chi tiết thông tin khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/Them:
+    post: 
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: Thêm đợt đăng ký khóa luận tốt nghiệp
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên khóa luận tốt nghiệp
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: Khoa
+          type: string
+          required: true
+          description: Khóa của khóa luận tốt nghiệp (ví dụ 2019, 2020, 2021)
+        - in: body
+          name: ThoiGianBD
+          type: string
+          required: true
+          description: Thời gian bắt đầu đăng ký
+        - in: body
+          name: ThoiGianKT
+          type: string
+          required: true
+          description: Thời gian kết thúc đăng ký
+      responses:
+        200:
+          description: Thêm đợt đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đợt đăng ký khóa luận tốt nghiệp thành công.",
+            }          
+        400:
+          description: Thêm đợt đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm đợt đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/khoa-luan-tot-nghiep/ChinhSua/{MaKLTN}:
+    put: 
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: Chỉnh sửa đợt đăng ký khóa luận tốt nghiệp
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên khóa luận tốt nghiệp
+        - in: body
+          name: Khoa
+          type: string
+          required: true
+          description: Khóa đăng ký khóa luận tốt nghiệp (ví dụ 2019, 2020, 2021)
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: ThoiGianBD
+          type: string
+          required: true
+          description: Thời gian bắt đầu đăng ký
+        - in: body
+          name: ThoiGianKT
+          type: string
+          required: true
+          description: Thời gian kết thúc đăng ký
+      responses:
+        200:
+          description: Chỉnh sửa đợt đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa đợt đăng ký khóa luận tốt nghiệp thành công.",
+            }          
+        400:
+          description: Chỉnh sửa đợt đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa đợt đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/Xoa/{MaKLTN}:
+    delete:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Xóa thông tin đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Xóa thông tin đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xóa thông tin đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ThemSVDangKyKL/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Thêm sinh viên đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+        - in: body
+          name: HoSV
+          type: string
+          required: true
+          description: Họ sinh viên
+        - in: body
+          name: TenSV
+          type: string
+          required: true
+          description: Tên sinh viên
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email sinh viên
+        - in: body
+          name: SoDienThoai
+          type: string
+          required: true
+          description: Số điện thoại sinh viên
+        - in: body
+          name: DTBTL
+          type: string
+          required: true
+          description: Điểm trung bình tích lũy học kỳ (hệ 4)
+        - in: body
+          name: TinChiTL
+          type: string
+          required: true
+          description: Số tín chỉ tích lũy
+      responses:
+        200:
+          description: Thêm sinh viên đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm sinh viên đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Thêm sinh viên đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm sinh viên đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/SuaThongTinSVDangKyKL/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Chỉnh sửa thông tin sinh viên đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+        - in: body
+          name: HoSV
+          type: string
+          required: true
+          description: Họ sinh viên
+        - in: body
+          name: TenSV
+          type: string
+          required: true
+          description: Tên sinh viên
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email sinh viên
+        - in: body
+          name: SoDienThoai
+          type: string
+          required: true
+          description: Số điện thoại sinh viên
+        - in: body
+          name: DTBTL
+          type: string
+          required: true
+          description: Điểm trung bình tích lũy học kỳ (hệ 4)
+        - in: body
+          name: TinChiTL
+          type: string
+          required: true
+          description: Số tín chỉ tích lũy
+      responses:
+        200:
+          description: Chỉnh sửa thông tin sinh viên đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin sinh viên đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Chỉnh sửa thông tin sinh viên đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chỉnh sửa thông tin sinh viên đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/XoaSVDangKyKL/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Xóa thông tin sinh viên đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+      responses:
+        200:
+          description: Xóa thông tin sinh viên đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin sinh viên đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xóa thông tin sinh viên đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin sinh viên đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ThemDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Thêm đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Thêm đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Thêm đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ChinhSuaTenDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Chỉnh sửa tên đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTaiCu
+          type: string
+          required: true
+          description: Tên đề tài cũ
+        - in: body
+          name: TenDeTaiMoi
+          type: string
+          required: true
+          description: Tên đề tài mới
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Chỉnh sửa tên đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa tên đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Chỉnh sửa tên đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chỉnh sửa tên đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/XoaDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Xóa đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Xóa đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xóa đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/TuDongCapNhatTrangThaiKLTN:
+    get:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Tự động cập nhập trạng thái của các đợt đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Tự động cập nhập trạng thái thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Tự động cập nhập trạng thái thành công.",
+            }
+        400:
+          description: Tự động cập nhập trạng thái thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Tự động cập nhập trạng thái thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ExportFileExcelDsDeTai/{MaKLTN}:
+    get:
+      tags:
+        - "KhoaLuanTotNghiep"
+      summary: "Export file danh sách đề tài và sinh viên đăng ký đề tài"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Export file thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Export file thành công.",
+            }
+        400:
+          description: Export file thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Export file thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/ThonKeSVDangKyChuyenNganh:
+    post: 
+      tags:
+        - "DangKyChuyenNganh"
+      summary: Thống kê số lượng sinh viên đã đăng ký chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+      - in: body
+        name: MaNganh
+        type: string
+        required: true
+        description: Mã ngành
+      - in: body
+        name: MaChuyenNganh
+        type: string
+        required: true
+        description: Mã chuyên ngành
+      - in: body
+        name: MaDKCN
+        type: string
+        required: true
+        description: Mã đợt đăng ký chuyên ngành
+      responses:
+        200: 
+          description: Thống kê số lượng sinh viên thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thống kê số lượng sinh viên thành công",
+            }
+        400:
+          description: Thống kê số lượng sinh viên thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thống kê số lượng sinh viên thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/dk-thuc-tap/DanhSachDKTT:
+    get: 
+      tags:
+        - "DangKyThucTap"
+      summary: Admin lấy danh sách đợt đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã đăng ký thực tập hoặc tên đăng ký thực tập
+      responses:
+        200: 
+          description: Lấy danh sách đợt đăng ký thực tập thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đợt đăng ký thực tập thành công",
+            }
+        400:
+          description: Lấy danh sách đợt đăng ký thực tập thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách đợt đăng ký thực tập thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/dk-thuc-tap/ChiTietDKTT/{MaDKTT}:
+    get:
+      tags:
+        - "DangKyThucTap"
+      summary: "Xem chi tiết thông tin đăng ký thực tập"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+      responses:
+        200:
+          description: Xem chi tiết thông tin đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin đăng ký thực tập thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/Them:
+    post: 
+      tags:
+        - "DangKyThucTap"
+      summary: Thêm đợt đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên đăng ký thực tập
+        - in: body
+          name: NienKhoa
+          type: string
+          required: true
+          description: Niên khóa đăng ký thực tập
+        - in: body
+          name: ThoiGianBD
+          type: string
+          required: true
+          description: Thời gian bắt đầu đăng ký
+        - in: body
+          name: ThoiGianKT
+          type: string
+          required: true
+          description: Thời gian kết thúc đăng ký
+      responses:
+        200:
+          description: Thêm đợt đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đợt đăng ký thực tập thành công.",
+            }          
+        400:
+          description: Thêm đợt đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm đợt đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/dk-thuc-tap/ChinhSua/{MaDKTT}:
+    put: 
+      tags:
+        - "DangKyThucTap"
+      summary: Chỉnh sửa đợt đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên đăng ký thực tập
+        - in: body
+          name: NienKhoa
+          type: string
+          required: true
+          description: Niên khóa đăng ký thực tập
+        - in: body
+          name: ThoiGianBD
+          type: string
+          required: true
+          description: Thời gian bắt đầu đăng ký
+        - in: body
+          name: ThoiGianKT
+          type: string
+          required: true
+          description: Thời gian kết thúc đăng ký
+      responses:
+        200:
+          description: Chỉnh sửa đợt đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa đợt đăng ký thực tập thành công.",
+            }          
+        400:
+          description: Chỉnh sửa đợt đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa đợt đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/Xoa/{MaDKTT}:
+    delete:
+      tags:
+        - "DangKyThucTap"
+      summary: "Xóa thông tin đăng ký thực tập"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+      responses:
+        200:
+          description: Xóa thông tin đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin đăng ký thực tập thành công.",
+            }
+        400:
+          description: Xóa thông tin đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/ThemCongTyTrongDanhSach/{MaDKTT}:
+    post:
+      tags:
+        - "DangKyThucTap"
+      summary: "Thêm công ty trong danh sách"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: Ho
+          type: string
+          required: true
+          description: Họ người liên hệ
+        - in: body
+          name: Ten
+          type: string
+          required: true
+          description: Tên người liên hệ
+        - in: body
+          name: TenCongTy
+          type: string
+          required: true
+          description: Tên công ty
+        - in: body
+          name: Website
+          type: string
+          required: true
+          description: Website công ty
+        - in: body
+          name: SoDienThoai
+          type: string
+          required: true
+          description: Số điện thoại công ty
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email công ty
+        - in: body
+          name: DiaChi
+          type: string
+          required: true
+          description: Địa chỉ công ty
+      responses:
+        200:
+          description: Thêm công ty trong danh sách thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm công ty trong danh sách thành công.",
+            }
+        400:
+          description: Thêm công ty trong danh sách thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm công ty trong danh sách thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/XoaCongTyTrongDanhSach/{MaDKTT}:
+    post:
+      tags:
+        - "DangKyThucTap"
+      summary: "Xóa công ty trong danh sách đăng ký thực tập"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email công ty
+      responses:
+        200:
+          description: Xóa công ty trong danh sách đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa công ty trong danh sách đăng ký thực tập thành công.",
+            }
+        400:
+          description: Xóa công ty trong danh sách đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa công ty trong danh sách đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/DanhSachCongTy/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTap"
+      summary: Admin lấy danh sách công ty của đợt đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      - in: body
+        name: Loai
+        type: string
+        required: true
+        enum: ['Trong danh sách','Ngoài danh sách']
+      responses:
+        200: 
+          description: Lấy danh sách công ty của đợt đăng ký thực tập thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách công ty của đợt đăng ký thực tập thành công",
+            }
+        400:
+          description: Lấy danh sách công ty của đợt đăng ký thực tập thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách công ty của đợt đăng ký thực tập thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/dk-thuc-tap/DanhSachSinhVien/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTap"
+      summary: Admin lấy danh sách sinh viên của đợt đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      responses:
+        200: 
+          description: Lấy danh sách sinh viên của đợt đăng ký thực tập thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách sinh viên của đợt đăng ký thực tập thành công",
+            }
+        400:
+          description: Lấy danh sách sinh viên của đợt đăng ký thực tập thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách công ty của đợt đăng ký thực tập thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/dk-thuc-tap/TuDongCapNhatTrangThaiDKTT:
+    get:
+      tags:
+        - "DangKyThucTap"
+      summary: "Tự động cập nhập trạng thái của các đợt đăng ký thực tập"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Tự động cập nhập trạng thái thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Tự động cập nhập trạng thái thành công.",
+            }
+        400:
+          description: Tự động cập nhập trạng thái thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Tự động cập nhập trạng thái thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/ThemViTriCongTyTrongDanhSach/{MaDKTT}:
+    post:
+      tags:
+        - "DangKyThucTap"
+      summary: "Thêm vị trí công ty trong danh sách"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: ViTri
+          type: string
+          required: true
+          description: Vị trí thực tập trong công ty
+        - in: body
+          name: ToiDa
+          type: string
+          required: true
+          description: Số lượng cần tuyển
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email công ty
+      responses:
+        200:
+          description: Thêm vị trí thực tập công ty trong danh sách thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm vị trí thực tập công ty trong danh sách thành công.",
+            }
+        400:
+          description: Thêm vị trí thực tập công ty trong danh sách thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm vị trí thực tập công ty trong danh sách thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/XoaViTriCongTyTrongDanhSach/{MaDKTT}:
+    post:
+      tags:
+        - "DangKyThucTap"
+      summary: "Xóa vị trí thực tập công ty trong danh sách đăng ký thực tập"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: ViTri
+          type: string
+          required: true
+          description: Vị trí thực tập công ty
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email công ty
+      responses:
+        200:
+          description: Xóa vị trí thực tập công ty trong danh sách đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa vị trí thực tập công ty trong danh sách đăng ký thực tập thành công.",
+            }
+        400:
+          description: Xóa vị trí thực tập công ty trong danh sách đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa vị trí thực tập công ty trong danh sách đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/ImportDSSinhVienDKTT/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTap"
+      summary: Import danh sách sinh viên đăng ký thực tập
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: String
+          required: true
+        - in: formData
+          name: CapTaiKhoan
+          type: String
+          enum: ['Tạo tài khoản','Không tạo tài khoản']
+          required: true
+        - in: formData
+          name: MatKhauMacDinh
+          type: String
+          description: Mật khẩu mặc định của tài khoản
+          required: true
+        - in: formData
+          name: FileExcel
+          type: file
+          description: file excel
+          required: true
+      responses:
+        200:
+          description: Import danh sách sinh viên đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Import danh sách sinh viên đăng ký thực tập thành công.",
+            }          
+        400:
+          description: Import danh sách sinh viên đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Import danh sách sinh viên đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/ExportFileExcelDsSVDKTT/{MaDKTT}:
+    get:
+      tags:
+        - "DangKyThucTap"
+      summary: "Export file danh sách công ty và sinh viên đăng ký thực tập"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+      responses:
+        200:
+          description: Export file thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Export file thành công.",
+            }
+        400:
+          description: Export file thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Export file thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /sinh-vien/ChiTietSinhVien/{MaSV}:
+    get:
+      tags:
+        - "SinhVienClient"
+      summary: "Chi tiết thông tin sinh viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+      responses:
+        200:
+          description: Chi tiết thông tin sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin sinh viên thành công.",
+            }
+        400:
+          description: Chi tiết thông tin sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /sinh-vien/ChinhSuaThongTin/{MaSV}:
+    put: 
+      tags:
+        - "SinhVienClient"
+      summary: Chỉnh sửa thông tin sinh viên
+      produces:
+        - multipart/form-data       
+      parameters:
+        - in: path
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+        - in: formData
+          name: HoSV
+          type: string
+          description: Họ sinh viên
+          required: true
+        - in: formData
+          name: TenSV
+          type: string
+          description: Tên sinh viên
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email sinh viên
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại sinh viên
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính sinh viên
+          required: true
+        - in: formData
+          name: NgaySinh
+          type: string
+          description: Ngày sinh sinh viên
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin sinh viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin sinh viên thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin sinh viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin sinh viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /giang-vien/ChiTietGiangVien/{MaGV}:
+    get:
+      tags:
+        - "GiangVienClient"
+      summary: "Chi tiết thông tin giảng viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Chi tiết thông tin giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin giảng viên thành công.",
+            }
+        400:
+          description: Chi tiết thông tin giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /giang-vien/ChinhSuaThongTin/{MaGV}:
+    post: 
+      tags:
+        - "GiangVienClient"
+      summary: Chỉnh sửa thông tin giảng viên
+      produces:
+        - multipart/form-data       
+      parameters:
+        - in: path
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: formData
+          name: HoGV
+          type: string
+          description: Họ giảng viên
+          required: true
+        - in: formData
+          name: TenGV
+          type: string
+          description: Tên giảng viên
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email giảng viên
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại giảng viên
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính giảng viên
+          required: true
+        - in: formData
+          name: NgaySinh
+          type: string
+          description: Ngày sinh giảng viên
+          required: true
+        - in: formData
+          name: DonViCongTac
+          type: string
+          description: Đơn vị công tác
+          required: true
+        - in: formData
+          name: ChuyenNganh
+          type: string
+          description: Chuyên ngành của giảng viên
+          required: true
+        - in: formData
+          name: TrinhDo
+          type: string
+          description: Trình độ giảng viên
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình đại diện giảng viên
+      responses:
+        200:
+          description: Chỉnh sửa thông tin giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin giảng viên thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-chuyen-nganh/LayDotDKCNDangMo:
+    get:
+      tags:
+        - "DangKyChuyenNganhClient"
+      summary: "Xem chi tiết thông tin đăng ký chuyên ngành"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Xem chi tiết thông tin đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin đăng ký chuyên ngành thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-chuyen-nganh/SVDangKyChuyenNganh/{MaDKCN}:
+    post: 
+      tags:
+        - "DangKyChuyenNganhClient"
+      summary: Sinh viên đăng ký chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đợt đăng ký chuyên ngành
+        - in: body
+          name: MaSV
+          type: string
+          description: Mã sinh viên
+          required: true
+        - in: body
+          name: MaNganh
+          type: string
+          description: Mã ngành
+          required: true
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          description: Mã chuyên ngành
+          required: true
+      responses:
+        200:
+          description: Sinh viên đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Sinh viên đăng ký chuyên ngành thành công.",
+            }          
+        400:
+          description: Sinh viên đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Sinh viên đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-chuyen-nganh/SVHuyDangKyChuyenNganh/{MaDKCN}:
+    post: 
+      tags:
+        - "DangKyChuyenNganhClient"
+      summary: Sinh viên hủy đăng ký chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đợt đăng ký chuyên ngành
+        - in: body
+          name: MaSV
+          type: string
+          description: Mã sinh viên
+          required: true
+        - in: body
+          name: MaNganh
+          type: string
+          description: Mã ngành
+          required: true
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          description: Mã chuyên ngành
+          required: true
+      responses:
+        200:
+          description: Sinh viên hủy đăng ký chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Sinh viên hủy đăng ký chuyên ngành thành công.",
+            }          
+        400:
+          description: Sinh viên hủy đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Sinh viên hủy đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-chuyen-nganh/DSSVDangKyChuyenNganh/{MaDKCN}:
+    post:
+      tags:
+        - "DangKyChuyenNganhClient"
+      summary: "Lấy danh sách sinh viên đăng ký chuyên ngành"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đợt đăng ký chuyên ngành
+        - in: body
+          name: MaNganh
+          type: string
+          description: Mã ngành
+          required: true
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          description: Mã chuyên ngành
+          required: true
+      responses:
+        200:
+          description: Lấy danh sách sinh viên đăng ký chuyên ngành ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách sinh viên đăng ký chuyên ngành thành công.",
+            }
+        400:
+          description: Lấy danh sách sinh viên đăng ký chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách sinh viên đăng ký chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-thuc-tap/ChiTietCty/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTap"
+      summary: Admin lấy thông tin chi tiết công ty
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      - in: body
+        name: ID
+        type: string
+        required: true
+        description: ID của công ty
+      responses:
+        200: 
+          description: Lấy thông tin chi tiết công ty thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy thông tin chi tiết công ty thành công",
+            }
+        400:
+          description: Lấy thông tin chi tiết công ty thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy thông tin chi tiết công ty thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/dk-thuc-tap/SuaThongTinCty/{MaDKTT}:
+    post:
+      tags:
+        - "DangKyThucTap"
+      summary: "Sửa thông tin công ty"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKTT
+          type: string
+          required: true
+          description: Mã đăng ký thực tập
+        - in: body
+          name: ID
+          type: string
+          required: true
+          description: ID công ty
+        - in: body
+          name: HoNguoiLienHe
+          type: string
+          required: true
+          description: Họ người liên hệ
+        - in: body
+          name: TenNguoiLienHe
+          type: string
+          required: true
+          description: Tên người liên hệ
+        - in: body
+          name: TenCongTy
+          type: string
+          required: true
+          description: Tên công ty
+        - in: body
+          name: Website
+          type: string
+          required: true
+          description: Website công ty
+        - in: body
+          name: SoDienThoai
+          type: string
+          required: true
+          description: Số điện thoại công ty
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email công ty
+        - in: body
+          name: DiaChi
+          type: string
+          required: true
+          description: Địa chỉ công ty
+      responses:
+        200:
+          description: Sửa thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Sửa thông tin công ty thành công.",
+            }
+        400:
+          description: Sửa thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Sửa thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/ThongTinKLTN:
+    get:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Xem chi tiết thông tin khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Xem chi tiết thông tin khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/DSDeTaiTheoGiangVien/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Lấy danh sách đề tài của giảng viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Lấy danh sách đề tài của giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đề tài của giảng viên thành công.",
+            }
+        400:
+          description: Lấy danh sách đề tài của giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách đề tài của giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/SVDangKyDeTai/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Sinh viên đăng ký đề tài khóa luận"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+        - in: body
+          name: HoSV
+          type: string
+          required: true
+          description: Họ sinh viên
+        - in: body
+          name: TenSV
+          type: string
+          required: true
+          description: Tên sinh viên
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email sinh viên
+        - in: body
+          name: SoDienThoai
+          type: string
+          required: true
+          description: Số điện thoại sinh viên
+        - in: body
+          name: DTBTL
+          type: string
+          required: true
+          description: Điểm trung bình tích lũy học kỳ (hệ 4)
+        - in: body
+          name: TinChiTL
+          type: string
+          required: true
+          description: Số tín chỉ tích lũy
+      responses:
+        200:
+          description: Sinh viên đăng ký đề tài khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Sinh viên đăng ký đề tài khóa luận thành công.",
+            }
+        400:
+          description: Sinh viên đăng ký đề tài khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Sinh viên đăng ký đề tài khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/GVChapNhanSVDangKy/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Giảng viên chấp nhận sinh viên đăng ký đề tài"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+        - in: body
+          name: HoSV
+          type: string
+          required: true
+          description: Họ sinh viên
+        - in: body
+          name: TenSV
+          type: string
+          required: true
+          description: Tên sinh viên
+        - in: body
+          name: Email
+          type: string
+          required: true
+          description: Email sinh viên
+        - in: body
+          name: SoDienThoai
+          type: string
+          required: true
+          description: Số điện thoại sinh viên
+        - in: body
+          name: DTBTL
+          type: string
+          required: true
+          description: Điểm trung bình tích lũy học kỳ (hệ 4)
+        - in: body
+          name: TinChiTL
+          type: string
+          required: true
+          description: Số tín chỉ tích lũy
+      responses:
+        200:
+          description: Thêm sinh viên đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm sinh viên đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Thêm sinh viên đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm sinh viên đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/GVXoaSVDangKyKLDuKien/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Xóa thông tin sinh viên dự kiến đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+      responses:
+        200:
+          description: Xóa thông tin sinh viên dự kiến đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin sinh viên dự kiến đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xóa thông tin sinh viên dự kiến đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin sinh viên dự kiến đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/GVXoaSVDangKyKLChinhThuc/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Xóa thông tin sinh viên chính thức đăng ký khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: MaSV
+          type: string
+          required: true
+          description: Mã sinh viên
+      responses:
+        200:
+          description: Xóa thông tin sinh viên chính thức đăng ký khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin sinh viên chính thức đăng ký khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xóa thông tin sinh viên chính thức đăng ký khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin sinh viên chính thức đăng ký khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/ThongTinChiTietDetaiGV/{MaKLTN}:
+    get:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Lấy thông tin chi tiết đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+      responses:
+        200:
+          description: Lấy thông tin chi tiết đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy thông tin chi tiết đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Lấy thông tin chi tiết đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy thông tin chi tiết đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-thuc-tap/ChiTietDKTTDangMo:
+    get:
+      tags:
+        - "DangKyThucTapClient"
+      summary: "Xem chi tiết thông tin đăng ký thực tập"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Xem chi tiết thông tin đăng ký thực tập thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xem chi tiết thông tin đăng ký thực tập thành công.",
+            }
+        400:
+          description: Xem chi tiết thông tin đăng ký thực tập thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xem chi tiết thông tin đăng ký thực tập thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-thuc-tap/DSCtyTrongDanhSach/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTapClient"
+      summary: Lấy danh sách công ty trong danh sách của đợt đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      responses:
+        200: 
+          description: Lấy danh sách công ty trong danh sách của đợt đăng ký thực tập thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách công ty trong danh sách của đợt đăng ký thực tập thành công",
+            }
+        400:
+          description: Lấy danh sách công ty trong danh sách của đợt đăng ký thực tập thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách công ty trong danh sách của đợt đăng ký thực tập thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /dk-thuc-tap/SVDangKyCtyTrongDS/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTapClient"
+      summary:  Sinh viên đăng ký thực tập công ty trong danh sách
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      - in: body
+        name: ViTri
+        type: string
+        required: true
+        description: Vị trí
+      - in: body
+        name: EmailCty
+        type: string
+        required: true
+        description: Email công ty
+      - in: body
+        name: MaSV
+        type: string
+        required: true
+        description: Mã sinh viên
+      responses:
+        200: 
+          description:  Sinh viên đăng ký thực tập công ty trong danh sách thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": " Sinh viên đăng ký thực tập công ty trong danh sách thành công",
+            }
+        400:
+          description:  Sinh viên đăng ký thực tập công ty trong danh sách thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": " Sinh viên đăng ký thực tập công ty trong danh sách thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /dk-thuc-tap/SVDangKyCtyNgoaiDS/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTapClient"
+      summary:  Sinh viên đăng ký thực tập công ty ngoài danh sách
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      - in: body
+        name: Ho
+        type: string
+        required: true
+        description: Họ người liên hệ
+      - in: body
+        name: Ten
+        type: string
+        required: true
+        description: Tên người liên hệ
+      - in: body
+        name: TenCongTy
+        type: string
+        required: true
+        description: Tên công ty
+      - in: body
+        name: Website
+        type: string
+        required: true
+        description: Website công ty
+      - in: body
+        name: SoDienThoai
+        type: string
+        required: true
+        description: Số điện thoại công ty
+      - in: body
+        name: DiaChi
+        type: string
+        required: true
+        description: Địa chỉ công ty
+      - in: body
+        name: EmailCty
+        type: string
+        required: true
+        description: Email công ty
+      - in: body
+        name: ViTri
+        type: string
+        required: true
+        description: Vị trí
+      - in: body
+        name: MaSV
+        type: string
+        required: true
+        description: Mã sinh viên
+      responses:
+        200: 
+          description:  Sinh viên đăng ký thực tập công ty ngoài danh sách thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": " Sinh viên đăng ký thực tập công ty ngoài danh sách thành công",
+            }
+        400:
+          description:  Sinh viên đăng ký thực tập công ty ngoài danh sách thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": " Sinh viên đăng ký thực tập công ty ngoài danh sách thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /dk-thuc-tap/SVHuyDangKyThucTap/{MaDKTT}:
+    post: 
+      tags:
+        - "DangKyThucTapClient"
+      summary:  Sinh viên hủy đăng ký thực tập
+      produces:
+        - application/json     
+      parameters:
+      - in: path
+        name: MaDKTT
+        type: string
+        required: true
+        description: Mã đăng ký thực tập
+      - in: body
+        name: MaSV
+        type: string
+        required: true
+        description: Mã sinh viên
+      responses:
+        200: 
+          description:  Sinh viên hủy đăng ký thực tập thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Sinh viên hủy đăng ký thực tập thành công",
+            }
+        400:
+          description:  Sinh viên hủy đăng ký thực tập thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Sinh viên hủy đăng ký thực tập thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/DSDeTaiChuaDangKy/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Lấy danh sách đề tài chưa đăng ký"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Lấy danh sách đề tài chưa đăng ký thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đề tài chưa đăng ký thành công.",
+            }
+        400:
+          description: Lấy danh sách đề tài chưa đăng ký thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách đề tài chưa đăng ký thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /dk-chuyen-nganh/LayDSChuyenNganhDK:
+    post: 
+      tags:
+        - "DangKyChuyenNganhClient"
+      summary: Lấy danh sách chuyên ngành
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: TenNganh
+          type: string
+          description: Tên ngành
+          required: true
+      responses:
+        200:
+          description: Lấy danh sách chuyên ngành thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách chuyên ngành thành công.",
+            }          
+        400:
+          description: Lấy danh sách chuyên ngành thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách chuyên ngành thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/ThemDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Thêm đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Thêm đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Thêm đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Thêm đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/ChinhSuaTenDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Chỉnh sửa tên đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTaiCu
+          type: string
+          required: true
+          description: Tên đề tài cũ
+        - in: body
+          name: TenDeTaiMoi
+          type: string
+          required: true
+          description: Tên đề tài mới
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Chỉnh sửa tên đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa tên đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Chỉnh sửa tên đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chỉnh sửa tên đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/XoaDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Xóa đề tài khóa luận tốt nghiệp"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: TenDeTai
+          type: string
+          required: true
+          description: Tên đề tài
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Xóa đề tài khóa luận tốt nghiệp thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa đề tài khóa luận tốt nghiệp thành công.",
+            }
+        400:
+          description: Xóa đề tài khóa luận tốt nghiệp thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa đề tài khóa luận tốt nghiệp thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/DSDeTaiChuaDangKyTheoGiangVien/{MaKLTN}:
+    post:
+      tags:
+        - "KhoaLuanTotNghiepClient"
+      summary: "Lấy danh sách đề tài chưa đăng ký của giảng viên"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: body
+          name: MaGV
+          type: string
+          required: true
+          description: Mã giảng viên
+      responses:
+        200:
+          description: Lấy danh sách đề tài chưa đăng ký của giảng viên thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đề tài chưa đăng ký của giảng viên thành công.",
+            }
+        400:
+          description: Lấy danh sách đề tài chưa đăng ký của giảng viên thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách đề tài chưa đăng ký của giảng viên thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/dk-chuyen-nganh/XoaChuyenNganhDangKy/{MaDKCN}:
+    post:
+      tags:
+        - "DangKyChuyenNganh"
+      summary: "Xóa thông tin chuyên ngành để sinh viên đăng ký"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDKCN
+          type: string
+          required: true
+          description: Mã đăng ký chuyên ngành
+        - in: body
+          name: MaNganh
+          type: string
+          required: true
+          description: Mã ngành
+        - in: body
+          name: MaChuyenNganh
+          type: string
+          required: true
+          description: Mã chuyên ngành
+      responses:
+        200:
+          description: Xóa thông tin chuyên ngành để sinh viên đăng ký thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin chuyên ngành để sinh viên đăng ký thành công.",
+            }
+        400:
+          description: Xóa thông tin chuyên ngành để sinh viên đăng ký thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin chuyên ngành để sinh viên đăng ký thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/CongBoDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "CacAPIThem"
+      summary: "Công bố danh sách đề tài khóa luận"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Công bố danh sách đề tài khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Công bố danh sách đề tài khóa luận thành công.",
+            }
+        400:
+          description: Công bố danh sách đề tài khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Công bố danh sách đề tài khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/HuyCongBoDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "CacAPIThem"
+      summary: "Hủy công bố danh sách đề tài khóa luận"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Hủy công bố danh sách đề tài khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Hủy công bố danh sách đề tài khóa luận thành công.",
+            }
+        400:
+          description: Hủy công bố danh sách đề tài khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Hủy công bố danh sách đề tài khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/DSKLDuocCongBo:
+    get:
+      tags:
+        - "CacAPIThem"
+      summary: "Các danh sách đề tài khóa luận được công bố"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Lấy danh sách đề tài khóa luận được công bố thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đề tài khóa luận được công bố thành công.",
+            }
+        400:
+          description: Lấy danh sách đề tài khóa luận được công bố thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách đề tài khóa luận được công bố thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ImportKetQuaKLTN/{MaKLTN}:
+    post:
+      tags:
+        - "CacAPIThem"
+      summary: "Import file kết quả khóa luận"
+      produces:
+        - multipart/form-data
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: formData
+          name: FileExcel
+          type: file
+          required: true
+          description: file excel
+      responses:
+        200:
+          description: Import file kết quả khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Import file kết quả khóa luận thành công.",
+            }
+        400:
+          description: Import file kết quả khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Import file kết quả khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/ChiTietDSDeTaiCongBo/{MaKLTN}:
+    get:
+      tags:
+        - "CacAPIThem"
+      summary: "Chi tiết danh sách đề tài khóa luận được công bố"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Lấy chi tiết danh sách đề tài được công bố thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy chi tiết danh sách đề tài được công bố thành công.",
+            }
+        400:
+          description: Lấy chi tiết danh sách đề tài được công bố thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy chi tiết danh sách đề tài được công bố thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: headers
+    name: x-access-token
