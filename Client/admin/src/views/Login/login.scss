@@ -1,0 +1,43 @@
+.container-login{
+    margin: auto;
+    margin-top: 12%;
+    border: solid 2px black;
+    border-radius: 10px;
+    box-shadow: 10px 10px 60px 10px rgb(26, 117, 187);   
+    width: 40%;
+    height: 400px;
+}
+
+.container-form {
+    margin-top: 10%;
+}
+
+.logo {
+    width: 100%;
+    height: 100%;
+}
+
+.info {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5%;
+    padding-left: 4%;
+}
+
+.info-form {
+    margin-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.btn-form {
+    text-align: center;
+    
+}
+
+.btnlogin {
+    background-color: rgb(26, 117, 187);
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 50%;
+}
