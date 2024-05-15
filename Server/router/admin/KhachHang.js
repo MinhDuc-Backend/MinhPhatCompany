@@ -5,7 +5,7 @@ import { CapTaiKhoanChoSinhVienKhiImportFile, TrangThaiSinhVien } from "../../co
 import SinhVien from "../../model/SinhVien.js"
 import { createSinhVienDir } from "../../middleware/createDir.js"
 import { uploadFile } from "../../middleware/storage.js"
-import { KtraDuLieuSinhVienKhiChinhSua, KtraDuLieuSinhVienKhiThem } from "../../validation/SinhVien.js"
+import { KtraDuLieuSinhVienKhiChinhSua, KtraDuLieuSinhVienKhiThem } from "../../validation/KhachHang.js"
 import ExcelJS from 'exceljs'
 import path from "path"
 import { fileURLToPath } from 'url';

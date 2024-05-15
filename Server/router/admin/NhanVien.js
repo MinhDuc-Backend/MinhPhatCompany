@@ -6,7 +6,7 @@ import { uploadImg } from "../../middleware/storage.js"
 import { DeleteHinhTrenCloudinary, UploadHinhLenCloudinary } from "../../helper/connectCloudinary.js"
 import GiangVien from "../../model/GiangVien.js"
 import { createGiangVienDir } from "../../middleware/createDir.js"
-import { KtraDuLieuGiangVienKhiChinhSua, KtraDuLieuGiangVienKhiThem } from "../../validation/GiangVien.js"
+import { KtraDuLieuGiangVienKhiChinhSua, KtraDuLieuGiangVienKhiThem } from "../../validation/NhanVien.js"
 
 const GiangVienAdminRoute = express.Router()
 

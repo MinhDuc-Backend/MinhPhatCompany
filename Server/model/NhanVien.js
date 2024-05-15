@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import { TrangThaiGiangVien } from "../constant.js";
 const { Schema } = mongoose;
 
-const GiangVienSchema = new Schema(
+const NhanVienSchema = new Schema(
     {
-        MaGV: {
+        MaNV: {
             type: String,
             unique: true,
             required: true,
@@ -14,11 +14,11 @@ const GiangVienSchema = new Schema(
             ref: 'taikhoans',
             default: null,
         },
-        HoGV: {
+        HoNV: {
             type: String,
             required: true,
         },
-        TenGV: {
+        TenNV: {
             type: String,
             required: true,
         },
@@ -38,20 +38,6 @@ const GiangVienSchema = new Schema(
             type: Date,
             required: true,
         },
-        DonViCongTac: {
-            type: String,
-            required: true,
-        },
-        ChuyenNganh: {
-            type: String,
-        },
-        TrinhDo: {
-            type: String,
-            required: true,
-        },
-        Hinh: {
-            type: String,
-        },
         TrangThai: {
             type: String,
             enum: Object.values(TrangThaiGiangVien),
@@ -61,4 +47,4 @@ const GiangVienSchema = new Schema(
     { timestamps: true }
 )
 
-export default mongoose.model("giangviens", GiangVienSchema);
+export default mongoose.model("nhanviens", NhanVienSchema);

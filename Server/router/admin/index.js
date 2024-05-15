@@ -2,10 +2,10 @@ import express from "express"
 import ChucNangAdminRoute from "./ChucNang.js"
 import QuyenTaiKhoanAdminRoute from "./QuyenTaiKhoan.js"
 import TaiKhoanAdminRoute from "./TaiKhoan.js";
-import NganhAdminRoute from "./Nganh.js"
-import ChuyenNganhAdminRoute from "./ChuyenNganh.js";
-import SinhVienAdminRoute from "./SinhVien.js";
-import GiangVienAdminRoute from "./GiangVien.js";
+import NganhAdminRoute from "./ThongTinCty.js"
+import ChuyenNganhAdminRoute from "./CongTy.js";
+import SinhVienAdminRoute from "./KhachHang.js";
+import GiangVienAdminRoute from "./NhanVien.js";
 import CanhBaoHocTapAdminRoute from "./CanhBaoHocTap.js";
 import TotNghiepAdminRoute from "./TotNghiep.js";
 import DangKyChuyenNganhAdminRoute from "./DangKyChuyenNganh.js";

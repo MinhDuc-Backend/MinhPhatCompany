@@ -44,17 +44,3 @@ export const verifyAdmin = async (req, res, next) => {
     
     next()
 }
-
-export const verifyUser = async (req, res, next) => {
-    const role = req.decoded.QuyenTK;
-    if (role != null && role != undefined){
-        if (role != 'SINHVIEN' && role != 'GIANGVIEN') {
-            return sendError(res, 'Bạn không được phép thực hiện chức năng này.', 403)
-        }  
-    } 
-    else {
-        return sendError(res, 'Bạn không được phép thực hiện chức năng này.', 403)
-    }
-    
-    next()
-}

@@ -9,12 +9,13 @@ import {
     Navigate
 } from "react-router-dom";
 import LoginAdmin from './views/Login/login';
+import AdminPage from './views/admin'
 
 function App() {
     return (
         <BrowserRouter>
             <Routes className="App">
-                <Route path="/" element={<LoginAdmin />}></Route>
+                <Route path="/*" element={<AdminPage />}></Route>
             </Routes>
         </BrowserRouter>
     );
