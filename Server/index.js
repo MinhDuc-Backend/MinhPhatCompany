@@ -46,7 +46,7 @@ const app = express()
 const store = new session.MemoryStore()
 
 app.use(session({
-    secret: "hotrodaotao",
+    secret: process.env.SESSION_NAME,
     cookie: { maxAge: SESSION_AGE },
     saveUninitialized: false,
     store,
@@ -68,8 +68,6 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     .use('/api/admin', verifyToken, verifyAdmin, adminRoute)
     .use('/api/tai-khoan', TaiKhoanRoute)
-    .use('/api/sinh-vien', verifyToken, verifyUser, SinhVienRoute)
-    .use('/api/giang-vien',verifyToken, verifyUser, GiangVienRoute)
 
 app.use('/*', async (req, res) => {
     res.status(501).send("Don't implement.")
