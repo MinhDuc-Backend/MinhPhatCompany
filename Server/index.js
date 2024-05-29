@@ -68,12 +68,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     .use('/api/tai-khoan', TaiKhoanRoute)
 
 app.use('/*', async (req, res) => {
-    res.status(501).send("Don't implement.")
+    res.status(200).send("Don't implement.")
 })
 
 app.listen(PORT, () => {
     console.log(`Server start at port: ${PORT}`)
 })
-setInterval(() => {
-    clearTokenList(TOKEN_BLACKLIST)
-}, 3600000)
+
