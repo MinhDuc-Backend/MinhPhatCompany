@@ -1,49 +1,46 @@
 import express from "express"
 import fs from 'fs'
 import { sendError, sendServerError, sendSuccess } from "../../helper/client.js"
-import { TrangThaiGiangVien } from "../../constant.js"
-import { uploadImg } from "../../middleware/storage.js"
-import { DeleteHinhTrenCloudinary, UploadHinhLenCloudinary } from "../../helper/connectCloudinary.js"
-import GiangVien from "../../model/GiangVien.js"
-import { createGiangVienDir } from "../../middleware/createDir.js"
-import { KtraDuLieuGiangVienKhiChinhSua, KtraDuLieuGiangVienKhiThem } from "../../validation/NhanVien.js"
+import NhanVien from "../../model/NhanVien.js"
+import { KtraDuLieuNhanVienKhiThem, KtraDuLieuNhanVienKhiChinhSua } from "../../validation/NhanVien.js"
+import { TrangThaiNhanVien } from "../../constant.js"
 
-const GiangVienAdminRoute = express.Router()
+const NhanVienAdminRoute = express.Router()
 
 /**
- * @route GET /api/admin/giang-vien/DanhSachGiangVien
- * @description Lấy danh sách giang viên
+ * @route GET /api/admin/nhan-vien/DanhSachNhanVien
+ * @description Lấy danh sách nhân viên
  * @access public
  */
-GiangVienAdminRoute.get('/DanhSachGiangVien', async (req, res) => {
+NhanVienAdminRoute.get('/DanhSachNhanVien', async (req, res) => {
     try {
         const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0
         const page = req.query.page ? parseInt(req.query.page) : 0
         const { keyword} = req.query
-        let trangthai = [TrangThaiGiangVien.ChuaCoTaiKhoan,TrangThaiGiangVien.DaCoTaiKhoan];
+        let trangthai = [TrangThaiNhanVien.ChuaCoTaiKhoan,TrangThaiNhanVien.DaCoTaiKhoan];
         var keywordCondition = keyword
             ? {
                 $or: [
-                    { MaGV: { $regex: keyword, $options: "i" } },
-                    { HoGV: { $regex: keyword, $options: "i" } },
-                    { TenGV: { $regex: keyword, $options: "i" } },
+                    { MaNV: { $regex: keyword, $options: "i" } },
+                    { HoNV: { $regex: keyword, $options: "i" } },
+                    { TenNV: { $regex: keyword, $options: "i" } },
                     { Email: { $regex: keyword, $options: "i" } },
                     { SoDienThoai: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const giangviens = await GiangVien.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page)
-        const length = await GiangVien.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
+        const nhanviens = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page)
+        const length = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
 
-        if (giangviens.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách giảng viên.")
-        if (giangviens) 
-            return sendSuccess(res, "Lấy danh sách giảng viên thành công.", { 
+        if (nhanviens.length == 0) 
+            return sendError(res, "Không tìm thấy danh sách nhân viên.")
+        if (nhanviens) 
+            return sendSuccess(res, "Lấy danh sách nhân viên thành công.", { 
                 TrangThai: "Thành công",
                 SoLuong: length,
-                DanhSach: giangviens
+                DanhSach: nhanviens
             })
 
-        return sendError(res, "Không tìm thấy danh sách giảng viên.")
+        return sendError(res, "Không tìm thấy danh sách nhân viên.")
     }
     catch (error) {
         console.log(error)
@@ -52,17 +49,17 @@ GiangVienAdminRoute.get('/DanhSachGiangVien', async (req, res) => {
 })
 
 /**
- * @route GET /api/admin/giang-vien/ChiTietGiangVien/{MaGV}
- * @description Lấy thông tin chi tiết giảng viên
+ * @route GET /api/admin/nhan-vien/ChiTietNhanVien/{MaNV}
+ * @description Lấy thông tin chi tiết nhân viên
  * @access public
  */
-GiangVienAdminRoute.get('/ChiTietGiangVien/:MaGV', async (req, res) => {
+NhanVienAdminRoute.get('/ChiTietNhanVien/:MaNV', async (req, res) => {
     try {
-        const { MaGV } = req.params;
-        const isExist = await GiangVien.findOne({ MaGV: MaGV }).lean();
+        const { MaNV } = req.params;
+        const isExist = await NhanVien.findOne({ MaNV: MaNV }).lean();
         if (!isExist)
-            return sendError(res, "Giảng viên không tồn tại");
-        return sendSuccess(res, "Chi tiết giảng viên.", isExist);
+            return sendError(res, "Nhân viên không tồn tại");
+        return sendSuccess(res, "Chi tiết nhân viên.", isExist);
     }
     catch (error) {
         console.log(error)
@@ -71,37 +68,22 @@ GiangVienAdminRoute.get('/ChiTietGiangVien/:MaGV', async (req, res) => {
 })
 
 /**
- * @route POST /api/admin/sinh-vien/Them
- * @description Thêm giảng viên
+ * @route POST /api/admin/nhan-vien/Them
+ * @description Thêm nhân viên
  * @access public
  */
-GiangVienAdminRoute.post('/Them', createGiangVienDir, uploadImg.single("Hinh"), async (req, res) => {
+NhanVienAdminRoute.post('/Them', async (req, res) => {
     try{
-        const errors = KtraDuLieuGiangVienKhiThem(req.body)
+        const errors = KtraDuLieuNhanVienKhiThem(req.body)
         if (errors)
             return sendError(res, errors)
-        const { MaGV, HoGV, TenGV, Email, SoDienThoai, GioiTinh, NgaySinh, DonViCongTac, ChuyenNganh, TrinhDo } = req.body;
-        const isExist = await GiangVien.findOne({ MaGV: MaGV }).lean();
+        const { MaNV, HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh } = req.body;
+        const isExist = await NhanVien.findOne({ MaNV: MaNV }).lean();
         if (isExist)
             return sendError(res, "Mã giảng viên đã tồn tại");
-        let hoten = HoGV + " " + TenGV;
-        let resultImage = ''
-        if (req.file){
-            let fileImage = await `${req.file.destination}${req.file.filename}`;
-            let nameImage = await hoten.normalize('NFD')
-                                        .replace(/[\u0300-\u036f]/g, '')
-                                        .replace(/đ/g, 'd').replace(/Đ/g, 'D')
-                                        .replace(/ /g, '') + Date.now();
-            resultImage = await UploadHinhLenCloudinary(fileImage, "GiangVien", nameImage);
-            if (resultImage) {
-                fs.unlinkSync(fileImage, (err) => {
-                    console.log(err);
-                })
-            }
-        }
-        const giangvien = await GiangVien.create({ MaGV, HoGV, TenGV, Email, SoDienThoai, GioiTinh, NgaySinh, DonViCongTac, ChuyenNganh, TrinhDo, Hinh: resultImage });
+        const nhanvien = await NhanVien.create({ MaNV, HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh });
 
-        return sendSuccess(res, "Thêm giảng viên thành công", giangvien);
+        return sendSuccess(res, "Thêm nhân viên thành công", nhanvien);
     }
     catch (error){
         console.log(error)
@@ -110,44 +92,24 @@ GiangVienAdminRoute.post('/Them', createGiangVienDir, uploadImg.single("Hinh"), 
 })
 
 /**
- * @route POST /api/admin/giang-vien/ChinhSua/{MaGV}
- * @description Chỉnh sửa thông tin giảng viên
+ * @route POST /api/admin/nhan-vien/ChinhSua/{MaNV}
+ * @description Chỉnh sửa thông tin nhân viên
  * @access public
 */
-GiangVienAdminRoute.post('/ChinhSua/:MaGV', createGiangVienDir, uploadImg.single("Hinh"), async (req, res) => {
+NhanVienAdminRoute.post('/ChinhSua/:MaNV', async (req, res) => {
     try{
-        const errors = KtraDuLieuGiangVienKhiChinhSua(req.body)
+        const errors = KtraDuLieuNhanVienKhiChinhSua(req.body)
         if (errors)
             return sendError(res, errors)
-        const { HoGV, TenGV, Email, SoDienThoai, GioiTinh, NgaySinh, DonViCongTac, ChuyenNganh, TrinhDo } = req.body;
-        const { MaGV } = req.params;
-        const giangvien = await GiangVien.findOne({ MaGV: MaGV }).lean();
-        if (!giangvien)
-            return sendError(res, "Mã giảng viên không tồn tại");
-        if (giangvien.Hinh != ''){
-            let splitUrl = await giangvien.Hinh.split('/');
-            let file = await `${splitUrl[splitUrl.length - 2]}/${splitUrl[splitUrl.length - 1].split('.')[0]}`;
-            await DeleteHinhTrenCloudinary(file);
-        }
-        
-        let resultImage = ''
-        if (req.file){
-            let hoten = HoGV + " " + TenGV;
-            let fileImage = await `${req.file.destination}${req.file.filename}`;
-            let nameImage = await hoten.normalize('NFD')
-                                        .replace(/[\u0300-\u036f]/g, '')
-                                        .replace(/đ/g, 'd').replace(/Đ/g, 'D')
-                                        .replace(/ /g, '') + Date.now();
-            resultImage = await UploadHinhLenCloudinary(fileImage, "GiangVien", nameImage);
-            if (resultImage) {
-                fs.unlinkSync(fileImage, (err) => {
-                    console.log(err);
-                })
-            }
-        }
-        await GiangVien.findOneAndUpdate({ MaGV: MaGV },{ HoGV, TenGV, Email, SoDienThoai, GioiTinh, NgaySinh, DonViCongTac, ChuyenNganh, TrinhDo, Hinh: resultImage });
+        const { HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh } = req.body;
+        const { MaNV } = req.params;
+        const nhanvien = await NhanVien.findOne({ MaNV: MaNV }).lean();
+        if (!nhanvien)
+            return sendError(res, "Mã nhân viên không tồn tại");
 
-        return sendSuccess(res, "Chỉnh sửa thông tin giảng viên thành công");
+        await NhanVien.findOneAndUpdate({ MaNV: MaNV },{ HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh });
+
+        return sendSuccess(res, "Chỉnh sửa thông tin nhân viên thành công");
     }
     catch (error){
         console.log(error)
@@ -160,7 +122,7 @@ GiangVienAdminRoute.post('/ChinhSua/:MaGV', createGiangVienDir, uploadImg.single
  * @description Xóa thông tin giảng viên
  * @access private
  */
-GiangVienAdminRoute.delete('/Xoa/:MaGV', async (req, res) => {
+NhanVienAdminRoute.delete('/Xoa/:MaGV', async (req, res) => {
     try {
         const { MaGV } = req.params
         const isExist = await GiangVien.findOne({ MaGV: MaGV })
@@ -180,4 +142,4 @@ GiangVienAdminRoute.delete('/Xoa/:MaGV', async (req, res) => {
     }
 })
 
-export default GiangVienAdminRoute
+export default NhanVienAdminRoute

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { TrangThaiGiangVien } from "../constant.js";
+import { TrangThaiNhanVien } from "../constant.js";
 const { Schema } = mongoose;
 
 const NhanVienSchema = new Schema(
@@ -40,8 +40,8 @@ const NhanVienSchema = new Schema(
         },
         TrangThai: {
             type: String,
-            enum: Object.values(TrangThaiGiangVien),
-            default: TrangThaiGiangVien.ChuaCoTaiKhoan,
+            enum: Object.values(TrangThaiNhanVien),
+            default: TrangThaiNhanVien.ChuaCoTaiKhoan,
         },
     },
     { timestamps: true }

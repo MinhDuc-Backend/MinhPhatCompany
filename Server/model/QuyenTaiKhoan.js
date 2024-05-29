@@ -19,7 +19,6 @@ const ChiTietQuyenSchema = new Schema(
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'chucnangs',
                 },
-                ChucNangCon: [String]
             }
         ],
         TrangThai: {

@@ -1,13 +1,11 @@
 import express from "express"
 import argon2 from "argon2"
 import { sendError, sendServerError, sendSuccess } from "../../helper/client.js"
-import { TrangThaiGiangVien, TrangThaiSinhVien, TrangThaiTaiKhoan, TrangThaiTonTai } from "../../constant.js"
+import { TrangThaiTaiKhoan, TrangThaiTonTai } from "../../constant.js"
 import { KtraDuLieuTaiKhoanKhiChinhSua, KtraDuLieuTaiKhoanKhiDangNhap, KtraDuLieuTaiKhoanKhiThem } from "../../validation/TaiKhoan.js"
 import TaiKhoan from "../../model/TaiKhoan.js"
 import QuyenTaiKhoan from "../../model/QuyenTaiKhoan.js"
-import GiangVien from "../../model/GiangVien.js"
-import SinhVien from "../../model/SinhVien.js"
-import { createTokenPair } from "../../middleware/auth.js"
+import NhanVien from "../../model/NhanVien.js"
 
 const TaiKhoanAdminRoute = express.Router()
 
@@ -88,7 +86,7 @@ TaiKhoanAdminRoute.post('/Them', async (req, res) => {
         const errors = KtraDuLieuTaiKhoanKhiThem(req.body)
         if (errors)
             return sendError(res, errors)
-        const { MaTK, MaQTK, TenDangNhap, MatKhau } = req.body;
+        const { MaTK, MaQTK, TenDangNhap, MaNV, MatKhau } = req.body;
 
         const isExistMa = await TaiKhoan.findOne({ MaTK: MaTK }).lean();
         if (isExistMa)
@@ -96,29 +94,19 @@ TaiKhoanAdminRoute.post('/Them', async (req, res) => {
         const isExistTen = await TaiKhoan.findOne({ TenDangNhap: TenDangNhap }).lean();
         if (isExistTen)
             return sendError(res, "Tên đăng nhập đã tồn tại");
-        const isExistSV = await SinhVien.findOne({ MaSV: TenDangNhap });
-        const isExistGV = await GiangVien.findOne({ MaGV: TenDangNhap });
-        if (!isExistSV && !isExistGV)
-            return sendError(res, "Tên đăng nhập phải là mã sinh viên hoặc là mã giảng viên")
-        if (isExistSV && isExistSV.MaTK != null)
-            return sendError(res, "Sinh viên này đã có tài khoản");
-        if (isExistGV && isExistGV.MaTK != null)
-            return sendError(res, "Giảng viên này đã có tài khoản");
 
         const isExistMaQuyenTK = await QuyenTaiKhoan.findOne({ MaQTK: MaQTK });
         if (!isExistMaQuyenTK)
             return sendError(res, "Quyền tài khoản không tồn tại");
         
+        const isExistMaNV = await NhanVien.findOne({ MaNV: MaNV });
+        if (!isExistMaNV)
+            return sendError(res, "Mã nhân viên không tồn tại");
 
         let password = await argon2.hash(MatKhau)
         const taikhoan = await TaiKhoan.create({ MaTK: MaTK, MaQTK: isExistMaQuyenTK._id, TenDangNhap: TenDangNhap, MatKhau: password });
-        if (isExistSV){
-            await SinhVien.findOneAndUpdate({ MaSV: isExistSV.MaSV },{ MaTK: taikhoan._id, TrangThai: TrangThaiSinhVien.DaCoTaiKhoan });
-        }
-        else{
-            if (isExistGV)
-                await GiangVien.findOneAndUpdate({ MaGV: isExistGV.MaGV },{ MaTK: taikhoan._id, TrangThai: TrangThaiGiangVien.DaCoTaiKhoan });
-            
+        if (isExistMaNV){
+            await NhanVien.findOneAndUpdate({ MaNV: isExistMaNV.MaNV },{ MaTK: taikhoan._id });
         }
 
         return sendSuccess(res, "Thêm tài khoản thành công", taikhoan);

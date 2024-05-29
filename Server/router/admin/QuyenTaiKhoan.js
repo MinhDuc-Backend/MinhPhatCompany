@@ -93,22 +93,20 @@ QuyenTaiKhoanAdminRoute.post('/Them', async (req, res) => {
         const errors = KtraDuLieuQuyenTaiKhoanKhiThem(req.body)
         if (errors)
             return sendError(res, errors)
-        const { MaQTK, TenQuyenTK, MaCN, ChucNangCon } = req.body;
+        const { MaQTK, TenQuyenTK, MaCN } = req.body;
 
         const isExistMa = await QuyenTaiKhoan.findOne({ MaQTK: MaQTK }).lean();
         if (isExistMa)
             return sendError(res, "Mã quyền tài khoản đã tồn tại");
 
-        if (MaCN != "" && ChucNangCon != ""){
+        if (MaCN != ""){
             let maChucNang = MaCN.split(';');
-            let cnCon = ChucNangCon.split(';');
             let chucnangs = [];
             let dem = 0;
             await maChucNang.forEach( async (element) => {
                 const layIDChucNang = await ChucNang.findOne({MaCN: element});
                 let object = {
                     MaCN: layIDChucNang._id,
-                    ChucNangCon: cnCon[dem].split(','),
                 };
                 chucnangs.push(object);
                 dem++;
@@ -138,23 +136,21 @@ QuyenTaiKhoanAdminRoute.put('/ChinhSua/:MaQTK', async (req, res) => {
         const errors = KtraDuLieuQuyenTaiKhoanKhiChinhSua(req.body)
         if (errors)
             return sendError(res, errors)
-        const { TenQuyenTK, MaCN, ChucNangCon } = req.body;
+        const { TenQuyenTK, MaCN } = req.body;
         const { MaQTK } = req.params;
 
         const isExistMa = await QuyenTaiKhoan.findOne({ MaQTK: MaQTK }).lean();
         if (!isExistMa)
             return sendError(res, "Quyền tài khoản không tồn tại");
 
-        if (MaCN != "" && ChucNangCon != ""){
+        if (MaCN != ""){
             let maChucNang = MaCN.split(';');
-            let cnCon = ChucNangCon.split(';');
             let chucnangs = [];
             let dem = 0;
             await maChucNang.forEach( async (element) => {
                 const layIDChucNang = await ChucNang.findOne({MaCN: element});
                 let object = {
                     MaCN: layIDChucNang._id,
-                    ChucNangCon: cnCon[dem].split(','),
                 };
                 chucnangs.push(object);
                 dem++;

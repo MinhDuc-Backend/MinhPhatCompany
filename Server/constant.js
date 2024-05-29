@@ -11,7 +11,7 @@ export const TrangThaiTaiKhoan = {
     DaXoa: 'Đã xóa'
 }
 
-export const TrangThaiGiangVien = {
+export const TrangThaiNhanVien = {
     ChuaCoTaiKhoan: 'Chưa có tài khoản',
     DaCoTaiKhoan: 'Đã có tài khoản',
     DaXoa: 'Đã xóa'

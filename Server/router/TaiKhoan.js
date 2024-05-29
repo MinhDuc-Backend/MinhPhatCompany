@@ -3,8 +3,6 @@ import argon2 from "argon2"
 import { KtraDuLieuTaiKhoanKhiDangNhap, KtraDuLieuTaiKhoanKhiDoiMatKhau } from "../validation/TaiKhoan.js";
 import TaiKhoan from "../model/TaiKhoan.js";
 import QuyenTaiKhoan from "../model/QuyenTaiKhoan.js";
-import GiangVien from "../model/GiangVien.js";
-import SinhVien from "../model/SinhVien.js";
 import { sendError, sendServerError, sendSuccess } from "../helper/client.js";
 import { createTokenPair } from "../middleware/auth.js";
 import { TrangThaiTaiKhoan } from "../constant.js";

@@ -24,8 +24,8 @@ tags:
   description: "Các API của model ChuyenNganh"
 - name: "SinhVien"
   description: "Các API của model SinhVien"
-- name: "GiangVien"
-  description: "Các API của model GiangVien"
+- name: "NhanVien"
+  description: "Các API của model NhanVien"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
     get: 
@@ -1318,11 +1318,11 @@ paths:
             }
       security:
         - ApiKeyAuth: []
-  /admin/giang-vien/DanhSachGiangVien:
+  /admin/nhan-vien/DanhSachNhanVien:
     get: 
       tags:
-        - "GiangVien"
-      summary: Admin lấy danh sách giảng viên
+        - "NhanVien"
+      summary: Admin lấy danh sách nhân viên
       produces:
         - application/json     
       parameters:
@@ -1340,249 +1340,211 @@ paths:
         name: keyword
         type: string
         required: true
-        description: mã giảng viên, họ giảng viên, tên giảng viên, email hoặc số điện thoại
+        description: mã nhân viên, họ nhân viên, tên nhân viên, email hoặc số điện thoại
       responses:
         200: 
-          description: Lấy danh sách giảng viên thành công
+          description: Lấy danh sách nhân viên thành công
           schema:
             type: object
             example: {
               "status": true,
-              "message": "Lấy danh sách giảng viên thành công",
+              "message": "Lấy danh sách nhân viên thành công",
             }
         400:
-          description: Lấy danh sách giảng viên thất bại
+          description: Lấy danh sách nhân viên thất bại
           schema:
             type: object
             example: {
               "status": false,
-              "message": "Lấy danh sách giảng viên thất bại",
+              "message": "Lấy danh sách nhân viên thất bại",
             }
       security:
       - ApiKeyAuth: []
-  /admin/giang-vien/ChiTietGiangVien/{MaGV}:
+  /admin/nhan-vien/ChiTietNhanVien/{MaNV}:
     get:
       tags:
-        - "GiangVien"
-      summary: "Chi tiết thông tin giảng viên"
+        - "NhanVien"
+      summary: "Chi tiết thông tin nhân viên"
       produces:
         - application/json
       parameters:
         - in: path
-          name: MaGV
+          name: MaNV
           type: string
           required: true
-          description: Mã giảng viên
+          description: Mã nhân viên
       responses:
         200:
-          description: Chi tiết thông tin giảng viên thành công.
+          description: Chi tiết thông tin nhân viên thành công.
           schema:
             type: object
             example: {
               "status": true,
-              "message": "Chi tiết thông tin giảng viên thành công.",
+              "message": "Chi tiết thông tin nhân viên thành công.",
             }
         400:
-          description: Chi tiết thông tin giảng viên thất bại.
+          description: Chi tiết thông tin nhân viên thất bại.
           schema:
             type: object
             example: {
               "status": false,
-              "message" : "Chi tiết thông tin giảng viên thất bại.",
+              "message" : "Chi tiết thông tin nhân viên thất bại.",
             }
       security:
         - ApiKeyAuth: []
-  /admin/giang-vien/Them:
+  /admin/nhan-vien/Them:
     post: 
       tags:
-        - "GiangVien"
-      summary: Thêm giảng viên
+        - "NhanVien"
+      summary: Thêm nhân viên
       produces:
-        - multipart/form-data    
+        - application/json   
       parameters:
-        - in: formData
-          name: MaGV
+        - in: body
+          name: MaNV
           type: string
-          description: Mã giảng viên
+          description: Mã nhân viên
           required: true
-        - in: formData
-          name: HoGV
+        - in: body
+          name: HoNV
           type: string
-          description: Họ giảng viên
+          description: Họ nhân viên
           required: true
-        - in: formData
-          name: TenGV
+        - in: body
+          name: TenNV
           type: string
-          description: Tên giảng viên
+          description: Tên nhân viên
           required: true
-        - in: formData
+        - in: body
           name: Email
           type: string
-          description: Email giảng viên
+          description: Email nhân viên
           required: true
-        - in: formData
+        - in: body
           name: SoDienThoai
           type: string
-          description: Số điện thoại giảng viên
+          description: Số điện thoại nhân viên
           required: true
-        - in: formData
+        - in: body
           name: GioiTinh
           type: string
-          description: Giói tính giảng viên
+          description: Giói tính nhân viên
           required: true
-        - in: formData
+        - in: body
           name: NgaySinh
           type: string
-          description: Ngày sinh giảng viên
+          description: Ngày sinh nhân viên
           required: true
-        - in: formData
-          name: DonViCongTac
-          type: string
-          description: Đơn vị công tác
-          required: true
-        - in: formData
-          name: ChuyenNganh
-          type: string
-          description: Chuyên ngành của giảng viên
-          required: true
-        - in: formData
-          name: TrinhDo
-          type: string
-          description: Trình độ giảng viên
-          required: true
-        - in: formData
-          name: Hinh
-          type: file
-          description: Hình đại diện giảng viên
       responses:
         200:
-          description: Thêm giảng viên thành công.
+          description: Thêm nhân viên thành công.
           schema:
             type: object
             example: {
               "status": true,
-              "message": "Thêm giảng viên thành công.",
+              "message": "Thêm nhân viên thành công.",
             }          
         400:
-          description: Thêm giảng viên thất bại.
+          description: Thêm nhân viên thất bại.
           schema:
             type: object
             example: {
               "status": false,
-              "message": "Thêm giảng viên thất bại.",
+              "message": "Thêm nhân viên thất bại.",
             }
       security:
         - ApiKeyAuth: [] 
-  /admin/giang-vien/ChinhSua/{MaGV}:
+  /admin/nhan-vien/ChinhSua/{MaNV}:
     post: 
       tags:
-        - "GiangVien"
-      summary: Chỉnh sửa thông tin giảng viên
+        - "NhanVien"
+      summary: Chỉnh sửa thông tin nhân viên
       produces:
         - application/json     
       parameters:
         - in: path
-          name: MaGV
+          name: MaNV
           type: string
           required: true
-          description: Mã giảng viên
-        - in: formData
-          name: HoGV
+          description: Mã nhân viên
+        - in: body
+          name: HoNV
           type: string
-          description: Họ giảng viên
+          description: Họ nhân viên
           required: true
-        - in: formData
-          name: TenGV
+        - in: body
+          name: TenNV
           type: string
-          description: Tên giảng viên
+          description: Tên nhân viên
           required: true
-        - in: formData
+        - in: body
           name: Email
           type: string
-          description: Email giảng viên
+          description: Email nhân viên
           required: true
-        - in: formData
+        - in: body
           name: SoDienThoai
           type: string
-          description: Số điện thoại giảng viên
+          description: Số điện thoại nhân viên
           required: true
-        - in: formData
+        - in: body
           name: GioiTinh
           type: string
-          description: Giói tính giảng viên
+          description: Giói tính nhân viên
           required: true
-        - in: formData
+        - in: body
           name: NgaySinh
           type: string
-          description: Ngày sinh giảng viên
+          description: Ngày sinh nhân viên
           required: true
-        - in: formData
-          name: DonViCongTac
-          type: string
-          description: Đơn vị công tác
-          required: true
-        - in: formData
-          name: ChuyenNganh
-          type: string
-          description: Chuyên ngành của giảng viên
-          required: true
-        - in: formData
-          name: TrinhDo
-          type: string
-          description: Trình độ giảng viên
-          required: true
-        - in: formData
-          name: Hinh
-          type: file
-          description: Hình đại diện giảng viên
       responses:
         200:
-          description: Chỉnh sửa thông tin giảng viên thành công.
+          description: Chỉnh sửa thông tin nhân viên thành công.
           schema:
             type: object
             example: {
               "status": true,
-              "message": "Chỉnh sửa thông tin giảng viên thành công.",
+              "message": "Chỉnh sửa thông tin nhân viên thành công.",
             }          
         400:
-          description: Chỉnh sửa thông tin giảng viên thất bại.
+          description: Chỉnh sửa thông tin nhân viên thất bại.
           schema:
             type: object
             example: {
               "status": false,
-              "message": "Chỉnh sửa thông tin giảng viên thất bại.",
+              "message": "Chỉnh sửa thông tin nhân viên thất bại.",
             }
       security:
         - ApiKeyAuth: []     
-  /admin/giang-vien/Xoa/{MaGV}:
+  /admin/nhan-vien/Xoa/{MaV}:
     delete:
       tags:
-        - "GiangVien"
-      summary: "Xóa thông tin giảng viên"
+        - "NhanVien"
+      summary: "Xóa thông tin nhân viên"
       produces:
         - application/json
       parameters:
         - in: path
-          name: MaGV
+          name: MaNV
           type: string
           required: true
-          description: Mã giảng viên
+          description: Mã nhân viên
       responses:
         200:
-          description: Xóa thông tin giảng viên thành công.
+          description: Xóa thông tin nhân viên thành công.
           schema:
             type: object
             example: {
               "status": true,
-              "message": "Xóa thông tin giảng viên thành công.",
+              "message": "Xóa thông tin nhân viên thành công.",
             }
         400:
-          description: Xóa thông tin giảng viên thất bại.
+          description: Xóa thông tin nhân viên thất bại.
           schema:
             type: object
             example: {
               "status": false,
-              "message" : "Xóa thông tin giảng viên thất bại.",
+              "message" : "Xóa thông tin nhân viên thất bại.",
             }
       security:
         - ApiKeyAuth: []

@@ -7,6 +7,7 @@ export const KtraDuLieuTaiKhoanKhiThem = data => {
     error.isRequired(data.MaTK, "MaTK")
         .isRequired(data.MaQTK, "MaQTK")
         .isRequired(data.TenDangNhap, "TenDangNhap")
+        .isRequired(data.MaNV, "MaNV")
         .isRequired(data.MatKhau, "MatKhau")
 
     return error.get()
