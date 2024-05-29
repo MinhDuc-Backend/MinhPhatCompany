@@ -44,7 +44,7 @@ const app = express()
 const store = new session.MemoryStore()
 
 app.use(session({
-    secret: process.env.SESSION_NAME,
+    secret: "abc123",
     cookie: { maxAge: SESSION_AGE },
     saveUninitialized: false,
     store,
