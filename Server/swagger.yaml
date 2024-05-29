@@ -22,8 +22,6 @@ tags:
   description: "Các API của model Nganh"
 - name: "ChuyenNganh"
   description: "Các API của model ChuyenNganh"
-- name: "SinhVien"
-  description: "Các API của model SinhVien"
 - name: "NhanVien"
   description: "Các API của model NhanVien"
 paths:
@@ -1048,276 +1046,276 @@ paths:
               "status": false,
               "message": "Đăng nhập thất bại.",
             }
-  /admin/sinh-vien/DanhSachSinhVien:
-    get: 
-      tags:
-        - "SinhVien"
-      summary: Admin lấy danh sách sinh viên
-      produces:
-        - application/json     
-      parameters:
-      - in: query
-        name: page
-        type: integer
-        required: true
-        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
-      - in: query
-        name: pageSize
-        type: integer
-        required: true
-        description: giới hạn số lượng 1 trang, giá trị > 0
-      - in: query
-        name: keyword
-        type: string
-        required: true
-        description: mã sinh viên, họ sinh viên, tên sinh viên, email hoặc số điện thoại
-      responses:
-        200: 
-          description: Lấy danh sách sinh viên thành công
-          schema:
-            type: object
-            example: {
-              "status": true,
-              "message": "Lấy danh sách sinh viên thành công",
-            }
-        400:
-          description: Lấy danh sách sinh viên thất bại
-          schema:
-            type: object
-            example: {
-              "status": false,
-              "message": "Lấy danh sách sinh viên thất bại",
-            }
-      security:
-      - ApiKeyAuth: []
-  /admin/sinh-vien/ChiTietSinhVien/{MaSV}:
-    get:
-      tags:
-        - "SinhVien"
-      summary: "Chi tiết thông tin sinh viên"
-      produces:
-        - application/json
-      parameters:
-        - in: path
-          name: MaSV
-          type: string
-          required: true
-          description: Mã sinh viên
-      responses:
-        200:
-          description: Chi tiết thông tin sinh viên thành công.
-          schema:
-            type: object
-            example: {
-              "status": true,
-              "message": "Chi tiết thông tin sinh viên thành công.",
-            }
-        400:
-          description: Chi tiết thông tin sinh viên thất bại.
-          schema:
-            type: object
-            example: {
-              "status": false,
-              "message" : "Chi tiết thông tin sinh viên thất bại.",
-            }
-      security:
-        - ApiKeyAuth: []
-  /admin/sinh-vien/Them:
-    post: 
-      tags:
-        - "SinhVien"
-      summary: Thêm sinh viên
-      produces:
-        - multipart/form-data    
-      parameters:
-        - in: formData
-          name: MaSV
-          type: string
-          description: Mã sinh viên
-          required: true
-        - in: formData
-          name: HoSV
-          type: string
-          description: Họ sinh viên
-          required: true
-        - in: formData
-          name: TenSV
-          type: string
-          description: Tên sinh viên
-          required: true
-        - in: formData
-          name: Email
-          type: string
-          description: Email sinh viên
-          required: true
-        - in: formData
-          name: SoDienThoai
-          type: string
-          description: Số điện thoại sinh viên
-          required: true
-        - in: formData
-          name: GioiTinh
-          type: string
-          description: Giói tính sinh viên
-          required: true
-        - in: formData
-          name: NgaySinh
-          type: string
-          description: Ngày sinh sinh viên
-          required: true
-        - in: formData
-          name: Khoa
-          type: string
-          description: Khóa của sinh viên, ví dụ K19, K20
-          required: true
-        - in: formData
-          name: ChuyenNganh
-          type: string
-          description: Chuyên ngành của sinh viên
-          required: true
-        - in: formData
-          name: Nganh
-          type: string
-          description: Ngành sinh viên học
-          required: true
-        - in: formData
-          name: Lop
-          type: string
-          description: Lớp của sinh viên
-          required: true
-      responses:
-        200:
-          description: Thêm sinh viên thành công.
-          schema:
-            type: object
-            example: {
-              "status": true,
-              "message": "Thêm sinh viên thành công.",
-            }          
-        400:
-          description: Thêm sinh viên thất bại.
-          schema:
-            type: object
-            example: {
-              "status": false,
-              "message": "Thêm sinh viên thất bại.",
-            }
-      security:
-        - ApiKeyAuth: [] 
-  /admin/sinh-vien/ChinhSua/{MaSV}:
-    put: 
-      tags:
-        - "SinhVien"
-      summary: Chỉnh sửa thông tin sinh viên
-      produces:
-        - application/json     
-      parameters:
-        - in: path
-          name: MaSV
-          type: string
-          required: true
-          description: Mã sinh viên
-        - in: formData
-          name: HoSV
-          type: string
-          description: Họ sinh viên
-          required: true
-        - in: formData
-          name: TenSV
-          type: string
-          description: Tên sinh viên
-          required: true
-        - in: formData
-          name: Email
-          type: string
-          description: Email sinh viên
-          required: true
-        - in: formData
-          name: SoDienThoai
-          type: string
-          description: Số điện thoại sinh viên
-          required: true
-        - in: formData
-          name: GioiTinh
-          type: string
-          description: Giói tính sinh viên
-          required: true
-        - in: formData
-          name: NgaySinh
-          type: string
-          description: Ngày sinh sinh viên
-          required: true
-        - in: formData
-          name: Khoa
-          type: string
-          description: Khóa của sinh viên, ví dụ K19, K20
-          required: true
-        - in: formData
-          name: ChuyenNganh
-          type: string
-          description: Chuyên ngành của sinh viên
-          required: true
-        - in: formData
-          name: Nganh
-          type: string
-          description: Ngành sinh viên học
-          required: true
-        - in: formData
-          name: Lop
-          type: string
-          description: Lớp của sinh viên
-          required: true
-      responses:
-        200:
-          description: Chỉnh sửa thông tin sinh viên thành công.
-          schema:
-            type: object
-            example: {
-              "status": true,
-              "message": "Chỉnh sửa thông tin sinh viên thành công.",
-            }          
-        400:
-          description: Chỉnh sửa thông tin sinh viên thất bại.
-          schema:
-            type: object
-            example: {
-              "status": false,
-              "message": "Chỉnh sửa thông tin sinh viên thất bại.",
-            }
-      security:
-        - ApiKeyAuth: []     
-  /admin/sinh-vien/Xoa/{MaSV}:
-    delete:
-      tags:
-        - "SinhVien"
-      summary: "Xóa thông tin sinh viên"
-      produces:
-        - application/json
-      parameters:
-        - in: path
-          name: MaSV
-          type: string
-          required: true
-          description: Mã sinh viên
-      responses:
-        200:
-          description: Xóa thông tin sinh viên thành công.
-          schema:
-            type: object
-            example: {
-              "status": true,
-              "message": "Xóa thông tin sinh viên thành công.",
-            }
-        400:
-          description: Xóa thông tin sinh viên thất bại.
-          schema:
-            type: object
-            example: {
-              "status": false,
-              "message" : "Xóa thông tin sinh viên thất bại.",
-            }
-      security:
-        - ApiKeyAuth: []
+  # /admin/sinh-vien/DanhSachSinhVien:
+  #   get: 
+  #     tags:
+  #       - "SinhVien"
+  #     summary: Admin lấy danh sách sinh viên
+  #     produces:
+  #       - application/json     
+  #     parameters:
+  #     - in: query
+  #       name: page
+  #       type: integer
+  #       required: true
+  #       description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+  #     - in: query
+  #       name: pageSize
+  #       type: integer
+  #       required: true
+  #       description: giới hạn số lượng 1 trang, giá trị > 0
+  #     - in: query
+  #       name: keyword
+  #       type: string
+  #       required: true
+  #       description: mã sinh viên, họ sinh viên, tên sinh viên, email hoặc số điện thoại
+  #     responses:
+  #       200: 
+  #         description: Lấy danh sách sinh viên thành công
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": true,
+  #             "message": "Lấy danh sách sinh viên thành công",
+  #           }
+  #       400:
+  #         description: Lấy danh sách sinh viên thất bại
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": false,
+  #             "message": "Lấy danh sách sinh viên thất bại",
+  #           }
+  #     security:
+  #     - ApiKeyAuth: []
+  # /admin/sinh-vien/ChiTietSinhVien/{MaSV}:
+  #   get:
+  #     tags:
+  #       - "SinhVien"
+  #     summary: "Chi tiết thông tin sinh viên"
+  #     produces:
+  #       - application/json
+  #     parameters:
+  #       - in: path
+  #         name: MaSV
+  #         type: string
+  #         required: true
+  #         description: Mã sinh viên
+  #     responses:
+  #       200:
+  #         description: Chi tiết thông tin sinh viên thành công.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": true,
+  #             "message": "Chi tiết thông tin sinh viên thành công.",
+  #           }
+  #       400:
+  #         description: Chi tiết thông tin sinh viên thất bại.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": false,
+  #             "message" : "Chi tiết thông tin sinh viên thất bại.",
+  #           }
+  #     security:
+  #       - ApiKeyAuth: []
+  # /admin/sinh-vien/Them:
+  #   post: 
+  #     tags:
+  #       - "SinhVien"
+  #     summary: Thêm sinh viên
+  #     produces:
+  #       - multipart/form-data    
+  #     parameters:
+  #       - in: formData
+  #         name: MaSV
+  #         type: string
+  #         description: Mã sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: HoSV
+  #         type: string
+  #         description: Họ sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: TenSV
+  #         type: string
+  #         description: Tên sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: Email
+  #         type: string
+  #         description: Email sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: SoDienThoai
+  #         type: string
+  #         description: Số điện thoại sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: GioiTinh
+  #         type: string
+  #         description: Giói tính sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: NgaySinh
+  #         type: string
+  #         description: Ngày sinh sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: Khoa
+  #         type: string
+  #         description: Khóa của sinh viên, ví dụ K19, K20
+  #         required: true
+  #       - in: formData
+  #         name: ChuyenNganh
+  #         type: string
+  #         description: Chuyên ngành của sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: Nganh
+  #         type: string
+  #         description: Ngành sinh viên học
+  #         required: true
+  #       - in: formData
+  #         name: Lop
+  #         type: string
+  #         description: Lớp của sinh viên
+  #         required: true
+  #     responses:
+  #       200:
+  #         description: Thêm sinh viên thành công.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": true,
+  #             "message": "Thêm sinh viên thành công.",
+  #           }          
+  #       400:
+  #         description: Thêm sinh viên thất bại.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": false,
+  #             "message": "Thêm sinh viên thất bại.",
+  #           }
+  #     security:
+  #       - ApiKeyAuth: [] 
+  # /admin/sinh-vien/ChinhSua/{MaSV}:
+  #   put: 
+  #     tags:
+  #       - "SinhVien"
+  #     summary: Chỉnh sửa thông tin sinh viên
+  #     produces:
+  #       - application/json     
+  #     parameters:
+  #       - in: path
+  #         name: MaSV
+  #         type: string
+  #         required: true
+  #         description: Mã sinh viên
+  #       - in: formData
+  #         name: HoSV
+  #         type: string
+  #         description: Họ sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: TenSV
+  #         type: string
+  #         description: Tên sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: Email
+  #         type: string
+  #         description: Email sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: SoDienThoai
+  #         type: string
+  #         description: Số điện thoại sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: GioiTinh
+  #         type: string
+  #         description: Giói tính sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: NgaySinh
+  #         type: string
+  #         description: Ngày sinh sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: Khoa
+  #         type: string
+  #         description: Khóa của sinh viên, ví dụ K19, K20
+  #         required: true
+  #       - in: formData
+  #         name: ChuyenNganh
+  #         type: string
+  #         description: Chuyên ngành của sinh viên
+  #         required: true
+  #       - in: formData
+  #         name: Nganh
+  #         type: string
+  #         description: Ngành sinh viên học
+  #         required: true
+  #       - in: formData
+  #         name: Lop
+  #         type: string
+  #         description: Lớp của sinh viên
+  #         required: true
+  #     responses:
+  #       200:
+  #         description: Chỉnh sửa thông tin sinh viên thành công.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": true,
+  #             "message": "Chỉnh sửa thông tin sinh viên thành công.",
+  #           }          
+  #       400:
+  #         description: Chỉnh sửa thông tin sinh viên thất bại.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": false,
+  #             "message": "Chỉnh sửa thông tin sinh viên thất bại.",
+  #           }
+  #     security:
+  #       - ApiKeyAuth: []     
+  # /admin/sinh-vien/Xoa/{MaSV}:
+  #   delete:
+  #     tags:
+  #       - "SinhVien"
+  #     summary: "Xóa thông tin sinh viên"
+  #     produces:
+  #       - application/json
+  #     parameters:
+  #       - in: path
+  #         name: MaSV
+  #         type: string
+  #         required: true
+  #         description: Mã sinh viên
+  #     responses:
+  #       200:
+  #         description: Xóa thông tin sinh viên thành công.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": true,
+  #             "message": "Xóa thông tin sinh viên thành công.",
+  #           }
+  #       400:
+  #         description: Xóa thông tin sinh viên thất bại.
+  #         schema:
+  #           type: object
+  #           example: {
+  #             "status": false,
+  #             "message" : "Xóa thông tin sinh viên thất bại.",
+  #           }
+  #     security:
+  #       - ApiKeyAuth: []
   /admin/nhan-vien/DanhSachNhanVien:
     get: 
       tags:
@@ -1629,48 +1627,6 @@ paths:
             example: {
               "status": false,
               "message": "Phục hồi mật khẩu thất bại.",
-            }
-      security:
-        - ApiKeyAuth: []
-  /admin/sinh-vien/importFileSV:
-    post: 
-      tags:
-        - "SinhVien"
-      summary: Import file thông tin sinh viên
-      produces:
-        - multipart/form-data    
-      parameters:
-        - in: formData
-          name: CapTaiKhoan
-          type: String
-          description: Chọn select có 2 giá trị là "Tạo tài khoản" và "Không tạo tài khoản"
-          required: true
-        - in: formData
-          name: MatKhauMacDinh
-          type: String
-          description: Mật khẩu mặc định của tài khoản
-          required: true
-        - in: formData
-          name: FileExcel
-          type: file
-          description: file excel
-          required: true
-      responses:
-        200:
-          description: Import file thông tin sinh viên thành công.
-          schema:
-            type: object
-            example: {
-              "status": true,
-              "message": "Import file thông tin sinh viên thành công.",
-            }          
-        400:
-          description: Import file thông tin sinh viên thất bại.
-          schema:
-            type: object
-            example: {
-              "status": false,
-              "message": "Import file thông tin sinh viên thất bại.",
             }
       security:
         - ApiKeyAuth: []

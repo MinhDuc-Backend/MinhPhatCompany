@@ -70,55 +70,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/*', async (req, res) => {
     res.status(501).send("Don't implement.")
 })
-// const server = http.createServer(app);
-// const io = new Server(server, {
-//     cors: {
-//         origin: "http://localhost:3000",
-//         methods: ["GET", "POST", "PUT"]
-//     }
-// });
-// const customers = {};
-
-// io.on('connection', (socket) => {
-//     console.log(`A user connected: ${socket.id}`);
-//     //   Khi một khách hàng kết nối, thêm họ vào đối tượng customers
-//     customers[socket.id] = 'Customer';
-
-//     // Gửi thông báo cho admin rằng một khách hàng mới đã kết nối
-//     io.emit('admin notification', `Admin: New customer (${socket.id}) connected.`);
-
-//     socket.on('customer send', (message) => {
-//         console.log("message:", message)
-//         const data = {
-//         customer: socket.id,
-//         message: message
-//         }
-//         // Gửi tin nhắn từ khách hàng đến admin
-//         io.emit('admin receive', data);
-//     });
-
-
-//     socket.on('admin send', (data) => {
-//         console.log("data:", data)
-//         const { customerSocketId, message } = data;
-//         const customer = customers[customerSocketId];
-
-//         if (customer) {
-//         io.to(customerSocketId).emit('customer receive', `Admin (${socket.id}): ${message}`);
-//         }
-//     });
-
-
-//     socket.on('disconnect', () => {
-//         console.log('A user disconnected:', socket.id);
-
-//         // Xóa khách hàng khỏi đối tượng customers khi họ ngắt kết nối
-//         delete customers[socket.id];
-
-//         // Gửi thông báo cho admin rằng một khách hàng đã ngắt kết nối
-//         io.emit('admin message', `Admin: Customer (${socket.id}) disconnected.`);
-//     });
-// });
 
 app.listen(PORT, () => {
     console.log(`Server start at port: ${PORT}`)
