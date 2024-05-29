@@ -27,7 +27,7 @@ dotenv.config()
 /**
  * Connect MongoDB
 */
-mongoose.connect("mongodb+srv://minhduc140401:rtkLqaW3vvUaew0W@minhphat.d5n5wkh.mongodb.net/minhphat", { maxPoolSize: 100 })
+mongoose.connect(process.env.MONGO_URI, { maxPoolSize: 100 })
 const db = mongoose.connection
 db.on('error', () => console.log('MongoDB connection error.'))
 db.once('open', () => {
@@ -44,7 +44,7 @@ const app = express()
 const store = new session.MemoryStore()
 
 app.use(session({
-    secret: "abc123",
+    secret: process.env.SESSION_NAME,
     cookie: { maxAge: SESSION_AGE },
     saveUninitialized: false,
     store,
