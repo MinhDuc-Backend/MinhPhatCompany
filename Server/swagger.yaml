@@ -18,12 +18,16 @@ tags:
   description: "Các API của model QuyenTaiKhoan"
 - name: "TaiKhoan"
   description: "Các API của model TaiKhoan"
-- name: "Nganh"
-  description: "Các API của model Nganh"
-- name: "ChuyenNganh"
-  description: "Các API của model ChuyenNganh"
 - name: "NhanVien"
   description: "Các API của model NhanVien"
+- name: "KhachHang"
+  description: "Các API của model KhachHang"
+- name: "LoaiSanPhamCha"
+  description: "Các API của model LoaiSanPhamCha"
+- name: "LoaiSanPhamCon"
+  description: "Các API của model LoaiSanPhamCon"
+  - name: "SanPham"
+  description: "Các API của model SanPham"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
     get: 
@@ -1046,276 +1050,236 @@ paths:
               "status": false,
               "message": "Đăng nhập thất bại.",
             }
-  # /admin/sinh-vien/DanhSachSinhVien:
-  #   get: 
-  #     tags:
-  #       - "SinhVien"
-  #     summary: Admin lấy danh sách sinh viên
-  #     produces:
-  #       - application/json     
-  #     parameters:
-  #     - in: query
-  #       name: page
-  #       type: integer
-  #       required: true
-  #       description: số trang (ví dụ trang 1, trang 2), giá trị > 0
-  #     - in: query
-  #       name: pageSize
-  #       type: integer
-  #       required: true
-  #       description: giới hạn số lượng 1 trang, giá trị > 0
-  #     - in: query
-  #       name: keyword
-  #       type: string
-  #       required: true
-  #       description: mã sinh viên, họ sinh viên, tên sinh viên, email hoặc số điện thoại
-  #     responses:
-  #       200: 
-  #         description: Lấy danh sách sinh viên thành công
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": true,
-  #             "message": "Lấy danh sách sinh viên thành công",
-  #           }
-  #       400:
-  #         description: Lấy danh sách sinh viên thất bại
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": false,
-  #             "message": "Lấy danh sách sinh viên thất bại",
-  #           }
-  #     security:
-  #     - ApiKeyAuth: []
-  # /admin/sinh-vien/ChiTietSinhVien/{MaSV}:
-  #   get:
-  #     tags:
-  #       - "SinhVien"
-  #     summary: "Chi tiết thông tin sinh viên"
-  #     produces:
-  #       - application/json
-  #     parameters:
-  #       - in: path
-  #         name: MaSV
-  #         type: string
-  #         required: true
-  #         description: Mã sinh viên
-  #     responses:
-  #       200:
-  #         description: Chi tiết thông tin sinh viên thành công.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": true,
-  #             "message": "Chi tiết thông tin sinh viên thành công.",
-  #           }
-  #       400:
-  #         description: Chi tiết thông tin sinh viên thất bại.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": false,
-  #             "message" : "Chi tiết thông tin sinh viên thất bại.",
-  #           }
-  #     security:
-  #       - ApiKeyAuth: []
-  # /admin/sinh-vien/Them:
-  #   post: 
-  #     tags:
-  #       - "SinhVien"
-  #     summary: Thêm sinh viên
-  #     produces:
-  #       - multipart/form-data    
-  #     parameters:
-  #       - in: formData
-  #         name: MaSV
-  #         type: string
-  #         description: Mã sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: HoSV
-  #         type: string
-  #         description: Họ sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: TenSV
-  #         type: string
-  #         description: Tên sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: Email
-  #         type: string
-  #         description: Email sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: SoDienThoai
-  #         type: string
-  #         description: Số điện thoại sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: GioiTinh
-  #         type: string
-  #         description: Giói tính sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: NgaySinh
-  #         type: string
-  #         description: Ngày sinh sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: Khoa
-  #         type: string
-  #         description: Khóa của sinh viên, ví dụ K19, K20
-  #         required: true
-  #       - in: formData
-  #         name: ChuyenNganh
-  #         type: string
-  #         description: Chuyên ngành của sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: Nganh
-  #         type: string
-  #         description: Ngành sinh viên học
-  #         required: true
-  #       - in: formData
-  #         name: Lop
-  #         type: string
-  #         description: Lớp của sinh viên
-  #         required: true
-  #     responses:
-  #       200:
-  #         description: Thêm sinh viên thành công.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": true,
-  #             "message": "Thêm sinh viên thành công.",
-  #           }          
-  #       400:
-  #         description: Thêm sinh viên thất bại.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": false,
-  #             "message": "Thêm sinh viên thất bại.",
-  #           }
-  #     security:
-  #       - ApiKeyAuth: [] 
-  # /admin/sinh-vien/ChinhSua/{MaSV}:
-  #   put: 
-  #     tags:
-  #       - "SinhVien"
-  #     summary: Chỉnh sửa thông tin sinh viên
-  #     produces:
-  #       - application/json     
-  #     parameters:
-  #       - in: path
-  #         name: MaSV
-  #         type: string
-  #         required: true
-  #         description: Mã sinh viên
-  #       - in: formData
-  #         name: HoSV
-  #         type: string
-  #         description: Họ sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: TenSV
-  #         type: string
-  #         description: Tên sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: Email
-  #         type: string
-  #         description: Email sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: SoDienThoai
-  #         type: string
-  #         description: Số điện thoại sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: GioiTinh
-  #         type: string
-  #         description: Giói tính sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: NgaySinh
-  #         type: string
-  #         description: Ngày sinh sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: Khoa
-  #         type: string
-  #         description: Khóa của sinh viên, ví dụ K19, K20
-  #         required: true
-  #       - in: formData
-  #         name: ChuyenNganh
-  #         type: string
-  #         description: Chuyên ngành của sinh viên
-  #         required: true
-  #       - in: formData
-  #         name: Nganh
-  #         type: string
-  #         description: Ngành sinh viên học
-  #         required: true
-  #       - in: formData
-  #         name: Lop
-  #         type: string
-  #         description: Lớp của sinh viên
-  #         required: true
-  #     responses:
-  #       200:
-  #         description: Chỉnh sửa thông tin sinh viên thành công.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": true,
-  #             "message": "Chỉnh sửa thông tin sinh viên thành công.",
-  #           }          
-  #       400:
-  #         description: Chỉnh sửa thông tin sinh viên thất bại.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": false,
-  #             "message": "Chỉnh sửa thông tin sinh viên thất bại.",
-  #           }
-  #     security:
-  #       - ApiKeyAuth: []     
-  # /admin/sinh-vien/Xoa/{MaSV}:
-  #   delete:
-  #     tags:
-  #       - "SinhVien"
-  #     summary: "Xóa thông tin sinh viên"
-  #     produces:
-  #       - application/json
-  #     parameters:
-  #       - in: path
-  #         name: MaSV
-  #         type: string
-  #         required: true
-  #         description: Mã sinh viên
-  #     responses:
-  #       200:
-  #         description: Xóa thông tin sinh viên thành công.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": true,
-  #             "message": "Xóa thông tin sinh viên thành công.",
-  #           }
-  #       400:
-  #         description: Xóa thông tin sinh viên thất bại.
-  #         schema:
-  #           type: object
-  #           example: {
-  #             "status": false,
-  #             "message" : "Xóa thông tin sinh viên thất bại.",
-  #           }
-  #     security:
-  #       - ApiKeyAuth: []
+  /admin/khach-hang/DanhSachKhachHang:
+    get: 
+      tags:
+        - "KhachHang"
+      summary: Admin lấy danh sách khách hàng
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã khách hàng, họ khách hàng, tên khách hàng, email hoặc số điện thoại
+      responses:
+        200: 
+          description: Lấy danh sách khách hàng thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách khách hàng thành công",
+            }
+        400:
+          description: Lấy danh sách khách hàng thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách khách hàng thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/khach-hang/ChiTietKhachHang/{MaKH}:
+    get:
+      tags:
+        - "KhachHang"
+      summary: "Chi tiết thông tin khách hàng"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKH
+          type: string
+          required: true
+          description: Mã khách hàng
+      responses:
+        200:
+          description: Chi tiết thông tin khách hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin khách hàng thành công.",
+            }
+        400:
+          description: Chi tiết thông tin khách hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin khách hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khach-hang/Them:
+    post: 
+      tags:
+        - "KhachHang"
+      summary: Thêm khách hàng
+      produces:
+        - application/json    
+      parameters:
+        - in: body
+          name: MaKH
+          type: string
+          description: Mã khách hàng
+          required: true
+        - in: body
+          name: HoKH
+          type: string
+          description: Họ khách hàng
+          required: true
+        - in: body
+          name: TenKH
+          type: string
+          description: Tên khách hàng
+          required: true
+        - in: body
+          name: Email
+          type: string
+          description: Email khách hàng
+          required: true
+        - in: body
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại khách hàng
+          required: true
+        - in: body
+          name: GioiTinh
+          type: string
+          description: Giói tính khách hàng
+          required: true
+        - in: body
+          name: MaCongTy
+          type: string
+          description: Công ty khách hàng
+          required: true
+      responses:
+        200:
+          description: Thêm khách hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm khách hàng thành công.",
+            }          
+        400:
+          description: Thêm khách hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm khách hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/khach-hang/ChinhSua/{MaKH}:
+    put: 
+      tags:
+        - "KhachHang"
+      summary: Chỉnh sửa thông tin khách hàng
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaKH
+          type: string
+          required: true
+          description: Mã khách hàng
+        - in: formData
+          name: HoKH
+          type: string
+          description: Họ khách hàng
+          required: true
+        - in: formData
+          name: TenKH
+          type: string
+          description: Tên khách hàng
+          required: true
+        - in: formData
+          name: Email
+          type: string
+          description: Email khách hàng
+          required: true
+        - in: formData
+          name: SoDienThoai
+          type: string
+          description: Số điện thoại khách hàng
+          required: true
+        - in: formData
+          name: GioiTinh
+          type: string
+          description: Giói tính khách hàng
+          required: true
+        - in: formData
+          name: MaCongTy
+          type: string
+          description: Công ty khách hàng
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin khách hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin khách hàng thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin khách hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin khách hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/khach-hang/Xoa/{MaKH}:
+    delete:
+      tags:
+        - "KhachHang"
+      summary: "Xóa thông tin khách hàng"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKH
+          type: string
+          required: true
+          description: Mã khách hàng
+      responses:
+        200:
+          description: Xóa thông tin khách hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin khách hàng thành công.",
+            }
+        400:
+          description: Xóa thông tin khách hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin khách hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
   /admin/nhan-vien/DanhSachNhanVien:
     get: 
       tags:
@@ -1514,7 +1478,7 @@ paths:
             }
       security:
         - ApiKeyAuth: []     
-  /admin/nhan-vien/Xoa/{MaV}:
+  /admin/nhan-vien/Xoa/{MaNV}:
     delete:
       tags:
         - "NhanVien"
@@ -1659,6 +1623,614 @@ paths:
             example: {
               "status": false,
               "message": "Kích hoạt tài khoản thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/lsp-cha/DanhSachLSPCha:
+    get: 
+      tags:
+        - "LoaiSanPhamCha"
+      summary: Admin lấy danh sách loại sản phẩm cha
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã loại sản phẩm cha hoặc tên loại sản phẩm cha
+      responses:
+        200: 
+          description: Lấy danh sách loại sản phẩm thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách loại sản phẩm thành công",
+            }
+        400:
+          description: Lấy danh sách loại sản phẩm thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách loại sản phẩm thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/lsp-cha/ChiTietLSP/{MaLSPCha}:
+    get:
+      tags:
+        - "LoaiSanPhamCha"
+      summary: "Chi tiết thông tin loại sản phẩm"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm cha
+      responses:
+        200:
+          description: Chi tiết thông tin loại sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin loại sản phẩm thành công.",
+            }
+        400:
+          description: Chi tiết thông tin loại sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin loại sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/lsp-cha/Them:
+    post: 
+      tags:
+        - "LoaiSanPhamCha"
+      summary: Thêm loại sản phẩm cha
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm cha
+        - in: body
+          name: TenLoai
+          type: string
+          required: true
+          description: Tên loại sản phẩm cha
+      responses:
+        200:
+          description: Thêm loại sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm loại sản phẩm thành công.",
+            }          
+        400:
+          description: Thêm loại sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm loại sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/lsp-cha/ChinhSua/{MaLSPCha}:
+    put: 
+      tags:
+        - "LoaiSanPhamCha"
+      summary: Chỉnh sửa loại sản phẩm
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm
+        - in: body
+          name: TenLoai
+          type: string
+          required: true
+          description: Tên loại sản phẩm
+      responses:
+        200:
+          description: Chỉnh sửa loại sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa loại sản phẩm thành công.",
+            }          
+        400:
+          description: Chỉnh sửa loại sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa loại sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/lsp-cha/Xoa/{MaLSPCha}:
+    delete:
+      tags:
+        - "LoaiSanPhamCha"
+      summary: "Xóa thông tin loại sản phẩm"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm
+      responses:
+        200:
+          description: Xóa thông tin loại sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin loại sản phẩm thành công.",
+            }
+        400:
+          description: Xóa thông tin loại sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin loại sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/lsp-con/DanhSachLSPCon:
+    get: 
+      tags:
+        - "LoaiSanPhamCon"
+      summary: Admin lấy danh sách loại sản phẩm con
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã loại sản phẩm con hoặc tên loại 
+      responses:
+        200: 
+          description: Lấy danh sách loại sản phẩm con thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách loại sản phẩm con thành công",
+            }
+        400:
+          description: Lấy danh sách loại sản phẩm con thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách loại sản phẩm con thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/lsp-con/ChiTietLSPCon/{MaLSPCon}:
+    get:
+      tags:
+        - "LoaiSanPhamCon"
+      summary: "Chi tiết thông tin loại sản phẩm con"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaLSPCon
+          type: string
+          required: true
+          description: Mã loại sản phẩm con
+      responses:
+        200:
+          description: Chi tiết thông tin loại sản phẩm con thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin loại sản phẩm con thành công.",
+            }
+        400:
+          description: Chi tiết thông tin loại sản phẩm con thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin loại sản phẩm con thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/lsp-con/Them:
+    post: 
+      tags:
+        - "LoaiSanPhamCon"
+      summary: Thêm loại sản phẩm con
+      produces:
+        - application/json     
+      parameters:
+        - in: body
+          name: MaLSPCon
+          type: string
+          required: true
+          description: Mã loại sản phẩm con
+        - in: body
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm cha
+        - in: body
+          name: TenLoai
+          type: string
+          required: true
+          description: Tên loại
+      responses:
+        200:
+          description: Thêm loại sản phẩm con thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm loại sản phẩm con thành công.",
+            }          
+        400:
+          description: Thêm loại sản phẩm con thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm loại sản phẩm con thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/lsp-con/ChinhSua/{MaLSPCon}:
+    put: 
+      tags:
+        - "LoaiSanPhamCon"
+      summary: Chỉnh sửa loại sản phẩm con
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaLSPCon
+          type: string
+          required: true
+          description: Mã loại sản phẩm con
+        - in: body
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm cha
+        - in: body
+          name: TenLoai
+          type: string
+          required: true
+          description: Tên loại sản phẩm con
+      responses:
+        200:
+          description: Chỉnh sửa loại sản phẩm con thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa loại sản phẩm con thành công.",
+            }          
+        400:
+          description: Chỉnh sửa loại sản phẩm con thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa loại sản phẩm con thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/lsp-con/Xoa/{MaLSPCon}:
+    delete:
+      tags:
+        - "LoaiSanPhamCon"
+      summary: "Xóa thông tin loại sản phẩm con"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaLSPCon
+          type: string
+          required: true
+          description: Mã loại sản phẩm con
+      responses:
+        200:
+          description: Xóa thông tin loại sản phẩm con thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin loại sản phẩm con thành công.",
+            }
+        400:
+          description: Xóa thông tin loại sản phẩm con thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin loại sản phẩm con thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/san-pham/DanhSachSanPham:
+    get: 
+      tags:
+        - "SanPham"
+      summary: Admin lấy danh sách sản phẩm
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã sản phẩm, tên sản phẩm
+      responses:
+        200: 
+          description: Lấy danh sách sản phẩm thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách sản phẩm thành công",
+            }
+        400:
+          description: Lấy danh sách sản phẩm thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách sản phẩm thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/san-pham/ChiTietSanPham/{MaSP}:
+    get:
+      tags:
+        - "SanPham"
+      summary: "Chi tiết thông tin sản phẩm"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaSP
+          type: string
+          required: true
+          description: Mã sản phẩm
+      responses:
+        200:
+          description: Chi tiết thông tin sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin sản phẩm thành công.",
+            }
+        400:
+          description: Chi tiết thông tin sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/san-pham/Them:
+    post: 
+      tags:
+        - "SanPham"
+      summary: Thêm sản phẩm
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaSP
+          type: string
+          description: Mã sản phẩm
+          required: true
+        - in: formData
+          name: MaLSPCha
+          type: string
+          description: Mã loại sản phẩm cha
+          required: true
+        - in: formData
+          name: MaLSPCon
+          type: string
+          description: Mã loại sản phẩm con
+          required: true
+        - in: formData
+          name: TenSP
+          type: string
+          description: Tên sản phẩm
+          required: true
+        - in: formData
+          name: Gia
+          type: string
+          description: Giá sản phẩm
+          required: true
+        - in: formData
+          name: MoTa
+          type: string
+          description: Mô tả sản phẩm
+          required: true
+        - in: formData
+          name: SoLuong
+          type: string
+          description: Số lượng sản phẩm
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình sản phẩm
+      responses:
+        200:
+          description: Thêm sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm sản phẩm thành công.",
+            }          
+        400:
+          description: Thêm sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/san-ham/ChinhSua/{MaSP}:
+    post: 
+      tags:
+        - "SanPham"
+      summary: Chỉnh sửa thông tin sản phẩm
+      produces:
+        - multipart/form-data      
+      parameters:
+        - in: path
+          name: MaSP
+          type: string
+          required: true
+          description: Mã sản phẩm
+        - in: formData
+          name: MaLSPCha
+          type: string
+          description: Mã loại sản phẩm cha
+          required: true
+        - in: formData
+          name: MaLSPCon
+          type: string
+          description: Mã loại sản phẩm con
+          required: true
+        - in: formData
+          name: TenSP
+          type: string
+          description: Tên sản phẩm
+          required: true
+        - in: formData
+          name: Gia
+          type: string
+          description: Giá sản phẩm
+          required: true
+        - in: formData
+          name: MoTa
+          type: string
+          description: Mô tả sản phẩm
+          required: true
+        - in: formData
+          name: SoLuong
+          type: string
+          description: Số lượng sản phẩm
+          required: true
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình sản phẩm
+      responses:
+        200:
+          description: Chỉnh sửa thông tin sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin sản phẩm thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/san-pham/Xoa/{MaSP}:
+    delete:
+      tags:
+        - "SanPham"
+      summary: "Xóa thông tin sản phẩm"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaSP
+          type: string
+          required: true
+          description: Mã sản phẩm
+      responses:
+        200:
+          description: Xóa thông tin sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin sản phẩm thành công.",
+            }
+        400:
+          description: Xóa thông tin sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin sản phẩm thất bại.",
             }
       security:
         - ApiKeyAuth: []

@@ -2,12 +2,22 @@ import mongoose from "mongoose";
 import { TrangThaiSanPham, TrangThaiTonTai } from "../constant.js";
 const { Schema } = mongoose;
 
-const CongTySchema = new Schema(
+const SanPhamSchema = new Schema(
     {
         MaSP: {
             type: String,
             unique: true,
             required: true,
+        },
+        MaLSPCha: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'loaisanphamchas',
+            required: true,
+        },
+        MaLSPCon: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'loaisanphamcons',
+            default: null,
         },
         TenSP: {
             type: String,
@@ -16,7 +26,7 @@ const CongTySchema = new Schema(
         Hinh: [String],
         Gia: {
             type: Number,
-            required: true,
+            default: 0,
         },
         MoTa: {
             type: String,
@@ -40,4 +50,4 @@ const CongTySchema = new Schema(
     { timestamps: true }
 )
 
-export default mongoose.model("congtys", CongTySchema);
+export default mongoose.model("sanphams", SanPhamSchema);

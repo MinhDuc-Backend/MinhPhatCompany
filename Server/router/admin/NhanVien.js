@@ -80,7 +80,7 @@ NhanVienAdminRoute.post('/Them', async (req, res) => {
         const { MaNV, HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh } = req.body;
         const isExist = await NhanVien.findOne({ MaNV: MaNV }).lean();
         if (isExist)
-            return sendError(res, "Mã giảng viên đã tồn tại");
+            return sendError(res, "Mã nhân viên đã tồn tại");
         const nhanvien = await NhanVien.create({ MaNV, HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh });
 
         return sendSuccess(res, "Thêm nhân viên thành công", nhanvien);
@@ -118,24 +118,19 @@ NhanVienAdminRoute.post('/ChinhSua/:MaNV', async (req, res) => {
 })
 
 /**
- * @route DELETE /api/admin/giang-vien/Xoa/{MaGV}
- * @description Xóa thông tin giảng viên
+ * @route DELETE /api/admin/nhan-vien/Xoa/{MaNV}
+ * @description Xóa thông tin nhân viên
  * @access private
  */
-NhanVienAdminRoute.delete('/Xoa/:MaGV', async (req, res) => {
+NhanVienAdminRoute.delete('/Xoa/:MaNV', async (req, res) => {
     try {
-        const { MaGV } = req.params
+        const { MaNV } = req.params
         const isExist = await GiangVien.findOne({ MaGV: MaGV })
         if (!isExist) 
-            return sendError(res, "Giảng viên này không tồn tại");
+            return sendError(res, "Nhân viên này không tồn tại");
 
-        if (isExist.Hinh != ''){
-            let splitUrl = await isExist.Hinh.split('/');
-            let file = await `${splitUrl[splitUrl.length - 2]}/${splitUrl[splitUrl.length - 1].split('.')[0]}`;
-            await DeleteHinhTrenCloudinary(file);
-        }
-        await GiangVien.findOneAndDelete({ MaGV: MaGV });
-        return sendSuccess(res, "Xóa giảng viên thành công.")
+        await NhanVien.findOneAndDelete({ MaNV: MaNV });
+        return sendSuccess(res, "Xóa nhân viên thành công.")
     } catch (error) {
         console.log(error)
         return sendServerError(res)

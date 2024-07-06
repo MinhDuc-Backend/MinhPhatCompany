@@ -64,7 +64,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-    .use('/api/admin', adminRoute)
+    .use('/api/admin', verifyToken, adminRoute)
     .use('/api/tai-khoan', TaiKhoanRoute)
 
 app.use('/*', async (req, res) => {
