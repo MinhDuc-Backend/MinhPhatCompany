@@ -26,7 +26,7 @@ tags:
   description: "Các API của model LoaiSanPhamCha"
 - name: "LoaiSanPhamCon"
   description: "Các API của model LoaiSanPhamCon"
-  - name: "SanPham"
+- name: "SanPham"
   description: "Các API của model SanPham"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
