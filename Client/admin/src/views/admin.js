@@ -26,10 +26,10 @@ const AdminPage = () => {
                     <Nav changleHidden={changleHidden} changleSwitchMode={changleSwitchMode} />
                     <Routes >
                         <Route index element={<Tongquan />}></Route>
-                        <Route path='chucnang'>
+                        <Route path='admin/chucnang'>
                             <Route index element={<FeaTure />}></Route>
-                            <Route path="new" element={<AddFeature />} ></Route>
-                            <Route path="edit/:MaCN" element={<EditFeature />} ></Route>
+                            <Route path="admin/new" element={<AddFeature />} ></Route>
+                            <Route path="admin/edit/:MaCN" element={<EditFeature />} ></Route>
                         </Route>
                     </Routes >
                 </section>

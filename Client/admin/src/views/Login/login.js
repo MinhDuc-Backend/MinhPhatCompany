@@ -2,8 +2,71 @@ import { useState, useEffect } from "react";
 import "../../css/bootstrap.min.css";
 import "./login.scss";
 import logomp from "../logomp.jpg"
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { fetchLoginAdmin } from "../GetAPI"
 
-const LoginAdmin = () => {
+const LoginAdmin = (props) => {
+    const { loggedIn, CheckLogin } = props
+    const OnCheckLogin = () => {
+        CheckLogin();
+    }
+    const GetToken = () => {
+        if (localStorage.getItem("accessToken")) {
+            navigate("/admin/*")
+            return
+        }
+    }
+    useEffect(() => {
+        GetToken()
+    }, [])
+    let navigate = useNavigate();
+    const [TenDangNhap, setTenDangNhap] = useState("");
+    const [MatKhau, setMatKhau] = useState("");
+    const [list_CN, setList_CN] = useState([]);
+    const [loadingAPI, setLoadingAPI] = useState(false);
+    const onChangeInputSL = (event, SetState) => {
+        let changeValue = event.target.value;
+        SetState(changeValue);
+    }
+
+    const [checkTenDangNhap, setCheckTenDangNhap] = useState(true)
+    const [checkMatKhau, setCheckMatKhau] = useState(true)
+
+    const checkdulieu = (value, SetDuLieu) => {
+        value === '' ? SetDuLieu(false) : SetDuLieu(true)
+    }
+
+    const handleLogin = async () => {
+        if (!TenDangNhap || !MatKhau) {
+            toast.error("Dữ liệu điền chưa đủ điều kiện !")
+            return
+        }
+        setLoadingAPI(true);
+        let res = await fetchLoginAdmin(TenDangNhap, MatKhau);
+        if (res.status) {
+            if (res.data && res.data.accessToken) {
+                navigate("/admin/")
+                setList_CN(res.data.ThongTin.QuyenHan.ChucNang)
+                localStorage.setItem("accessToken", res.data.accessToken)
+                localStorage.setItem("MaGV", res.data.ThongTin.MaGV)
+                localStorage.setItem("TenGV", res.data.ThongTin.HoTen)
+                localStorage.setItem("HinhGV", res.data.ThongTin.Hinh)
+                // localStorage.setItem("QuyenHan", res.data.ThongTin.QuyenHan.MaQTK)
+                localStorage.setItem("listChucNang", JSON.stringify(res.data.ThongTin.QuyenHan.ChucNang))
+            }
+            OnCheckLogin();
+            toast.success(res.message)
+            navigate("/admin/")
+            return
+
+        }
+        if (!res.status) {
+            toast.error(res.message)
+        }
+        setLoadingAPI(false)
+    }
+
     return (
         <div className="container-login">
             <div className="container">

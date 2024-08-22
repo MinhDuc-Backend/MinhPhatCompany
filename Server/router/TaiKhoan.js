@@ -27,36 +27,13 @@ TaiKhoanRoute.post('/DangNhap', async (req, res) => {
         if (!KtraMatKhau)
             return sendError(res, "Tên đăng nhập hoặc mật khẩu không chính xác");
         const quyentaikhoan = await QuyenTaiKhoan.findById(taikhoan.MaQTK);
-        let chucvu = "";
-        let hoten = "";
-        let maso = "";
-        const thongtingiangvien = await GiangVien.findOne({ MaTK: taikhoan._id });
-        if (!thongtingiangvien){
-            const thongtinsinhvien = await SinhVien.findOne({ MaTK: taikhoan._id });
-            chucvu = "Sinh viên";
-            hoten = thongtinsinhvien.HoSV + " " + thongtinsinhvien.TenSV;
-            maso = thongtinsinhvien.MaSV;
-        }
-        else{
-            chucvu = "Giảng viên";
-            hoten = thongtingiangvien.HoGV + " " + thongtingiangvien.TenGV;
-            maso = thongtingiangvien.MaGV;
-        }
-
-        const thongtin = {
-            "MaSo": maso,
-            "HoTen": hoten,
-            "ChucVu": chucvu
-        }
 
         const tokens = await createTokenPair({ MaTK: taikhoan.MaTK, QuyenTK: quyentaikhoan.MaQTK }, "publicKey", "privateKey");
         const response = {
             "accessToken": tokens.accessToken,
             "refreshToken": tokens.refreshToken,
-            "ThongTin": thongtin
         };
         return sendSuccess(res, 'Đăng nhập thành công', response);
-        
     }
     catch (error){
         console.log(error);
@@ -84,11 +61,6 @@ TaiKhoanRoute.post('/DangNhapAdmin', async (req, res) => {
         if (!KtraMatKhau)
             return sendError(res, "Tên đăng nhập hoặc mật khẩu không chính xác");
         const quyentaikhoan = await QuyenTaiKhoan.findById(taikhoan.MaQTK);
-        if (quyentaikhoan.MaQTK == "SINHVIEN" || quyentaikhoan.MaQTK == "GIANGVIEN")
-            return sendError(res, "Bạn không có quyền truy cập vào trang admin");
-        const thongtingiangvien = await GiangVien.findOne({ MaTK: taikhoan._id });
-        if (!thongtingiangvien)
-            return sendError(res, "Bạn không có quyền truy cập vào trang admin");
 
         const chucnang = await QuyenTaiKhoan.findOne({ MaQTK: quyentaikhoan.MaQTK }).populate([
             {
@@ -100,16 +72,10 @@ TaiKhoanRoute.post('/DangNhapAdmin', async (req, res) => {
                 }
             },
         ]).lean();
-        const thongtin = {
-            "MaGV": thongtingiangvien.MaGV,
-            "HoTen": thongtingiangvien.HoGV + " " + thongtingiangvien.TenGV,
-            "QuyenHan": chucnang
-        }
         const tokens = await createTokenPair({ MaTK: taikhoan.MaTK, QuyenTK: quyentaikhoan.MaQTK }, "publicKey", "privateKey");
         const response = {
             "accessToken": tokens.accessToken,
             "refreshToken": tokens.refreshToken,
-            "ThongTin": thongtin
         };
         return sendSuccess(res, 'Đăng nhập thành công', response);
         
