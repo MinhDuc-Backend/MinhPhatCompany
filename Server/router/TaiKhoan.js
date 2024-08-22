@@ -76,6 +76,7 @@ TaiKhoanRoute.post('/DangNhapAdmin', async (req, res) => {
         const response = {
             "accessToken": tokens.accessToken,
             "refreshToken": tokens.refreshToken,
+            "QuyenHan": chucnang
         };
         return sendSuccess(res, 'Đăng nhập thành công', response);
         
