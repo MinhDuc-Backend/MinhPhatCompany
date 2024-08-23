@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-    baseURL: 'https://apihotrodaotaosgu.onrender.com/api/',
+    baseURL: 'https://minhphatcompanyapi.onrender.com/api/',
 });
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {

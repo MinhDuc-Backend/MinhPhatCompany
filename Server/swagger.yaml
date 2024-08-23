@@ -2136,7 +2136,7 @@ paths:
             }
       security:
         - ApiKeyAuth: [] 
-  /admin/san-ham/ChinhSua/{MaSP}:
+  /admin/san-pham/ChinhSua/{MaSP}:
     post: 
       tags:
         - "SanPham"

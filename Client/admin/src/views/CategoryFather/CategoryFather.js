@@ -1,35 +1,36 @@
-
+import "./CategoryFather.scss"
 import { Link } from "react-router-dom";
-import TableFeature from "./TableFeature";
+import TableCategoryFather from "./TableCategoryFather";
 import { useState } from "react";
 
-const FeaTure = () => {
+const CategoryFather = () => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    // get danh sach nganh
     return (
         <>
             <main className="main2">
                 <div className="head-title">
                     <div className="left">
-                        <h1>CHỨC NĂNG</h1>
+                        <h1>LOẠI SẢN PHẨM</h1>
                         <ul className="breadcrumb">
                             <li>
                                 <Link>Dashboard</Link>
                             </li>
                             <li><i className='bx bx-chevron-right'></i></li>
                             <li>
-                                <Link className="active" >Chức năng</Link>
+                                <Link className="active" >Loại sản phẩm</Link>
                             </li>
                         </ul>
                     </div>
-                    <Link to={"/admin/chucnang/new"} className="btn-download">
+                    <Link to={"/admin/CategoryFather/new"} className="btn-download">
                         <i className='bx bxs-cloud-download'></i>
                         <span className="text">Tạo mới</span>
                     </Link>
                 </div>
-                <TableFeature accessToken={accessToken} />
+                <TableCategoryFather accessToken={accessToken} />
 
             </main >
         </>
     )
 }
-export default FeaTure;
+export default CategoryFather;

@@ -142,6 +142,7 @@ body {
     align-items  : center;
     border-radius: 48px;
     font-size    : 16px;
+    font-weight: 550;
     color        : var(--dark);
     white-space  : nowrap;
     overflow-x   : hidden;
@@ -213,11 +214,6 @@ body {
         visibility: hidden;
     }
 }
-
-
-
-
-
 
 @media screen and (max-width: 576px) {
     #content nav form .form-input input {

@@ -46,20 +46,15 @@ const LoginAdmin = (props) => {
         let res = await fetchLoginAdmin(TenDangNhap, MatKhau);
         if (res.status) {
             if (res.data && res.data.accessToken) {
-                navigate("/admin/")
-                setList_CN(res.data.ThongTin.QuyenHan.ChucNang)
+                navigate("/admin/Dashboard")
+                setList_CN(res.data.QuyenHan.ChucNang)
                 localStorage.setItem("accessToken", res.data.accessToken)
-                localStorage.setItem("MaGV", res.data.ThongTin.MaGV)
-                localStorage.setItem("TenGV", res.data.ThongTin.HoTen)
-                localStorage.setItem("HinhGV", res.data.ThongTin.Hinh)
-                // localStorage.setItem("QuyenHan", res.data.ThongTin.QuyenHan.MaQTK)
-                localStorage.setItem("listChucNang", JSON.stringify(res.data.ThongTin.QuyenHan.ChucNang))
+                localStorage.setItem("listChucNang", JSON.stringify(res.data.QuyenHan.ChucNang))
             }
             OnCheckLogin();
             toast.success(res.message)
-            navigate("/admin/")
+            navigate("/admin/Dashboard")
             return
-
         }
         if (!res.status) {
             toast.error(res.message)
@@ -77,15 +72,15 @@ const LoginAdmin = (props) => {
                     <div className="col-md-6 col-sm-6 form">
                         <div className="row info">Tên đăng nhập</div>
                         <div className="row info-form">
-                            <input className="form-control" type="text" />
+                            <input className="form-control" type="text" value={TenDangNhap} placeholder="Điền tài khoản ..." onChange={(event) => onChangeInputSL(event, setTenDangNhap)} onBlur={() => checkdulieu(TenDangNhap, setCheckTenDangNhap)} />
                         </div>
                         <div className="row info">Mật khẩu</div>
                         <div className="row info-form">
-                            <input className="form-control" type="password" />
+                            <input className="form-control" type="password" placeholder="Điền mật khẩu ..." value={MatKhau} onChange={(event) => onChangeInputSL(event, setMatKhau)} onBlur={() => checkdulieu(MatKhau, setCheckMatKhau)} />
                         </div>
                         <div className="row btn-form">
                             <div className="col-md-12 col-sm-12">
-                                <button className="btn btn-primary btnlogin">Đăng nhập</button>
+                                <button className="btn btn-primary btnlogin" disabled={TenDangNhap && MatKhau ? false : true} onClick={() => handleLogin()}>{loadingAPI ? "Vui lòng đợi..." : "Đăng nhập"}</button>
                             </div>
                         </div>
                     </div>

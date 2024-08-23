@@ -36,7 +36,7 @@ function App() {
             <Routes className="App">
                 <Route path='/*' element={<LoginAdmin loggedIn={loggedIn} CheckLogin={() => CheckLogin()} />}></Route>
                 <Route path='admin/*' 
-                        element={ localStorage.getItem("accessToken") && localStorage.getItem("MaGV") ? <AdminPage /> : <Navigate to="/*" /> } >
+                        element={ localStorage.getItem("accessToken") ? <AdminPage /> : <Navigate to="/*" /> } >
                 </Route>
             </Routes>
             <ToastContainer
