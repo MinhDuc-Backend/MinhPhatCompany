@@ -96,7 +96,7 @@ SanPhamAdminRoute.post('/Them', createSanPhamDir, uploadImg.single("Hinh"), asyn
             return sendError(res, "Mã sản phẩm đã tồn tại");
 
         const isExistLSPCha = await LoaiSanPhamCha.findOne({ MaLSPCha: MaLSPCha });
-        if (isExistLSPCha)
+        if (!isExistLSPCha)
             return sendError(res, "Mã loại sản phẩm không tồn tại");
         
         let resultImage = ''
