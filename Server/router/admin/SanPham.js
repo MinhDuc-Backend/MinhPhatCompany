@@ -30,7 +30,16 @@ SanPhamAdminRoute.get('/DanhSachSanPham', async (req, res) => {
                     { TenSP: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const sanphams = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).limit(pageSize).skip(pageSize * page)
+        const sanphams = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).populate([
+            {
+                path: "MaLSPCha",
+                select: "MaLSPCha TenLoai",
+            },
+            {
+                path: "MaLSPCon",
+                select: "MaLSPCon TenLoai",
+            },
+        ]).limit(pageSize).skip(pageSize * page)
         const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).count();
 
         if (sanphams.length == 0) 

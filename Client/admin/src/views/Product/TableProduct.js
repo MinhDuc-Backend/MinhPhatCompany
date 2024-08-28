@@ -87,14 +87,13 @@ const TableProduct = (props) => {
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '16px',
+                            gap: '160px',
                         }}
                         >
                         <img
                             alt="Hinh"
-                            height={30}
+                            height={130}
                             src={row.original.Hinh}
-                            style={{ borderRadius: '50%' }}
                         />
                     </Box>
                 ),
