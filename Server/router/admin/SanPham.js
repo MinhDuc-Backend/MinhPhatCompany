@@ -30,8 +30,8 @@ SanPhamAdminRoute.get('/DanhSachSanPham', async (req, res) => {
                     { TenSP: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const sanphams = await SanPham.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page)
-        const length = await SanPham.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
+        const sanphams = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).limit(pageSize).skip(pageSize * page)
+        const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).count();
 
         if (sanphams.length == 0) 
             return sendError(res, "Không tìm thấy danh sách sản phẩm.")

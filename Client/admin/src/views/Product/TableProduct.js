@@ -82,6 +82,22 @@ const TableProduct = (props) => {
                 header: 'Hình',
                 size: 100,
                 enableEditing: false,
+                Cell: ({ renderedCellValue, row }) => (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px',
+                        }}
+                        >
+                        <img
+                            alt="Hinh"
+                            height={30}
+                            src={row.original.Hinh}
+                            style={{ borderRadius: '50%' }}
+                        />
+                    </Box>
+                ),
             },
             {
 

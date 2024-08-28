@@ -12,6 +12,7 @@ import CategoryFather from "./CategoryFather/CategoryFather";
 import AddCategoryFather from "./CategoryFather/AddCategoryFather/AddCategoryFather"
 import DetailCategoryFather from "./CategoryFather/DetailCategoryFather/DetailCategoryFather"
 import EditCategoryFather from "./CategoryFather/EditCategoryFather/EditCategoryFather"
+import Product from "./Product/Product";
 
 const AdminPage = () => {
     const [hiddenDB, setHiddenDB] = useState(false);
@@ -40,6 +41,9 @@ const AdminPage = () => {
                             <Route path="new" element={<AddCategoryFather />} ></Route>
                             <Route path="single/:MaLSPCha" element={<DetailCategoryFather />} ></Route>
                             <Route path="edit/:MaLSPCha" element={<EditCategoryFather />} ></Route>
+                        </Route>
+                        <Route path='product'  >
+                            <Route index element={<Product />}></Route>
                         </Route>
                     </Routes >
                 </section>
