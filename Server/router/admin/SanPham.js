@@ -155,7 +155,7 @@ SanPhamAdminRoute.post('/ChinhSua/:MaSP', createSanPhamDir, uploadImg.single("Hi
         const { MaSP } = req.params;
 
         const isExistLSPCha = await LoaiSanPhamCha.findOne({ MaLSPCha: MaLSPCha });
-        if (isExistLSPCha)
+        if (!isExistLSPCha)
             return sendError(res, "Mã loại sản phẩm không tồn tại");
 
         const sanpham = await SanPham.findOne({ MaSP: MaSP }).lean();

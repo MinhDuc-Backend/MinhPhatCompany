@@ -100,12 +100,10 @@ const TableProduct = (props) => {
             },
             {
 
-                accessorKey: 'MaLSPCha',
+                accessorKey: 'MaLSPCha.TenLoai',
                 header: 'Loại sản phẩm',
                 size: 160,
                 enableEditing: false,
-
-
             },
         ]
     );
@@ -125,11 +123,11 @@ const TableProduct = (props) => {
 
         renderRowActions: ({ row, table }) => (
             <Box sx={{ display: 'flex', gap: '0.3rem' }}>
-                <Link onClick={() => table.setEditingRow(row)}>
+                {/* <Link onClick={() => table.setEditingRow(row)}>
                     <IconButton>
-                        <Visibility fontSize="small" />
+                        <Visibility fontSize="medium" />
                     </IconButton>
-                </Link>
+                </Link> */}
 
 
                 <Link to={"/admin/product/edit/" + row.original.MaSP}>
