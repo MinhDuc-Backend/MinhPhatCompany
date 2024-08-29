@@ -146,7 +146,7 @@ SanPhamAdminRoute.post('/Them', createSanPhamDir, uploadImg.single("Hinh"), asyn
  * @description Chỉnh sửa thông tin sản phẩm
  * @access public
 */
-SanPhamAdminRoute.post('/ChinhSua/:MaSP', createSanPhamDir, uploadImg.single("Hinh"), async (req, res) => {
+SanPhamAdminRoute.post('/ChinhSua/:MaSP', async (req, res) => {
     try{
         const errors = KtraDuLieuKhiChinhSua(req.body)
         if (errors)
@@ -158,6 +158,36 @@ SanPhamAdminRoute.post('/ChinhSua/:MaSP', createSanPhamDir, uploadImg.single("Hi
         if (!isExistLSPCha)
             return sendError(res, "Mã loại sản phẩm không tồn tại");
 
+        const sanpham = await SanPham.findOne({ MaSP: MaSP }).lean();
+        if (!sanpham)
+            return sendError(res, "Mã sản phẩm không tồn tại");
+
+        if (MaLSPCon != ""){
+            const isExistLSPCon = await LoaiSanPhamCon.findOne({ MaLSPCon: MaLSPCon });
+            if (isExistLSPCon)
+                return sendError(res, "Mã loại sản phẩm con không tồn tại");
+
+            const sp = await SanPham.findOneAndUpdate({ MaSP: MaSP }, { MaLSPCha: isExistLSPCha._id, MaLSPCon: isExistLSPCon._id, TenSP, Gia, MoTa, SoLuong });
+            return sendSuccess(res, "Chỉnh sửa thông tin sản phẩm thành công", sp);
+        }
+
+        const sp = await SanPham.findOneAndUpdate({ MaSP: MaSP }, { MaLSPCha: isExistLSPCha._id, TenSP, Gia, MoTa, SoLuong });
+        return sendSuccess(res, "Chỉnh sửa thông tin sản phẩm thành công", sp);
+    }
+    catch (error){
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route POST /api/admin/san-pham/ChinhSuaHinhAnh/{MaSP}
+ * @description Chỉnh sửa thông tin sản phẩm
+ * @access public
+*/
+SanPhamAdminRoute.post('/ChinhSuaHinhAnh/:MaSP', createSanPhamDir, uploadImg.single("Hinh"), async (req, res) => {
+    try{
+        const { MaSP } = req.params;
         const sanpham = await SanPham.findOne({ MaSP: MaSP }).lean();
         if (!sanpham)
             return sendError(res, "Mã sản phẩm không tồn tại");
@@ -182,17 +212,9 @@ SanPhamAdminRoute.post('/ChinhSua/:MaSP', createSanPhamDir, uploadImg.single("Hi
                 })
             }
         }
-        if (MaLSPCon != ""){
-            const isExistLSPCon = await LoaiSanPhamCon.findOne({ MaLSPCon: MaLSPCon });
-            if (isExistLSPCon)
-                return sendError(res, "Mã loại sản phẩm con không tồn tại");
 
-            const sp = await SanPham.findOneAndUpdate({ MaSP: MaSP }, { MaLSPCha: isExistLSPCha._id, MaLSPCon: isExistLSPCon._id, TenSP, Gia, MoTa, SoLuong, Hinh: resultImage });
-            return sendSuccess(res, "Chỉnh sửa thông tin sản phẩm thành công", sp);
-        }
-
-        const sp = await SanPham.findOneAndUpdate({ MaSP: MaSP }, { MaLSPCha: isExistLSPCha._id, TenSP, Gia, MoTa, SoLuong, Hinh: resultImage });
-        return sendSuccess(res, "Chỉnh sửa thông tin sản phẩm thành công", sp);
+        const sp = await SanPham.findOneAndUpdate({ MaSP: MaSP }, { Hinh: resultImage });
+        return sendSuccess(res, "Chỉnh sửa hình ảnh sản phẩm thành công", sp);
     }
     catch (error){
         console.log(error)

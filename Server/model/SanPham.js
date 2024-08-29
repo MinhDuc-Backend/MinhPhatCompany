@@ -25,7 +25,6 @@ const SanPhamSchema = new Schema(
         },
         Hinh: {
             type: String,
-            required: true,
         },
         Gia: {
             type: Number,

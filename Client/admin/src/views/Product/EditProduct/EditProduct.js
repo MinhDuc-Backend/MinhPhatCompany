@@ -20,7 +20,6 @@ const EditProduct = () => {
     const [lspcha, SetLSPCha] = useState('Chọn')
     const [lspcon, SetLSPCon] = useState('')
     const [Hinh, setHinh] = useState("")
-    const [HinhPreview, setHinhPreview] = useState("")
     const [checkHinh, setCheckHinh] = useState(true)
     // component didmount
     useEffect(() => {
@@ -46,7 +45,6 @@ const EditProduct = () => {
             SetMoTa(res.data.MoTa)
             SetLSPCha(res.data.MaLSPCha.MaLSPCha)
             setHinh(res.data.Hinh)
-            setHinhPreview(res.data.Hinh)
         }
     }
     const handleEditProduct = async () => {
@@ -56,8 +54,6 @@ const EditProduct = () => {
             return
         }
 
-        console.log(Hinh)
-
         let value_product = new FormData();
         value_product.append("MaSP", maSP);
         value_product.append("TenSP", tenSP);
@@ -66,19 +62,41 @@ const EditProduct = () => {
         value_product.append("MoTa", mota);
         value_product.append("MaLSPCha", lspcha);
         value_product.append("MaLSPCon", lspcon);
+
+        let res = await fetchEditProduct(headers, maSP, value_product)
+        if (res.status === true) {
+            toast.success(res.message)
+            navigate("/admin/product")
+            return;
+        }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
+
+        }
+    }
+
+    const handleEditImageProduct = async () => {
+        const headers = { 'x-access-token': accessToken };
+        if (!headers || !maSP || !tenSP || !soluong || !lspcha || !Hinh) {
+            toast.error("Vui lòng điền đầy đủ dữ liệu")
+            return
+        }
+
+        let value_product = new FormData();
         value_product.append("Hinh", Hinh);
 
-        // let res = await fetchEditProduct(headers, maSP, value_product)
-        // if (res.status === true) {
-        //     toast.success(res.message)
-        //     navigate("/admin/product")
-        //     return;
-        // }
-        // if (res.status === false) {
-        //     toast.error(res.message)
-        //     return;
+        let res = await fetchEditProduct(headers, maSP, value_product)
+        if (res.status === true) {
+            toast.success(res.message)
+            navigate("/admin/product")
+            return;
+        }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
 
-        // }
+        }
     }
 
     const onChangeFile = (event, setSL) => {
@@ -184,6 +202,12 @@ const EditProduct = () => {
                         </div>
                     </div>
                     <div className="form-row">
+                        <div className="form-group col-md-4">
+                            <button className="btn btn-primary btn-sm" type="button" onClick={() => handleEditProduct()}>Cập nhật</button>
+                        </div>
+                    </div>
+                    
+                    <div className="form-row">
                         <div className="form-group col-md-7">
                             <div className="custom-file">
                                 <label className="inputKL" htmlFor="inputHinh">Hình ảnh</label>
@@ -194,8 +218,12 @@ const EditProduct = () => {
                         <img className="img-preview" src={Hinh} style={{ display: checkHinh ? 'block' : 'none' }} />
                         <img className="img-preview" src={Hinh.preview} style={{ display: checkdulieuHinh ? 'block' : 'none' }} />
                     </div>
-
-                    <button className="btn" type="button" onClick={() => handleEditProduct()}>Lưu</button>
+                    <div className="form-row">
+                        <div className="form-group col-md-4">
+                            <button className="btn btn-primary btn-sm" type="button" onClick={() => handleEditImageProduct()}>Cập nhật hình mới</button>
+                        </div>
+                    </div>
+                    
                 </div>
 
 

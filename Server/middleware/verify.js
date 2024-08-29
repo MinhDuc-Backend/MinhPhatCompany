@@ -13,10 +13,7 @@ export const verifyToken = async (req, res, next) => {
             // verifies secret and checks exp
             jwt.verify(token, "publicKey", async function (err, decoded) {
                 if (err) {
-                    return sendSuccess(res, 'Vui lòng đăng nhập lại.', {
-                        TrangThai: "Hết thời gian",
-                        ThongBao: "Bạn vui lòng đăng nhập lại."
-                    })
+                    return sendError(res, 'Vui lòng đăng nhập lại.')
                 } else {
                     req.decoded = decoded;
                     next();

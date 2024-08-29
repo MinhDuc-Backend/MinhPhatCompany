@@ -6,6 +6,7 @@ import { KtraDuLieuTaiKhoanKhiChinhSua, KtraDuLieuTaiKhoanKhiDangNhap, KtraDuLie
 import TaiKhoan from "../../model/TaiKhoan.js"
 import QuyenTaiKhoan from "../../model/QuyenTaiKhoan.js"
 import NhanVien from "../../model/NhanVien.js"
+import { verifyToken } from "../../middleware/verify.js"
 
 const TaiKhoanAdminRoute = express.Router()
 
@@ -210,6 +211,21 @@ TaiKhoanAdminRoute.post('/KichHoatTaiKhoan/:MaTK', async (req, res) => {
         await TaiKhoan.findOneAndUpdate({ MaTK: MaTK },{ TrangThai: TrangThaiTaiKhoan.DaKichHoat });
 
         return sendSuccess(res, "Kích hoạt tài khoản thành công");
+    }
+    catch (error){
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route POST /api/admin/tai-khoan/KTraToken
+ * @description Kiểm tra token
+ * @access public
+ */
+TaiKhoanAdminRoute.post('/KTraToken', async (req, res) => {
+    try{
+        return sendSuccess(res, "Successfull");
     }
     catch (error){
         console.log(error)

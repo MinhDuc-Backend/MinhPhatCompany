@@ -2179,10 +2179,6 @@ paths:
           type: string
           description: Số lượng sản phẩm
           required: true
-        - in: formData
-          name: Hinh
-          type: file
-          description: Hình sản phẩm
       responses:
         200:
           description: Chỉnh sửa thông tin sản phẩm thành công.
@@ -2201,7 +2197,43 @@ paths:
               "message": "Chỉnh sửa thông tin sản phẩm thất bại.",
             }
       security:
-        - ApiKeyAuth: []     
+        - ApiKeyAuth: []
+  /admin/san-pham/ChinhSuaHinhAnh/{MaSP}:
+    post: 
+      tags:
+        - "SanPham"
+      summary: Chỉnh sửa hình ảnh sản phẩm
+      produces:
+        - multipart/form-data      
+      parameters:
+        - in: path
+          name: MaSP
+          type: string
+          required: true
+          description: Mã sản phẩm
+        - in: formData
+          name: Hinh
+          type: file
+          description: Hình sản phẩm
+      responses:
+        200:
+          description: Chỉnh sửa hình ảnh sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa hình ảnh sản phẩm thành công.",
+            }          
+        400:
+          description: Chỉnh sửa hình ảnh sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa hình ảnh sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []  
   /admin/san-pham/Xoa/{MaSP}:
     delete:
       tags:
@@ -2231,6 +2263,32 @@ paths:
             example: {
               "status": false,
               "message" : "Xóa thông tin sản phẩm thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/tai-khoan/KTraToken:
+    post: 
+      tags:
+        - "TaiKhoan"
+      summary: Kiểm tra token
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Kiểm tra token thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Kiểm tra token thành công.",
+            }          
+        400:
+          description: Kiểm tra token thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Kiểm tra token thất bại.",
             }
       security:
         - ApiKeyAuth: []
