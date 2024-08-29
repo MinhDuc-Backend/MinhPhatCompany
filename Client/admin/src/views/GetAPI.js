@@ -63,6 +63,11 @@ const fetchEditProduct = (headers, MaSP, data) => { // Chỉnh sửa thông tin 
 }
 export { fetchEditProduct };
 
+const fetchEditImageProduct = (headers, MaSP, data) => { // Chỉnh sửa thông tin sản phẩm
+    return axios.post(`admin/san-pham/ChinhSuaHinhAnh/${MaSP}`, data, { headers });
+}
+export { fetchEditImageProduct };
+
 const fetchDeleteProduct = (headers, MaSP) => { // Xóa sản phẩm
     return axios.delete(`admin/san-pham/Xoa/${MaSP}`, { headers });
 }

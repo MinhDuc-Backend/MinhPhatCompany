@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as React from 'react';
 import "./EditProduct.scss"
-import { fetchAllCategoryFather, fetchDetailProduct, fetchEditProduct } from "../../GetAPI"
+import { fetchAllCategoryFather, fetchDetailProduct, fetchEditProduct, fetchEditImageProduct } from "../../GetAPI"
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -86,7 +86,7 @@ const EditProduct = () => {
         let value_product = new FormData();
         value_product.append("Hinh", Hinh);
 
-        let res = await fetchEditProduct(headers, maSP, value_product)
+        let res = await fetchEditImageProduct(headers, maSP, value_product)
         if (res.status === true) {
             toast.success(res.message)
             navigate("/admin/product")
