@@ -23,7 +23,10 @@ const SanPhamSchema = new Schema(
             type: String,
             required: true,
         },
-        Hinh: [String],
+        Hinh: {
+            type: String,
+            required: true,
+        },
         Gia: {
             type: Number,
             default: 0,

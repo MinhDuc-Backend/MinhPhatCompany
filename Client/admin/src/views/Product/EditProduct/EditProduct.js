@@ -20,6 +20,8 @@ const EditProduct = () => {
     const [lspcha, SetLSPCha] = useState('Chọn')
     const [lspcon, SetLSPCon] = useState('')
     const [Hinh, setHinh] = useState("")
+    const [HinhPreview, setHinhPreview] = useState("")
+    const [checkHinh, setCheckHinh] = useState(true)
     // component didmount
     useEffect(() => {
         getListCategoryFather();
@@ -44,6 +46,7 @@ const EditProduct = () => {
             SetMoTa(res.data.MoTa)
             SetLSPCha(res.data.MaLSPCha.MaLSPCha)
             setHinh(res.data.Hinh)
+            setHinhPreview(res.data.Hinh)
         }
     }
     const handleEditProduct = async () => {
@@ -52,6 +55,8 @@ const EditProduct = () => {
             toast.error("Vui lòng điền đầy đủ dữ liệu")
             return
         }
+
+        console.log(Hinh)
 
         let value_product = new FormData();
         value_product.append("MaSP", maSP);
@@ -63,23 +68,25 @@ const EditProduct = () => {
         value_product.append("MaLSPCon", lspcon);
         value_product.append("Hinh", Hinh);
 
-        let res = await fetchEditProduct(headers, maSP, value_product)
-        if (res.status === true) {
-            toast.success(res.message)
-            navigate("/admin/product")
-            return;
-        }
-        if (res.status === false) {
-            toast.error(res.message)
-            return;
+        // let res = await fetchEditProduct(headers, maSP, value_product)
+        // if (res.status === true) {
+        //     toast.success(res.message)
+        //     navigate("/admin/product")
+        //     return;
+        // }
+        // if (res.status === false) {
+        //     toast.error(res.message)
+        //     return;
 
-        }
+        // }
     }
 
     const onChangeFile = (event, setSL) => {
         const img = event.target.files[0];
         img.preview = URL.createObjectURL(img)
         setSL(img)
+        setCheckdulieuHinh(true)
+        setCheckHinh(false);
     }
 
     const onChangeInputSL = (event, setState) => {
@@ -108,7 +115,7 @@ const EditProduct = () => {
     const [checkdulieuMoTa, SetCheckdulieuMoTa] = useState(true)
     const [checkdulieuLSPCha, SetCheckdulieuLSPCha] = useState(true)
     const [checkdulieuLSPCon, SetCheckdulieuLSPCon] = useState(true)
-    const [checkdulieuHinh, setCheckdulieuHinh] = useState(true)
+    const [checkdulieuHinh, setCheckdulieuHinh] = useState(false)
     const checkdulieu = (value, SetDuLieu) => {
         (value === '' || value === 'Chọn') ? SetDuLieu(false) : SetDuLieu(true)
     }
@@ -180,12 +187,12 @@ const EditProduct = () => {
                         <div className="form-group col-md-7">
                             <div className="custom-file">
                                 <label className="inputKL" htmlFor="inputHinh">Hình ảnh</label>
-                                <input type="file" accept="image/*" className="form-control file" id="inputHinh" onChange={(event) => onChangeFile(event, setHinh)} onBlur={() => checkdulieu(Hinh, setCheckdulieuHinh)} />
+                                <input type="file" accept="image/*" className="form-control file" id="inputHinh" onChange={(event) => onChangeFile(event, setHinh)} />
                             </div>
                             <div className="invalid-feedback" style={{ display: 'block', color: 'blue' }}>Chỉ chấp nhận các file có đuôi là png, jpeg, jpg ...</div>
-                            <div className="invalid-feedback" style={{ display: checkdulieuHinh ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
                         </div>
-                        {Hinh ? <img className="img-preview" src={Hinh} /> : ""}
+                        <img className="img-preview" src={Hinh} style={{ display: checkHinh ? 'block' : 'none' }} />
+                        <img className="img-preview" src={Hinh.preview} style={{ display: checkdulieuHinh ? 'block' : 'none' }} />
                     </div>
 
                     <button className="btn" type="button" onClick={() => handleEditProduct()}>Lưu</button>
