@@ -44,6 +44,8 @@ const AdminPage = () => {
             navigate("/")
             return
         }
+        navigate("/admin/Dashboard")
+        return
     }
     
     return (
