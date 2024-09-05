@@ -2142,39 +2142,39 @@ paths:
         - "SanPham"
       summary: Chỉnh sửa thông tin sản phẩm
       produces:
-        - multipart/form-data      
+        - application/json      
       parameters:
         - in: path
           name: MaSP
           type: string
           required: true
           description: Mã sản phẩm
-        - in: formData
+        - in: body
           name: MaLSPCha
           type: string
           description: Mã loại sản phẩm cha
           required: true
-        - in: formData
+        - in: body
           name: MaLSPCon
           type: string
           description: Mã loại sản phẩm con
           required: true
-        - in: formData
+        - in: body
           name: TenSP
           type: string
           description: Tên sản phẩm
           required: true
-        - in: formData
+        - in: body
           name: Gia
           type: string
           description: Giá sản phẩm
           required: true
-        - in: formData
+        - in: body
           name: MoTa
           type: string
           description: Mô tả sản phẩm
           required: true
-        - in: formData
+        - in: body
           name: SoLuong
           type: string
           description: Số lượng sản phẩm

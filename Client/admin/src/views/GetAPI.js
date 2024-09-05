@@ -8,6 +8,11 @@ const fetchLoginAdmin = (TenDangNhap, MatKhau) => { // Đăng nhập admin
 }
 export { fetchLoginAdmin };
 
+const fetchVerifyToken = (headers) => { // Lấy danh sách loại sản phẩm
+    return axios.get('admin/tai-khoan/KTraToken', { headers });
+}
+export { fetchVerifyToken };
+
 //--------------------------------CategoryFather----------------------------------------------//
 const fetchAllCategoryFather = (headers) => { // Lấy danh sách loại sản phẩm
     return axios.get('admin/lsp-cha/DanhSachLSPCha', { headers });
@@ -58,8 +63,15 @@ const fetchAddProduct = (headers, data) => { // Thêm sản phẩm mới
 }
 export { fetchAddProduct };
 
-const fetchEditProduct = (headers, MaSP, data) => { // Chỉnh sửa thông tin sản phẩm
-    return axios.post(`admin/san-pham/ChinhSua/${MaSP}`, data, { headers });
+const fetchEditProduct = (headers, MaSP, TenSP, Gia, SoLuong, MoTa, MaLSPCha, MaLSPCon) => { // Chỉnh sửa thông tin sản phẩm
+    return axios.post(`admin/san-pham/ChinhSua/${MaSP}`, {
+        TenSP: TenSP,
+        Gia: Gia,
+        SoLuong: SoLuong,
+        MoTa: MoTa,
+        MaLSPCha: MaLSPCha,
+        MaLSPCon: MaLSPCon,
+    }, { headers });
 }
 export { fetchEditProduct };
 

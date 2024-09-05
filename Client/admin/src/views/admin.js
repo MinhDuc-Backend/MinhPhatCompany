@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { Routes,Route } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { Routes,Route, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../css/bootstrap.min.css";
 import "./Admin.scss"
+import { fetchVerifyToken } from "./GetAPI"
 import Dashboard from "./Dashboard/dashboard";
 import Nav from "./Nav/nav";
 import Tongquan from "./Tongquan/Tongquan";
@@ -19,12 +21,31 @@ import EditProduct from "./Product/EditProduct/EditProduct";
 const AdminPage = () => {
     const [hiddenDB, setHiddenDB] = useState(false);
     const [switchmode, setSwitchmode] = useState(false);
+    useEffect(() => {
+        GetToken()
+    }, [])
     const changleHidden = () => {
         setHiddenDB(!hiddenDB);
     }
     const changleSwitchMode = () => {
         setSwitchmode(!switchmode);
     }
+    let navigate = useNavigate();
+    const GetToken = async () => {
+        if (!localStorage.getItem("accessToken")) {
+            navigate("/")
+            return
+        }
+        let token = localStorage.getItem("accessToken");
+        const headers = { 'x-access-token': token };
+        let res = await fetchVerifyToken(headers);
+        if (res.status == false) {
+            toast.error(res.message)
+            navigate("/")
+            return
+        }
+    }
+    
     return (
         <>
             <div className={switchmode ? "dark" : ""}>

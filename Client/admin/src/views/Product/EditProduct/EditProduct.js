@@ -54,16 +54,8 @@ const EditProduct = () => {
             return
         }
 
-        let value_product = new FormData();
-        value_product.append("MaSP", maSP);
-        value_product.append("TenSP", tenSP);
-        value_product.append("Gia", gia);
-        value_product.append("SoLuong", soluong);
-        value_product.append("MoTa", mota);
-        value_product.append("MaLSPCha", lspcha);
-        value_product.append("MaLSPCon", lspcon);
-
-        let res = await fetchEditProduct(headers, maSP, value_product)
+        let res = await fetchEditProduct(headers, maSP, tenSP, gia, soluong, mota, lspcha, lspcon)
+        console.log(res)
         if (res.status === true) {
             toast.success(res.message)
             navigate("/admin/product")

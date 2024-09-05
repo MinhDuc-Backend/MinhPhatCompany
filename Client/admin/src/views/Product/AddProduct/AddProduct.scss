@@ -12,11 +12,12 @@
     .btn {
         background-color: var(--blue);
 
-        padding      : 0.8rem;
+        padding      : 0.4rem;
         margin-top   : 1rem;
         margin-bottom: 0;
         font-size    : 18px;
         font-weight  : 400;
+        width: 10%;
     }
 }
 
@@ -43,4 +44,12 @@
 
 .card-title2 {
     text-align: start;
+}
+
+.formbtn div {
+    text-align: center;
+}
+
+.formbtn .btn:hover{
+    background-color: rgb(43, 107, 226);
 }

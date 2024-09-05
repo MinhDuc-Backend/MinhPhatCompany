@@ -180,8 +180,12 @@ const AddProduct = () => {
                         {Hinh ? <img className="img-preview" src={Hinh.preview} /> : ""}
 
                     </div>
-
-                    <button className="btn" type="button" onClick={() => handleAddProduct()}>Lưu</button>
+                    <div className="form-row">
+                        <div className="form-group col-md-12 formbtn">
+                            <div><button className="btn btn-primary btn-sm" type="button" onClick={() => handleAddProduct()}>Lưu dữ liệu</button></div>
+                        </div>
+                    </div>
+                    
                 </div>
             </form>
 

@@ -32,7 +32,6 @@ const TableProduct = (props) => {
         let res = await fetchAllProduct(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_Product(res.data.DanhSach)
-
         }
     }
 
