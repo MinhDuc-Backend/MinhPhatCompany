@@ -104,6 +104,13 @@ const TableProduct = (props) => {
                 size: 160,
                 enableEditing: false,
             },
+            {
+
+                accessorKey: 'SoLuong',
+                header: 'Số lượng',
+                size: 160,
+                enableEditing: false,
+            },
         ]
     );
 
