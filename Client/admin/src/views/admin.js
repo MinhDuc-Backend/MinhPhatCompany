@@ -41,6 +41,7 @@ const AdminPage = () => {
         let res = await fetchVerifyToken(headers);
         if (res.status == false) {
             toast.error(res.message)
+            window.localStorage.clear();
             navigate("/")
             return
         }
