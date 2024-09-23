@@ -28,6 +28,10 @@ tags:
   description: "Các API của model LoaiSanPhamCon"
 - name: "SanPham"
   description: "Các API của model SanPham"
+- name: "SanPhamUser"
+  description: "Các API của model SanPhamUser"
+- name: "LoaiSanPhamUser"
+  description: "Các API của model LoaiSanPhamUser"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
     get: 
@@ -2292,6 +2296,161 @@ paths:
             }
       security:
         - ApiKeyAuth: []
+  /user/san-pham/DSSanPham:
+    get: 
+      tags:
+        - "SanPhamUser"
+      summary: User lấy danh sách sản phẩm
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã sản phẩm, tên sản phẩm
+      responses:
+        200: 
+          description: Lấy danh sách sản phẩm thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách sản phẩm thành công",
+            }
+        400:
+          description: Lấy danh sách sản phẩm thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách sản phẩm thất bại",
+            }
+  /user/san-pham/ChiTietSP/{MaSP}:
+    get:
+      tags:
+        - "SanPhamUser"
+      summary: "Chi tiết thông tin sản phẩm"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaSP
+          type: string
+          required: true
+          description: Mã sản phẩm
+      responses:
+        200:
+          description: Chi tiết thông tin sản phẩm thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin sản phẩm thành công.",
+            }
+        400:
+          description: Chi tiết thông tin sản phẩm thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin sản phẩm thất bại.",
+            }
+  /user/san-pham/DSSanPhamTheoLoai:
+    get: 
+      tags:
+        - "SanPhamUser"
+      summary: User lấy danh sách sản phẩm theo loại sản phẩm
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã sản phẩm, tên sản phẩm
+      - in: query
+        name: MaLSP
+        type: string
+        required: true
+        description: mã loại sản phẩm
+      responses:
+        200: 
+          description: Lấy danh sách sản phẩm thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách sản phẩm thành công",
+            }
+        400:
+          description: Lấy danh sách sản phẩm thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách sản phẩm thất bại",
+            }
+  /user/lsp/DanhSachLSP:
+    get: 
+      tags:
+        - "LoaiSanPhamUser"
+      summary: Admin lấy danh sách loại sản phẩm
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã loại sản phẩm hoặc tên loại sản phẩm
+      responses:
+        200: 
+          description: Lấy danh sách loại sản phẩm thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách loại sản phẩm thành công",
+            }
+        400:
+          description: Lấy danh sách loại sản phẩm thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách loại sản phẩm thất bại",
+            }
 securityDefinitions:
   ApiKeyAuth:
     type: apiKey

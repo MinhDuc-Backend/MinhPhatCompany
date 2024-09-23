@@ -19,6 +19,8 @@ import { checkOverload } from "./helper/checkConnectdb.js"
 import { SESSION_AGE } from "./constant.js"
 import adminRoute from "./router/admin/index.js"
 import TaiKhoanRoute from "./router/TaiKhoan.js"
+import SanPhamUserRoute from "./router/user/SanPham.js"
+import LoaiSanPhamUserRoute from "./router/user/LoaiSanPham.js"
 
 const swaggerDocument = YAML.load('./swagger.yaml')
 
@@ -66,6 +68,8 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     .use('/api/admin', verifyToken, adminRoute)
     .use('/api/tai-khoan', TaiKhoanRoute)
+    .use('/api/user/san-pham', SanPhamUserRoute)
+    .use('/api/user/lsp', LoaiSanPhamUserRoute)
 
 app.use('/*', async (req, res) => {
     res.status(200).send("Don't implement.")
