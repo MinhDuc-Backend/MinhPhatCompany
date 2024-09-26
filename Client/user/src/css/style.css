@@ -1374,9 +1374,9 @@ textarea.input {
 }
 
 .store-pagination li.active {
-  background-color: #D10024;
-  border-color: #D10024;
-  color: #FFF;
+  background-color: #71aceb;
+  border-color: #71aceb;
+  color: white;
   font-weight: 500;
   cursor: default;
 }

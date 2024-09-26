@@ -17,7 +17,9 @@ const UserPage = () => {
     return (
         <>
             <Header />
-            <Product />
+            <Routes>
+                <Route path='/*' index element={ <Product /> }></Route>
+            </Routes>
             <Footer />
         </>
     )
