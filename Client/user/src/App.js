@@ -10,8 +10,7 @@ import {
     Navigate
 } from "react-router-dom";
 import { useEffect, useState } from "react";
-import LoginAdmin from './views/Login/login';
-import AdminPage from './views/admin'
+import UserPage from './views/user'
 
 function App() {
 
@@ -34,10 +33,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes className="App">
-                <Route path='/*' element={<LoginAdmin loggedIn={loggedIn} CheckLogin={() => CheckLogin()} />}></Route>
-                <Route path='admin/*' 
-                        element={ localStorage.getItem("accessToken") ? <AdminPage /> : <Navigate to="/*" /> } >
-                </Route>
+                <Route path='/*' element={ <UserPage /> }></Route>
             </Routes>
             <ToastContainer
                 position="top-right"

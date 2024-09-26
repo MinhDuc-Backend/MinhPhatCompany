@@ -16,6 +16,9 @@ SanPhamUserRoute.get('/DSSanPham', async (req, res) => {
         const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0
         const page = req.query.page ? parseInt(req.query.page) : 0
         const { keyword} = req.query
+        console.log(page)
+        console.log(pageSize)
+        console.log(keyword)
         let trangthai = [TrangThaiSanPham.Con,TrangThaiSanPham.Het];
         var keywordCondition = keyword
             ? {
@@ -41,7 +44,8 @@ SanPhamUserRoute.get('/DSSanPham', async (req, res) => {
         if (sanphams) 
             return sendSuccess(res, "Lấy danh sách sản phẩm thành công.", { 
                 TrangThai: "Thành công",
-                SoLuong: length,
+                TongSoLuong: length,
+                SoLuong: sanphams.length,
                 DanhSach: sanphams
             })
 

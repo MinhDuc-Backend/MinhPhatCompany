@@ -85,3 +85,22 @@ const fetchDeleteProduct = (headers, MaSP) => { // Xóa sản phẩm
 }
 export { fetchDeleteProduct };
 //----------------------------------------------------------------------------------------------//
+
+//--------------------------------Product User----------------------------------------------//
+const fetchAllProductUser = (page,pagesize,keyword) => { // Lấy danh sách sản phẩm
+    return axios.get(`user/san-pham/DSSanPham?page=${page}&pagesize=${pagesize}&keyword=${keyword}`);
+}
+export { fetchAllProductUser };
+
+const fetchDetailProductUser = (headers, MaSP) => { // Chi tiết thông tin sản phẩm
+    return axios.get(`user/san-pham/ChiTietSanPham/${MaSP}`, { headers });
+}
+export { fetchDetailProductUser };
+//----------------------------------------------------------------------------------------------//
+
+//--------------------------------CategoryUser----------------------------------------------//
+const fetchAllCategoryUser = () => { // Lấy danh sách loại sản phẩm
+    return axios.get('user/lsp/DanhSachLSP');
+}
+export { fetchAllCategoryUser };
+//----------------------------------------------------------------------------------------------//
