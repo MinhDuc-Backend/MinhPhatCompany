@@ -8,7 +8,7 @@ const Footer = () => {
 			<div class="section">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-8 col-xs-6">
+						<div class="col-md-8">
 							<div class="footer">
 								<h3 class="footer-title">Thông tin liên hệ</h3>
 								<ul class="footer-links">
@@ -22,7 +22,7 @@ const Footer = () => {
 
 						<div class="clearfix visible-xs"></div>
 
-						<div class="col-md-4 col-xs-6">
+						<div class="col-md-4">
 							<div class="footer">
 								<h3 class="footer-title">Google map</h3>
 								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d692.848062340698!2d106.60142651485181!3d10.785211391675587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752d8f81a8e3a3%3A0xef82b8cc2a791ad6!2zMiBMacOqbiBLaHUgMi0xMCwgQsOsbmggSMawbmcgSG_DoCBBLCBCw6xuaCBUw6JuLCBI4buTIENow60gTWluaCwgVmlldG5hbQ!5e0!3m2!1sen!2s!4v1727083734514!5m2!1sen!2s" style={{border: '0px', width: '100%', height: '200px'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
