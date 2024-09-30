@@ -867,7 +867,7 @@ textarea.input {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
   border-radius: 1%;
-  height: 360px;
+  height: 300px;
 }
 
 .product:hover {
@@ -882,7 +882,7 @@ textarea.input {
 
 .product .product-img>img {
   width: 100%;
-  height: 192px;
+  height: 160px;
 }
 
 .product .product-img .product-label {
@@ -1032,7 +1032,7 @@ textarea.input {
   position: absolute;
   left: 1px;
   right: 1px;
-  bottom: 35px;
+  bottom: 65px;
   padding: 15px;
   background: #438cda;
   text-align: center;
@@ -1359,9 +1359,9 @@ textarea.input {
 
 .store-pagination li {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   text-align: center;
   background-color: #FFF;
   border: 1px solid #E4E7ED;
@@ -1598,8 +1598,7 @@ textarea.input {
 
 .product-details .product-btns li {
   display: inline-block;
-  text-transform: uppercase;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .product-details .product-btns li+li {

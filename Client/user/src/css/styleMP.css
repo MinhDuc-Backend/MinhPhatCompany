@@ -7,3 +7,11 @@
     width: 80%;
     height: 80%;
 }
+
+.product-details h3{
+    color: black;
+}
+
+.product-details h4{
+    color: cornflowerblue;
+}

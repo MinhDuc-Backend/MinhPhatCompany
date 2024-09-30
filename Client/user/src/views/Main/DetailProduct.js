@@ -53,12 +53,15 @@ const DetailProduct = () => {
                         </div>
                         <div class="col-md-5">
                             <div class="product-details">
-                                <h1 class="product-name">{tenSP}</h1>
+                                <h3 class="product-name">{tenSP}</h3>
                                 <h4>{maSP}</h4>
                                 <div>
                                     <h3 class="product-price">Liên hệ</h3>
                                 </div>
-                                <p>{MoTa}</p>
+                                <ul class="product-btns">
+                                    <li><a href="#"><i class="fa fa-phone"></i> 0918.711.711 (Anh Thảo)</a></li>
+                                    <li><a href="#"><i class="fa fa-phone"></i> 0974.379.047 (Anh Tâm)</a></li>
+                                </ul>
                                 <ul class="product-links">
                                     <li>Loại sản phẩm:</li>
                                     <li><a href="#">{tenLoaiSP}</a></li>

@@ -129,9 +129,9 @@ const Product = () => {
                                                     <h3 class="product-name"><a href={`/detail/${item.MaSP}`}>{item.TenSP}</a></h3>
                                                     <h4 class="product-price">Liên hệ</h4>
                                                 </div>
-                                                <div class="add-to-cart">
+                                                {/* <div class="add-to-cart">
                                                     <button class="add-to-cart-btn"><i class="fa fa-eye"></i>Xem chi tiết</button>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     )
