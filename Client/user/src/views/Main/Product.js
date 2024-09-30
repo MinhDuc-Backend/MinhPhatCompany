@@ -84,7 +84,7 @@ const Product = () => {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-9 col-sm-12">
+                        <div class="col-md-8 col-sm-12">
                             <div class="header-search">
                                 <form>
                                     <select value={searchCategory} class="input-select" onChange={(event) => onChangeSelect(event, SetSearchCategory)}>
@@ -99,7 +99,7 @@ const Product = () => {
                                             })
                                         }
                                     </select>
-                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm ở đây" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} />
+                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} />
                                     <button class="search-btn" type="button" onClick={() => SearchButton()}>Tìm</button>
                                 </form>
                             </div>
