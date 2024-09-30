@@ -1,0 +1,9 @@
+.col-xs-6{
+    float: left;
+    width: 50%;
+}
+
+.product-preview img{
+    width: 80%;
+    height: 80%;
+}

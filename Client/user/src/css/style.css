@@ -455,8 +455,8 @@ textarea.input {
 
 .header-logo .logo img {
   display: block;
-  width: 169px;
-  height: 70px;
+  width: 80%;
+  height: 80%;
 }
 
 /*----------------------------*\
@@ -475,12 +475,12 @@ textarea.input {
   margin-right: -2px;
   border-radius: 40px 0px 0px 40px;
   border: 1px solid black;
-  width: 240px;
+  width: 180px;
   height: 40px;
 }
 
 .header-search form .input {
-  width: calc(100% - 340px);
+  width: calc(100% - 280px);
   margin-right: -4px;
   border: 1px solid black;
   border-left: none;
@@ -867,6 +867,7 @@ textarea.input {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
   border-radius: 1%;
+  height: 360px;
 }
 
 .product:hover {
@@ -881,6 +882,7 @@ textarea.input {
 
 .product .product-img>img {
   width: 100%;
+  height: 192px;
 }
 
 .product .product-img .product-label {
@@ -924,6 +926,9 @@ textarea.input {
 .product .product-body .product-name {
   text-transform: uppercase;
   font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 35px;
 }
 
 .product .product-body .product-name>a {
@@ -1027,7 +1032,7 @@ textarea.input {
   position: absolute;
   left: 1px;
   right: 1px;
-  bottom: 1px;
+  bottom: 35px;
   padding: 15px;
   background: #438cda;
   text-align: center;
@@ -1049,7 +1054,7 @@ textarea.input {
   position: relative;
   border: 2px solid transparent;
   height: 40px;
-  padding: 0 30px;
+  padding: 0 10px;
   background-color:white;
   color: black;
   text-transform: uppercase;
@@ -1065,7 +1070,7 @@ textarea.input {
   top: 0;
   width: 40px;
   height: 40px;
-  line-height: 38px;
+  line-height: 35px;
   color: black;
   opacity: 0;
   visibility: hidden;
@@ -1075,7 +1080,7 @@ textarea.input {
   background-color: #FFF;
   color: black;
   border-color: black;
-  padding: 0px 30px 0px 50px;
+  padding: 0px 10px 0px 35px;
 }
 
 .product .add-to-cart .add-to-cart-btn:hover>i {
@@ -1476,7 +1481,7 @@ textarea.input {
 
 .product-details .product-name {
   text-transform: uppercase;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .product-details .product-rating {
@@ -1927,7 +1932,7 @@ textarea.input {
 
 #newsletter.section {
   border-top: 2px solid #E4E7ED;
-  border-bottom: 3px solid #D10024;
+  border-bottom: 3px solid white;
   margin-top: 30px;
 }
 
@@ -2013,7 +2018,11 @@ textarea.input {
 #footer {
   background: #438cda;
   color: white;
-  margin-top: 400px;
+}
+
+#footer .section{
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 #bottom-footer {

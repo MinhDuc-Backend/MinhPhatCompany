@@ -92,8 +92,8 @@ const fetchAllProductUser = (page,pagesize,keyword) => { // Lấy danh sách s�
 }
 export { fetchAllProductUser };
 
-const fetchDetailProductUser = (headers, MaSP) => { // Chi tiết thông tin sản phẩm
-    return axios.get(`user/san-pham/ChiTietSanPham/${MaSP}`, { headers });
+const fetchDetailProductUser = (MaSP) => { // Chi tiết thông tin sản phẩm
+    return axios.get(`user/san-pham/ChiTietSP/${MaSP}`);
 }
 export { fetchDetailProductUser };
 

@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import logomp from "../logomp.jpg"
+import Introduction from "./Introduction";
 import { fetchAllCategoryUser, fetchAllProductUser, fetchAllProductUserCategory } from "../GetAPI"
 
 const Product = () => {
+    let navigate = useNavigate();
     const [listData_category, SetListData_Category] = useState([]);
     const [listData_product, SetListData_Product] = useState([]);
     const [pageNumber, SetPageNumber] = useState([]);
@@ -33,8 +35,12 @@ const Product = () => {
             search = searchParams.get('cate');
             SetSearchCategory(search);
         }
+        if (searchParams.get('searchKey')){
+            keyword = searchParams.get('searchKey');
+            SetKeyWord(keyword);
+        }
         let res = null;
-        if (searchCategory == 'all')
+        if (search == 'all')
             res = await fetchAllProductUser(page-1,pagesize,keyword);
         else
             res = await fetchAllProductUserCategory(page-1,pagesize,keyword,search);
@@ -51,20 +57,34 @@ const Product = () => {
     const onChangeSelect = (event, SetSelect) => {
         let changeValue = event.target.value;
         SetSelect(changeValue);
+        navigate(`/?page=1&cate=${changeValue}&searchKey=${KeyWord}`)
+        window.location.reload();
+    }
+    const onChangeInput = (event, SetInput) => {
+        let changeValue = event.target.value;
+        SetInput(changeValue);
+    }
+    const SearchButton = () => {
+        navigate(`/?page=1&cate=${searchCategory}&searchKey=${KeyWord}`)
+        window.location.reload();
+    }
+    const ReturnHome = () => {
+        navigate(`/?page=1&cate=all`)
+        window.location.reload();
     }
     return (
         <>
             <div id="header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-12">
                             <div class="header-logo">
-                                <a href="#" class="logo">
+                                <a href="#" class="logo" onClick={() => ReturnHome()}>
                                     <img src={logomp} alt="" />
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-9 col-sm-12">
                             <div class="header-search">
                                 <form>
                                     <select value={searchCategory} class="input-select" onChange={(event) => onChangeSelect(event, SetSearchCategory)}>
@@ -73,14 +93,14 @@ const Product = () => {
                                             listData_category.map((item, index) => {
                                                 return (
                                                     <option key={item.MaLSPCha} value={item.MaLSPCha}>
-                                                        <a href={`/?page=1&cate=${searchCategory}`}>{item.TenLoai}</a>
+                                                        {item.TenLoai}
                                                     </option>
                                                 )
                                             })
                                         }
                                     </select>
-                                    <input class="input" placeholder="Tìm kiếm ở đây" />
-                                    <button class="search-btn">Tìm</button>
+                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm ở đây" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} />
+                                    <button class="search-btn" type="button" onClick={() => SearchButton()}>Tìm</button>
                                 </form>
                             </div>
                         </div>
@@ -106,11 +126,11 @@ const Product = () => {
                                                 </div>
                                                 <div class="product-body">
                                                     <p class="product-category">{item.MaLSPCha.TenLoai}</p>
-                                                    <h3 class="product-name"><a href="#">{item.TenSP}</a></h3>
+                                                    <h3 class="product-name"><a href={`/detail/${item.MaSP}`}>{item.TenSP}</a></h3>
                                                     <h4 class="product-price">Liên hệ</h4>
                                                 </div>
                                                 <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-eye"></i> Xem chi tiết</button>
+                                                    <button class="add-to-cart-btn"><i class="fa fa-eye"></i>Xem chi tiết</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +143,7 @@ const Product = () => {
                             <div class="col-lg-12 col-md-12 col-xs-12">
                                 <div class="store-filter clearfix">
                                     <ul class="store-pagination">
-                                        {pageNumber && pageNumber.length > 0 &&
+                                        {pageNumber && pageNumber.length > 0 && pageNumber.length <= 8 &&
                                             pageNumber.map((item, index) => {
                                                 return (
                                                     <li key={item} class={item==currentPage ? "active" : ""}>
@@ -132,7 +152,41 @@ const Product = () => {
                                                 )
                                             })
                                         }
-                                        <li><a href={`/?page=${Number(currentPage) + 1}&cate=${searchCategory}`}><i class="fa fa-angle-right"></i></a></li>
+                                        {pageNumber && pageNumber.length > 8 &&
+                                            pageNumber.map((item, index) => {
+                                                if (Number(item) == 1){
+                                                    return (
+                                                        <li key={item} class={item==currentPage ? "active" : ""}>
+                                                            <a href={`/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                        </li>
+                                                    )
+                                                }
+                                                if (Number(item) != pageNumber.length){
+                                                    if (Number(item) == (Number(currentPage)-3) || Number(item) == (Number(currentPage)+3)){
+                                                        return (
+                                                            <li key={item}>
+                                                                ...
+                                                            </li>
+                                                        )
+                                                    }
+                                                    if (Number(item) >= (Number(currentPage)-2) && Number(item) <= (Number(currentPage)+2)){
+                                                        return (
+                                                            <li key={item} class={item==currentPage ? "active" : ""}>
+                                                                <a href={`/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                            </li>
+                                                        )
+                                                    }
+                                                }
+                                                else{
+                                                    return (
+                                                        <li key={item} class={item==currentPage ? "active" : ""}>
+                                                            <a href={`/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                        </li>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                        <li style={{ display: pageNumber.length > 1 ? 'inline-block' : 'none' }}><a href={`/?page=${Number(currentPage) + 1}&cate=${searchCategory}`}><i class="fa fa-angle-right"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -140,6 +194,7 @@ const Product = () => {
                     </div>
                 </div>
             </div>
+            <Introduction />
         </>
     )
 }

@@ -12,13 +12,15 @@ import "./user.scss"
 import Header from "./Header/Header";
 import Footer from "./InformationBottom/infor";
 import Product from "./Main/Product";
+import DetailProduct from "./Main/DetailProduct";
 
 const UserPage = () => {  
     return (
         <>
             <Header />
             <Routes>
-                <Route path='/*' index element={ <Product /> }></Route>
+                <Route path='/*' element={ <Product /> }></Route>
+                <Route path='/detail/:MaSP' element={ <DetailProduct /> }></Route>
             </Routes>
             <Footer />
         </>
