@@ -56,7 +56,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(
     {
-        origin: ['http://localhost:3000', 'https://minhphatmanager.vercel.app'],
+        origin: ['http://localhost:3000', 'https://minhphatmanager.vercel.app', 'https://minhphatsgb.vercel.app'],
         credentials: true
     }
 ))
