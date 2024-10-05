@@ -6,8 +6,6 @@ import mangluoi from "../MangLuoi.jpg"
 import linhvuc from "../LinhVuc.png"
 import gtck1 from "../gtck1.png"
 import gtck2 from "../gtck2.png"
-import iconZalo from "../iconZalo.png"
-import iconPhone from "../iconPhone.png"
 
 const Home = () => {
     let navigate = useNavigate();
@@ -138,12 +136,6 @@ const Home = () => {
                                 <div><img src={mangluoi} alt="" /></div>
                             </div>
                         </div>
-                        <a class="btn-tel-chat" target="_blank" rel="nofollow" href="tel:0918711711">
-                            <img src={iconPhone} />
-                        </a>
-                        <a class="btn-zalo-chat" target="_blank" rel="nofollow" href="https://zalo.me/0918711711">
-                            <img src={iconZalo} />
-                        </a>
                     </div>
                 </div>
             </div>

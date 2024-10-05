@@ -14,6 +14,7 @@ import Footer from "./InformationBottom/infor";
 import Product from "./Main/Product";
 import DetailProduct from "./Main/DetailProduct";
 import Home from "./Main/Home";
+import Popup from "./Main/Pop-up";
 
 const UserPage = () => {  
     return (
@@ -24,6 +25,7 @@ const UserPage = () => {
                 <Route path='/san-pham/*' element={ <Product /> }></Route>
                 <Route path='/chi-tiet /:MaSP' element={ <DetailProduct /> }></Route>
             </Routes>
+            <Popup />
             <Footer />
         </>
     )
