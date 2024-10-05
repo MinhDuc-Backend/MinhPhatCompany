@@ -13,14 +13,16 @@ import Header from "./Header/Header";
 import Footer from "./InformationBottom/infor";
 import Product from "./Main/Product";
 import DetailProduct from "./Main/DetailProduct";
+import Home from "./Main/Home";
 
 const UserPage = () => {  
     return (
         <>
             <Header />
             <Routes>
-                <Route path='/*' element={ <Product /> }></Route>
-                <Route path='/detail/:MaSP' element={ <DetailProduct /> }></Route>
+                <Route path='/*' element={ <Home /> }></Route>
+                <Route path='/san-pham/*' element={ <Product /> }></Route>
+                <Route path='/chi-tiet /:MaSP' element={ <DetailProduct /> }></Route>
             </Routes>
             <Footer />
         </>

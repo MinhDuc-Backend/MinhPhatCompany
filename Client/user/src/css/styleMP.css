@@ -15,3 +15,232 @@
 .product-details h4{
     color: cornflowerblue;
 }
+
+.menu-toggle i {
+    color: black;
+}
+
+.menu-toggle a {
+    width: 50px;
+    height: 20px;
+}
+
+.title {
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 30px;
+    color: #33a7eb;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.nameTitle p{
+    font-size: 20px;
+    color: cornflowerblue;
+}
+
+.nameCompany div{
+    font-size: 18px;
+}
+
+.logoCompany {
+    text-align: center;
+}
+
+.infoCompany p{
+    font-size: 18px;
+}
+
+.infoCompany img{
+    width: 35%;
+    height: 35%;
+}
+.infoCompany div{
+    text-align: center;
+}
+
+.imgCompany img{
+    width: 80%;
+    height: 80%;
+}
+
+.imgCompany1 img{
+    width: 80%;
+    height: 80%;
+}
+
+.imgCompany1 div{
+    text-align: center;
+}
+
+.btn-zalo-chat {
+    animation: pulse-blue 2s infinite;
+    background-color: #2b61ff;
+    border-radius: 50%;
+    bottom: 50px;
+    box-shadow: 0 0 0 0 #2b61ff;
+    display: flex;
+    height: 45px;
+    overflow: hidden;
+    position: fixed;
+    right: calc(50% - 930px);
+    transform: scale(1);
+    width: 45px;
+    z-index: 10;
+    color: var(--textcolor);
+    text-decoration: none;
+    outline: none;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-tel-chat {
+    animation: pulse-green 2s infinite;
+    background-color: #2b61ff;
+    border-radius: 50%;
+    bottom: 100px;
+    box-shadow: 0 0 0 0 #2b61ff;
+    display: flex;
+    height: 45px;
+    overflow: hidden;
+    position: fixed;
+    right: calc(50% - 930px);
+    transform: scale(1);
+    width: 45px;
+    z-index: 10;
+    color: var(--textcolor);
+    text-decoration: none;
+    outline: none;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+@keyframes pulse-blue {
+    0% {
+        box-shadow: 0 0 0 0 rgba(42, 98, 255, 0.7);
+        transform: scale(0.95);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(42, 98, 255, 0);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(42, 98, 255, 0);
+        transform: scale(0.95);
+    }
+}
+
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(45, 193, 0, 0.7);
+        transform: scale(0.95);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(45, 193, 0, 0);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(45, 193, 0, 0);
+        transform: scale(0.95);
+    }
+}
+
+@media only screen and (max-width: 1915px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 870px);
+    }
+}
+
+@media only screen and (max-width: 1780px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 800px);
+    }
+}
+
+@media only screen and (max-width: 1630px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 750px);
+    }
+}
+
+@media only screen and (max-width: 1535px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 700px);
+    }
+}
+
+@media only screen and (max-width: 1430px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 650px);
+    }
+}
+
+@media only screen and (max-width: 1375px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 560px);
+    }
+}
+
+@media only screen and (max-width: 1150px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 500px);
+    }
+}
+
+@media only screen and (max-width: 1035px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 450px);
+    }
+}
+
+@media only screen and (max-width: 922px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 400px);
+    }
+}
+
+@media only screen and (max-width: 833px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 365px);
+    }
+}
+
+@media only screen and (max-width: 739px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 300px);
+    }
+}
+
+@media only screen and (max-width: 605px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 260px);
+    }
+}
+
+@media only screen and (max-width: 535px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 230px);
+    }
+}
+
+@media only screen and (max-width: 492px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 200px);
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 180px);
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .btn-zalo-chat,.btn-tel-chat{
+        right: calc(50% - 160px);
+    }
+}

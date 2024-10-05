@@ -23,8 +23,12 @@ const DetailProduct = () => {
             setMoTa(res.data.MoTa)
         }
     }
+    const ReturnPageProduct = () => {
+        navigate(`/product/?page=1&cate=all`)
+        window.location.reload();
+    }
     const ReturnHome = () => {
-        navigate(`/?page=1&cate=all`)
+        navigate(`/home`)
         window.location.reload();
     }
     return (
@@ -34,7 +38,8 @@ const DetailProduct = () => {
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="breadcrumb-tree">
-                                <li><a href="#" onClick={() => ReturnHome()}>Home</a></li>
+                                <li><a href="#" onClick={() => ReturnHome()}>Trang chủ</a></li>
+                                <li><a href="#" onClick={() => ReturnPageProduct()}>Sản phẩm</a></li>
                                 <li class="active">{tenSP}</li>
                             </ul>
                         </div>

@@ -503,7 +503,6 @@ textarea.input {
 
 .header-ctn {
   float: right;
-  padding: 15px 0px;
 }
 
 .header-ctn>div {
@@ -547,6 +546,7 @@ textarea.input {
 
 .header-ctn .menu-toggle {
   display: none;
+  margin-top: 25px;
 }
 
 .cart-dropdown {
@@ -630,19 +630,29 @@ textarea.input {
 #navigation {
   background: #FFF;
   border-bottom: 2px solid #E4E7ED;
-  border-top: 3px solid #D10024;
+  border-top: 2px solid #438cda;
 }
 
 /*----------------------------*\
 	Main nav
 \*----------------------------*/
 
+.main-nav {
+  display: inline-block;
+}
+
+.main-nav li {
+  display: inline-block;
+  padding-top: 10px;
+}
+
 .main-nav>li+li {
-  margin-left: 30px
+  margin-left: 30px;
 }
 
 .main-nav>li>a {
   padding: 20px 0px;
+  font-weight: bold;
 }
 
 .main-nav>li>a:hover, .main-nav>li>a:focus, .main-nav>li.active>a {
@@ -680,7 +690,8 @@ textarea.input {
     position: fixed;
     left: 0;
     top: 0;
-    background: #15161D;
+    background: rgb(247, 245, 245);
+    border-right: 2px solid #438cda;
     height: 100vh;
     max-width: 250px;
     width: 0%;
@@ -702,6 +713,11 @@ textarea.input {
   .main-nav {
     margin: 0px;
     float: none;
+    display: block;
+  }
+  .main-nav li {
+    display: block;
+    padding-top: 0px;
   }
   .main-nav>li {
     display: block;
@@ -712,7 +728,9 @@ textarea.input {
   }
   .main-nav>li>a {
     padding: 15px;
-    color: #FFF;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
   }
 }
 
@@ -2017,6 +2035,7 @@ textarea.input {
 #footer {
   background: #438cda;
   color: white;
+  margin-top: 100px;
 }
 
 #footer .section{

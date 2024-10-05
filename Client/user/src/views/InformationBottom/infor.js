@@ -16,6 +16,7 @@ const Footer = () => {
 									<li><a><i class="fa fa-phone"></i>0918.711.711 (Anh Thảo)</a></li>
 									<li><a><i class="fa fa-phone"></i>0974.379.047 (Anh Tâm)</a></li>
 									<li><a><i class="fa fa-envelope-o"></i>minhphatsgb@gmail.com</a></li>
+									<li><a><i class="fa fa-code"></i>MST: 0316091469</a></li>
 								</ul>
 							</div>
 						</div>
