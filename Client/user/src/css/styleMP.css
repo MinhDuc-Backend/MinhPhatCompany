@@ -86,7 +86,7 @@
     right: calc(50% - 930px);
     transform: scale(1);
     width: 45px;
-    z-index: 10;
+    z-index: 50;
     color: var(--textcolor);
     text-decoration: none;
     outline: none;
@@ -109,7 +109,7 @@
     right: calc(50% - 930px);
     transform: scale(1);
     width: 45px;
-    z-index: 10;
+    z-index: 50;
     color: var(--textcolor);
     text-decoration: none;
     outline: none;
