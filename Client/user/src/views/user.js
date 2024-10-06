@@ -23,7 +23,7 @@ const UserPage = () => {
             <Routes>
                 <Route path='/*' element={ <Home /> }></Route>
                 <Route path='/san-pham/*' element={ <Product /> }></Route>
-                <Route path='/chi-tiet /:MaSP' element={ <DetailProduct /> }></Route>
+                <Route path='/chi-tiet/:MaSP' element={ <DetailProduct /> }></Route>
             </Routes>
             <Popup />
             <Footer />
