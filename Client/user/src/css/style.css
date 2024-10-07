@@ -879,6 +879,7 @@ textarea.input {
   transition: 0.2s all;
   border-radius: 1%;
   height: 300px;
+  cursor: pointer;
 }
 
 .product:hover {

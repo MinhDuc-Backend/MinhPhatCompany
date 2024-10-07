@@ -76,6 +76,10 @@ const Product = () => {
     const ActiveMenu = () => {
         SetActiveMenu(!activeMenu)
     }
+    const DetailProduct = (masp) => {
+        navigate(`/chi-tiet/${masp}`)
+        window.location.reload();
+    }
     return (
         <>
             <div id="header">
@@ -109,11 +113,11 @@ const Product = () => {
                             </div>
                         </div>
                         <div class="col-md-2 clearfix">
-							<div class="header-ctn">
+                            <div class="header-ctn">
 								<div class="menu-toggle" onClick={() => ActiveMenu()}>
 									<a href="#">
 										<i class="fa fa-bars"></i>
-										<span>Menu</span>
+										<span>Danh mục</span>
 									</a>
 								</div>
 							</div>
@@ -144,7 +148,7 @@ const Product = () => {
                                 listData_product.map((item, index) => {
                                     return (
                                         <div class="col-lg-3 col-md-4 col-xs-6">
-                                            <div class="product">
+                                            <div class="product" onClick={() => DetailProduct(item.MaSP)}>
                                                 <div class="product-img">
                                                     <img src={item.Hinh} alt="" />
                                                 </div>
