@@ -505,29 +505,22 @@ textarea.input {
   float: right;
 }
 
-.header-ctn>div {
-  display: inline-block;
-}
-
-.header-ctn>div+div {
-  margin-left: 15px;
-}
-
 .header-ctn>div>a {
   display: block;
   position: relative;
-  width: 90px;
+  width: 100px;
   text-align: center;
   color: #FFF;
 }
 
 .header-ctn>div>a>i {
   display: block;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .header-ctn>div>a>span {
-  font-size: 12px;
+  font-size: 16px;
+  text-align: center;
 }
 
 .header-ctn>div>a>.qty {

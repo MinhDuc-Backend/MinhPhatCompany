@@ -40,7 +40,7 @@ const Home = () => {
 								<div class="menu-toggle" onClick={() => ActiveMenu()}>
 									<a href="#">
 										<i class="fa fa-bars"></i>
-										<span>Menu</span>
+										<span>Danh mục</span>
 									</a>
 								</div>
 							</div>

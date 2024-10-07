@@ -16,13 +16,18 @@
     color: cornflowerblue;
 }
 
-.menu-toggle i {
-    color: black;
+.header-ctn div {
+    margin-right: 30px;
 }
 
-.menu-toggle a {
-    width: 50px;
-    height: 20px;
+.menu-toggle i {
+    color: black;
+    font-weight: 600;
+}
+
+.menu-toggle span {
+    color: black;
+    font-weight: 600;
 }
 
 .title {
