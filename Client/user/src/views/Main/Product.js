@@ -49,7 +49,7 @@ const Product = () => {
             SetListData_Product(res.data.DanhSach)
             SetSumPage(res.data.TongSoLuong)
             let pagenum = []
-            for (let i = 1; i < Math.ceil(res.data.TongSoLuong/PageSize); i++){
+            for (let i = 1; i <= Math.ceil(res.data.TongSoLuong/PageSize); i++){
                 pagenum.push(i);
             }
             SetPageNumber(pagenum);
@@ -214,7 +214,7 @@ const Product = () => {
                                                 }
                                             })
                                         }
-                                        <li style={{ display: pageNumber.length > 1 ? 'inline-block' : 'none' }}><a href={`/san-pham/?page=${Number(currentPage) + 1}&cate=${searchCategory}`}><i class="fa fa-angle-right"></i></a></li>
+                                        <li style={{ display: pageNumber.length > 1 && currentPage != pageNumber.length ? 'inline-block' : 'none' }}><a href={`/san-pham/?page=${Number(currentPage) + 1}&cate=${searchCategory}`}><i class="fa fa-angle-right"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
