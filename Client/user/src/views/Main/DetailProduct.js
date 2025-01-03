@@ -24,7 +24,7 @@ const DetailProduct = () => {
         }
     }
     const ReturnPageProduct = () => {
-        navigate(`/product/?page=1&cate=all`)
+        navigate(`/san-pham/?page=1&cate=all&searchKey=`)
         window.location.reload();
     }
     const ReturnHome = () => {
