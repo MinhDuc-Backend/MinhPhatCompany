@@ -36,16 +36,18 @@ const TableProduct = (props) => {
     }
 
     const handleDeleteRows = async (row) => {
-        const headers = { 'x-access-token': accessToken };
-        let res = await fetchDeleteProduct(headers, row.original.MaSP)
-        if (res.status === true) {
-            toast.success(res.message)
-            getListProduct()
-            return;
-        }
-        if (res.success === false) {
-            toast.error(res.message)
-            return;
+        if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
+            const headers = { 'x-access-token': accessToken };
+            let res = await fetchDeleteProduct(headers, row.original.MaSP)
+            if (res.status === true) {
+                toast.success(res.message)
+                getListProduct()
+                return;
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+                return;
+            }
         }
     }
 
@@ -99,7 +101,7 @@ const TableProduct = (props) => {
             },
             {
 
-                accessorKey: 'MaLSPCha.TenLoai',
+                accessorKey: 'MaLSPCon.TenLoai',
                 header: 'Loại sản phẩm',
                 size: 160,
                 enableEditing: false,

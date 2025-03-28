@@ -36,16 +36,18 @@ const TableFeature = (props) => {
         }
     }
     const handleDeleteRows = async (row) => {
-        const headers = { 'x-access-token': accessToken };
-        let res = await fetchDeleteChucNang(headers, row.original.MaCN)
-        if (res.status === true) {
-            toast.success(res.message)
-            getListChucNang()
-            return;
-        }
-        if (res.success === false) {
-            toast.error(res.message)
-            return;
+        if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
+            const headers = { 'x-access-token': accessToken };
+            let res = await fetchDeleteChucNang(headers, row.original.MaCN)
+            if (res.status === true) {
+                toast.success(res.message)
+                getListChucNang()
+                return;
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+                return;
+            }
         }
     }
 

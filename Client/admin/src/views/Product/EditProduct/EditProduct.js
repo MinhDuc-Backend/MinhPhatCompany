@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as React from 'react';
 import "./EditProduct.scss"
-import { fetchAllCategoryFather, fetchDetailProduct, fetchEditProduct, fetchEditImageProduct } from "../../GetAPI"
+import { fetchAllCategoryFather, fetchDetailCategoryChildFollowFather, fetchDetailProduct, fetchEditProduct, fetchEditImageProduct } from "../../GetAPI"
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -15,6 +15,7 @@ const EditProduct = () => {
     const [tenSP, SetTenSP] = useState('')
     const [gia, SetGia] = useState(0)
     const [listCategoryFather, setListCategoryFather] = useState([]);
+    const [listCategoryChild, setListCategoryChild] = useState([]);
     const [soluong, SetSoLuong] = useState(0)
     const [mota, SetMoTa] = useState('')
     const [lspcha, SetLSPCha] = useState('Chọn')
@@ -22,7 +23,7 @@ const EditProduct = () => {
     const [Hinh, setHinh] = useState("")
     const [checkHinh, setCheckHinh] = useState(true)
     // component didmount
-    useEffect(() => {
+    useEffect(() =>{
         getListCategoryFather();
         getDetailProduct();
     }, []);
@@ -31,6 +32,14 @@ const EditProduct = () => {
         let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
             setListCategoryFather(res.data.DanhSach)
+        }
+    }
+
+    const getListCategoryChild = async (lspcha) => {
+        const headers = { 'x-access-token': accessToken };
+        let res = await fetchDetailCategoryChildFollowFather(headers,lspcha);
+        if (res && res.data && res.data.DanhSach) {
+            setListCategoryChild(res.data.DanhSach)
         }
     }
 
@@ -44,7 +53,9 @@ const EditProduct = () => {
             SetSoLuong(res.data.SoLuong)
             SetMoTa(res.data.MoTa)
             SetLSPCha(res.data.MaLSPCha.MaLSPCha)
+            SetLSPCon(res.data.MaLSPCon.MaLSPCon)
             setHinh(res.data.Hinh)
+            getListCategoryChild(res.data.MaLSPCha.MaLSPCha);
         }
     }
     const handleEditProduct = async () => {
@@ -55,7 +66,6 @@ const EditProduct = () => {
         }
 
         let res = await fetchEditProduct(headers, maSP, tenSP, gia, soluong, mota, lspcha, lspcon)
-        console.log(res)
         if (res.status === true) {
             toast.success(res.message)
             navigate("/admin/product")
@@ -163,6 +173,34 @@ const EditProduct = () => {
                         </div>
                     </div>
                     <div className="form-row">
+                        <div className="form-group col-md-6">
+                            <label className="inputSP" htmlFor="inputLSPCha">Loại sản phẩm cha</label>
+                            <select value={lspcha} onChange={(event) => onChangeSelect(event, SetLSPCha)} id="inputLSPCha" className="form-control" onClick={() => getListCategoryChild(lspcha)}>
+                                <option key="NULL" value="Chọn">Chọn loại sản phẩm cha</option>
+                                {listCategoryFather && listCategoryFather.length > 0 &&
+                                    listCategoryFather.map((item, index) => {
+                                        return (
+                                            <option key={item.MaLSPCha} value={item.MaLSPCha}>{item.TenLoai}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="form-group col-md-6">
+                            <label className="inputSP" htmlFor="inputLSPCon">Loại sản phẩm con</label>
+                            <select value={lspcon} onChange={(event) => onChangeSelect(event, SetLSPCha)} id="inputLSPCon" className="form-control">
+                                <option key="NULL" value="Chọn">Chọn loại sản phẩm con</option>
+                                {listCategoryChild && listCategoryChild.length > 0 &&
+                                    listCategoryChild.map((item, index) => {
+                                        return (
+                                            <option key={item.MaLSPCon} value={item.MaLSPCon}>{item.TenLoai}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div className="form-row">
                         <div className="form-group col-md-3">
                             <label className="inputSP" htmlFor="inputGiaSP">Giá sản phẩm</label>
                             <input type="number" className="form-control" id="inputGiaSP" placeholder="Giá sản phẩm ..." value={gia} onChange={(event) => onChangeNumber(event, SetGia)} onBlur={() => checkdulieu(gia, SetCheckdulieuGia)} />
@@ -174,21 +212,6 @@ const EditProduct = () => {
                             <div className="invalid-feedback" style={{ display: checkdulieuSoLuong ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
                         </div>
                         <div className="form-group col-md-6">
-                            <label className="inputSP" htmlFor="inputLSPCha">Loại sản phẩm</label>
-                            <select value={lspcha} onChange={(event) => onChangeSelect(event, SetLSPCha)} id="inputLSPCha" className="form-control">
-                                <option key="NULL" value="Chọn">Chọn loại sản phẩm</option>
-                                {listCategoryFather && listCategoryFather.length > 0 &&
-                                    listCategoryFather.map((item, index) => {
-                                        return (
-                                            <option key={item.MaLSPCha} value={item.MaLSPCha}>{item.TenLoai}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-row">
-                        <div className="form-group col-md-12">
                             <label className="inputSP" htmlFor="inputMoTa">Mô tả</label>
                             <textarea className="form-control" id="inputMoTa" placeholder="Mô tả sản phẩm ..." value={mota} onChange={(event) => onChangeInputSL(event, SetMoTa)} onBlur={() => checkdulieu(mota, SetCheckdulieuMoTa)}></textarea>
                         </div>

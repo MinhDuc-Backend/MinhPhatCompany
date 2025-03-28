@@ -17,6 +17,9 @@ import EditCategoryFather from "./CategoryFather/EditCategoryFather/EditCategory
 import Product from "./Product/Product";
 import AddProduct from "./Product/AddProduct/AddProduct";
 import EditProduct from "./Product/EditProduct/EditProduct";
+import CategoryChild from "./CategoryChild/CategoryChild";
+import AddCategoryChild from "./CategoryChild/AddCategoryChild/AddCategoryChild"
+import EditCategoryChild from "./CategoryChild/EditCategoryChild/EditCategoryChild"
 
 const AdminPage = () => {
     const [hiddenDB, setHiddenDB] = useState(false);
@@ -72,6 +75,11 @@ const AdminPage = () => {
                             <Route index element={<Product />}></Route>
                             <Route path="new" element={<AddProduct />} ></Route>
                             <Route path="edit/:MaSP" element={<EditProduct />} ></Route>
+                        </Route>
+                        <Route path='CategoryChild'  >
+                            <Route index element={<CategoryChild />}></Route>
+                            <Route path="new" element={<AddCategoryChild />} ></Route>
+                            <Route path="edit/:MaLSPCon" element={<EditCategoryChild />} ></Route>
                         </Route>
                     </Routes >
                 </section>

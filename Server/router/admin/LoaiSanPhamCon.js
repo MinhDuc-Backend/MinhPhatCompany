@@ -73,6 +73,35 @@ LoaiSanPhamConAdminRoute.get('/ChiTietLSPCon/:MaLSPCon', async (req, res) => {
 })
 
 /**
+ * @route GET /api/admin/lsp-con/DSLSPConTheoLSPCha/{MaLSPCha}
+ * @description Lấy danh sách loại sản phẩm con theo mã loại sản phẩm cha
+ * @access public
+ */
+LoaiSanPhamConAdminRoute.get('/DSLSPConTheoLSPCha/:MaLSPCha', async (req, res) => {
+    try {
+        const { MaLSPCha } = req.params;
+        const isExistLSPCha = await LoaiSanPhamCha.findOne({ MaLSPCha: MaLSPCha });
+        if (!isExistLSPCha)
+            return sendError(res, "Loại sản phẩm cha không tồn tại");
+        const isExist = await LoaiSanPhamCon.find({ MaLSPCha: isExistLSPCha._id }).populate(
+            {
+                path: "MaLSPCha",
+                select: "MaLSPCha TenLoai",
+            }).lean();
+        if (!isExist)
+            return sendError(res, "Loại sản phẩm con không tồn tại");
+        return sendSuccess(res, "Danh sách loại sản phẩm con theo mã loại sản phẩm cha.", { 
+            TrangThai: "Thành công",
+            DanhSach: isExist
+        });
+    }
+    catch (error) {
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
  * @route POST /api/admin/lsp-con/Them
  * @description Thêm loại sản phẩm con
  * @access public

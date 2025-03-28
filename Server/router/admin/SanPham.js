@@ -39,7 +39,7 @@ SanPhamAdminRoute.get('/DanhSachSanPham', async (req, res) => {
                 path: "MaLSPCon",
                 select: "MaLSPCon TenLoai",
             },
-        ]).limit(pageSize).skip(pageSize * page)
+        ]).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).count();
 
         if (sanphams.length == 0) 
@@ -125,7 +125,7 @@ SanPhamAdminRoute.post('/Them', createSanPhamDir, uploadImg.single("Hinh"), asyn
 
         if (MaLSPCon != ""){
             const isExistLSPCon = await LoaiSanPhamCon.findOne({ MaLSPCon: MaLSPCon });
-            if (isExistLSPCon)
+            if (!isExistLSPCon)
                 return sendError(res, "Mã loại sản phẩm con không tồn tại");
 
             const sanpham = await SanPham.create({ MaSP, MaLSPCha: isExistLSPCha._id, MaLSPCon: isExistLSPCon._id, TenSP, Gia, MoTa, SoLuong, Hinh: resultImage });
@@ -164,7 +164,7 @@ SanPhamAdminRoute.post('/ChinhSua/:MaSP', async (req, res) => {
 
         if (MaLSPCon != ""){
             const isExistLSPCon = await LoaiSanPhamCon.findOne({ MaLSPCon: MaLSPCon });
-            if (isExistLSPCon)
+            if (!isExistLSPCon)
                 return sendError(res, "Mã loại sản phẩm con không tồn tại");
 
             const sp = await SanPham.findOneAndUpdate({ MaSP: MaSP }, { MaLSPCha: isExistLSPCha._id, MaLSPCon: isExistLSPCon._id, TenSP, Gia, MoTa, SoLuong });

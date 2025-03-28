@@ -2451,6 +2451,78 @@ paths:
               "status": false,
               "message": "Lấy danh sách loại sản phẩm thất bại",
             }
+  /admin/lsp-con/DSLSPConTheoLSPCha/{MaLSPCha}:
+    get:
+      tags:
+        - "LoaiSanPhamCon"
+      summary: "Danh sách thông tin loại sản phẩm con theo mã loại sản phẩm cha"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaLSPCha
+          type: string
+          required: true
+          description: Mã loại sản phẩm cha
+      responses:
+        200:
+          description: Lấy danh sách thông tin loại sản phẩm con theo mã loại sản phẩm cha thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách thông tin loại sản phẩm con theo mã loại sản phẩm cha thành công.",
+            }
+        400:
+          description: Lấy danh sách thông tin loại sản phẩm con theo mã loại sản phẩm cha thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách thông tin loại sản phẩm con theo mã loại sản phẩm cha thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /user/lsp/DanhSachLSPCon:
+    get: 
+      tags:
+        - "LoaiSanPhamConUser"
+      summary: User lấy danh sách loại sản phẩm con
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã loại sản phẩm hoặc tên loại sản phẩm
+      responses:
+        200: 
+          description: Lấy danh sách loại sản phẩm thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách loại sản phẩm thành công",
+            }
+        400:
+          description: Lấy danh sách loại sản phẩm thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách loại sản phẩm thất bại",
+            }
 securityDefinitions:
   ApiKeyAuth:
     type: apiKey

@@ -93,9 +93,9 @@ const EditCategoryFather = () => {
             <form className="form-edit">
                 <div className="container-edit">
                     <div className="form-row">
-                        <div className="form-group col-md-6">
+                        <div className="form-group col-md-6 titleMa">
                             <label className="inputNganh" htmlFor="inputMa">Mã loại sản phẩm cha</label>
-                            <input type="text" className="form-control" id="inputMa" value={MaLSPCha} onChange={(event) => onChangeInputSL(event, SetMaLSPCha)} onBlur={(event) => checkdulieu(MaLSPCha, SetCheckdulieuMa)} />
+                            <input type="text" disabled className="form-control" id="inputMa" value={MaLSPCha} onChange={(event) => onChangeInputSL(event, SetMaLSPCha)} onBlur={(event) => checkdulieu(MaLSPCha, SetCheckdulieuMa)} />
                             <div className="invalid-feedback" style={{ display: checkdulieuMa ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
                         </div>
                         <div className="form-group col-md-6">

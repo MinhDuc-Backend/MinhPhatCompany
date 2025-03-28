@@ -2,55 +2,56 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as React from 'react';
-import "./EditChuyenNganh.scss";
-import { fetchDetailChuyenNganh, fetchEditChuyenNganh, fetchAllNganh } from "../../GetData"
+import "./EditCategoryChild.scss";
+import { fetchDetailCategoryChild, fetchEditCategoryChild, fetchAllCategoryFather } from "../../GetAPI"
 import { toast } from "react-toastify";
-const EditChuyenNganh = () => {
+
+const EditCategoryChild = () => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
-    const chuyennganh = useParams();
+    const lspcon = useParams();
     let navigate = useNavigate();
-    const [listData_nganh, SetListData_nganh] = useState([]);
-    const [machuyenganh, SetMachuyennganh] = useState("")
-    const [tenchuyennganh, SetTenchuyennganh] = useState("")
-    const [nganhhoc, SetNganhhoc] = useState("")
+    const [listData_categoryFather, SetListData_CategoryFather] = useState([]);
+    const [malspcon, SetMaLSPcon] = useState('')
+    const [tenloai, SetTenLoai] = useState('')
+    const [malspcha, SetMaLSPCha] = useState('')
     const onChangeInputSL = (event, SetSL) => {
         let changeValue = event.target.value;
         SetSL(changeValue);
     }
 
     useEffect(() => {
-        getDetailChuyenNganh();
-        getListNganh();
+        getDetailCategoryChild();
+        getListCategoryFather();
 
     }, []);
-    const getListNganh = async () => {
+    const getListCategoryFather = async () => {
         const headers = { 'x-access-token': accessToken };
-        let res = await fetchAllNganh(headers);
+        let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
-            SetListData_nganh(res.data.DanhSach)
+            SetListData_CategoryFather(res.data.DanhSach)
         }
     }
-    const getDetailChuyenNganh = async () => {
+    const getDetailCategoryChild = async () => {
         const headers = { 'x-access-token': accessToken };
-        let res = await fetchDetailChuyenNganh(headers, chuyennganh.MaChuyenNganh);
+        let res = await fetchDetailCategoryChild(headers, lspcon.MaLSPCon);
         if (res && res.data) {
-            SetMachuyennganh(res.data.MaChuyenNganh)
-            SetTenchuyennganh(res.data.TenChuyenNganh)
-            SetNganhhoc(res.data.MaNganh.MaNganh)
+            SetMaLSPcon(res.data.MaLSPCon)
+            SetTenLoai(res.data.TenLoai)
+            SetMaLSPCha(res.data.MaLSPCha.MaLSPCha)
         }
     }
 
 
-    const handleEditChuyenNganh = async () => {
+    const handleEditCategoryChild = async () => {
         const headers = { 'x-access-token': accessToken };
-        if (!machuyenganh || !tenchuyennganh) {
+        if (!malspcon || !tenloai || malspcha == "Chọn") {
             toast.error("Vui lòng điền đầy đủ dữ liệu !")
             return
         }
-        let res = await fetchEditChuyenNganh(headers, machuyenganh, nganhhoc, tenchuyennganh)
+        let res = await fetchEditCategoryChild(headers, malspcon, malspcha, tenloai)
         if (res.status === true) {
             toast.success(res.message)
-            navigate("/admin/chuyennganh")
+            navigate("/admin/CategoryChild")
             return;
         }
         if (res.status === false) {
@@ -83,11 +84,11 @@ const EditChuyenNganh = () => {
                         </li>
                         <li><i className='bx bx-chevron-right'></i></li>
                         <li>
-                            <Link>Chuyên ngành</Link>
+                            <Link>Loại sản phẩm nhỏ</Link>
                         </li>
                         <li><i className='bx bx-chevron-right'></i></li>
                         <li>
-                            <Link className="active" >{chuyennganh.MaChuyenNganh}</Link>
+                            <Link className="active" >{lspcon.MaLSPCon}</Link>
                         </li>
                     </ul>
                 </div>
@@ -99,24 +100,25 @@ const EditChuyenNganh = () => {
                 <div className="container-edit">
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label className="inputNganh" htmlFor="inputMa">Mã chuyên ngành</label>
-                            <input type="text" className="form-control" id="inputMa" value={machuyenganh} onChange={(event) => onChangeInputSL(event, SetMachuyennganh)} onBlur={(event) => checkdulieu(machuyenganh, SetCheckdulieuMa)} disabled={true} />
+                            <label className="inputNganh" htmlFor="inputMa">Mã loại sản phẩm nhỏ</label>
+                            <input type="text" className="form-control" id="inputMa" value={malspcon} onChange={(event) => onChangeInputSL(event, SetMaLSPcon)} onBlur={(event) => checkdulieu(malspcon, SetCheckdulieuMa)} disabled={true} />
                             <div className="invalid-feedback" style={{ display: checkdulieuMa ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
                         </div>
                         <div className="form-group col-md-6">
-                            <label className="inputNganh" htmlFor="inputTen">Tên chuyên ngành</label>
-                            <input type="text" className="form-control" id="inputTen" value={tenchuyennganh} onChange={(event) => onChangeInputSL(event, SetTenchuyennganh)} onBlur={(event) => checkdulieu(tenchuyennganh, SetCheckdulieuTen)} />
+                            <label className="inputNganh" htmlFor="inputTen">Tên loại</label>
+                            <input type="text" className="form-control" id="inputTen" value={tenloai} onChange={(event) => onChangeInputSL(event, SetTenLoai)} onBlur={(event) => checkdulieu(tenloai, SetCheckdulieuTen)} />
                             <div className="invalid-feedback" style={{ display: checkdulieuTen ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
                         </div>
                     </div>
                     <div className="form-row">
                         <div className="form-group col-md-12">
-                            <label className="inputNganh" htmlFor="inputNganh">Ngành</label>
-                            <select value={nganhhoc} onChange={(event) => onChangeSelect(event, SetNganhhoc)} id="inputNganh" className="form-control">
-                                {listData_nganh && listData_nganh.length > 0 &&
-                                    listData_nganh.map((item, index) => {
+                            <label className="inputNganh" htmlFor="inputNganh">Loại sản phẩm lớn</label>
+                            <select value={malspcha} onChange={(event) => onChangeSelect(event, SetMaLSPCha)} id="inputNganh" className="form-control">
+                                <option key="Chọn" value="Chọn">Chọn loại sản phẩm lớn</option>
+                                {listData_categoryFather && listData_categoryFather.length > 0 &&
+                                    listData_categoryFather.map((item, index) => {
                                         return (
-                                            <option key={item.MaNganh} value={item.MaNganh}>{item.TenNganh}</option>
+                                            <option key={item.MaLSPCha} value={item.MaLSPCha}>{item.TenLoai}</option>
                                         )
                                     })
                                 }
@@ -125,7 +127,7 @@ const EditChuyenNganh = () => {
                     </div>
 
 
-                    <button className="btn" type="button" onClick={() => handleEditChuyenNganh()}>Lưu</button>
+                    <button className="btn" type="button" onClick={() => handleEditCategoryChild()}>Lưu</button>
                 </div>
 
 
@@ -137,4 +139,4 @@ const EditChuyenNganh = () => {
         </main >
     )
 }
-export default EditChuyenNganh;
+export default EditCategoryChild;

@@ -1,4 +1,4 @@
-import "./TableChuyenNganh.scss"
+import "./TableCategoryChild.scss"
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Button } from '@mantine/core';
@@ -9,7 +9,7 @@ import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { toast } from "react-toastify";
 import { useEffect } from 'react';
-import { fetchAllChuyenNganh, fetchDeleteChuyenNganh } from "../GetData"
+import { fetchAllCategoryChild, fetchDeleteCategoryChild } from "../GetAPI"
 
 
 const csvConfig = mkConfig({
@@ -18,33 +18,36 @@ const csvConfig = mkConfig({
     useKeysAsHeaders: true,
 });
 
-const TableChuyenNganh = (props) => {
+const TableCategoryChild = (props) => {
     const accessToken = props.accessToken;
-    const [listData_chuyennganh, SetListData_chuyennganh] = useState([]);
+    const [listData_categoryChild, SetListData_CategoryChild] = useState([]);
     // component didmount
     useEffect(() => {
-        getListChuyenNganh();
+        getListCategoryChild();
     }, []);
 
-    const getListChuyenNganh = async () => {
+    const getListCategoryChild = async () => {
         const headers = { 'x-access-token': accessToken };
-        let res = await fetchAllChuyenNganh(headers);
+        let res = await fetchAllCategoryChild(headers);
         if (res && res.data && res.data.DanhSach) {
-            SetListData_chuyennganh(res.data.DanhSach)
+            SetListData_CategoryChild(res.data.DanhSach)
         }
     }
     const handleDeleteRows = async (row) => {
-        const headers = { 'x-access-token': accessToken };
-        let res = await fetchDeleteChuyenNganh(headers, row.original.MaChuyenNganh)
-        if (res.status === true) {
-            toast.success(res.message)
-            getListChuyenNganh()
-            return;
+        if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
+            const headers = { 'x-access-token': accessToken };
+            let res = await fetchDeleteCategoryChild(headers, row.original.MaLSPCon)
+            if (res.status === true) {
+                toast.success(res.message)
+                getListCategoryChild()
+                return;
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+                return;
+            }
         }
-        if (res.success === false) {
-            toast.error(res.message)
-            return;
-        }
+        
     }
 
     const handleExportRows = (rows) => {
@@ -54,14 +57,14 @@ const TableChuyenNganh = (props) => {
     };
 
     const handleExportData = () => {
-        const csv = generateCsv(csvConfig)(listData_chuyennganh);
+        const csv = generateCsv(csvConfig)(listData_categoryChild);
         download(csvConfig)(csv);
     };
     const columns = useMemo(
         () => [
             {
-                accessorKey: 'MaChuyenNganh',
-                header: 'Mã Chuyên Ngành',
+                accessorKey: 'MaLSPCon',
+                header: 'Mã loại SP nhỏ',
                 size: 100,
                 enableColumnOrdering: false,
                 enableEditing: false, //disable editing on this column
@@ -69,15 +72,15 @@ const TableChuyenNganh = (props) => {
 
             },
             {
-                accessorKey: 'TenChuyenNganh',
-                header: 'Tên Chuyên Ngành',
+                accessorKey: 'TenLoai',
+                header: 'Tên loại',
                 size: 100,
                 enableEditing: false,
 
             },
             {
-                accessorKey: 'MaNganh.TenNganh',
-                header: 'Ngành học',
+                accessorKey: 'MaLSPCha.TenLoai',
+                header: 'Thuộc SP lớn',
                 size: 100,
                 enableEditing: false,
 
@@ -85,9 +88,10 @@ const TableChuyenNganh = (props) => {
         ]
     );
 
+
     const table = useMantineReactTable({
         columns,
-        data: listData_chuyennganh,
+        data: listData_categoryChild,
         enableRowSelection: true,
         columnFilterDisplayMode: 'popover',
         paginationDisplayMode: 'pages',
@@ -102,7 +106,7 @@ const TableChuyenNganh = (props) => {
                     <Visibility fontSize="small" />
                 </IconButton>
 
-                <Link to={"/admin/chuyennganh/edit/" + row.original.MaChuyenNganh}>
+                <Link to={"/admin/CategoryChild/edit/" + row.original.MaLSPCon}>
                     <IconButton  >
                         <Edit fontSize="small" />
                     </IconButton>
@@ -146,15 +150,6 @@ const TableChuyenNganh = (props) => {
                 >
                     Export Selected Rows
                 </Button>
-
-                {/* <Button
-                    //only export selected rows
-                    // onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
-                    leftIcon={<IconDownload />}
-                    variant="filled"
-                >
-                    Import Data
-                </Button> */}
             </Box>
 
         ),
@@ -170,4 +165,4 @@ const TableChuyenNganh = (props) => {
 
 };
 
-export default TableChuyenNganh;
+export default TableCategoryChild;

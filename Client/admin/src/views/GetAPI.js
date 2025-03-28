@@ -85,3 +85,42 @@ const fetchDeleteProduct = (headers, MaSP) => { // Xóa sản phẩm
 }
 export { fetchDeleteProduct };
 //----------------------------------------------------------------------------------------------//
+
+//--------------------------------CategoryChild----------------------------------------------//
+const fetchAllCategoryChild = (headers) => { // Lấy danh sách loại sản phẩm
+    return axios.get('admin/lsp-con/DanhSachLSPCon', { headers });
+}
+export { fetchAllCategoryChild };
+
+const fetchDetailCategoryChild = (headers, MaLSPCon) => { // Chi tiết loại sản phẩm
+    return axios.get(`admin/lsp-con/ChiTietLSPCon/${MaLSPCon}`, { headers });
+}
+export { fetchDetailCategoryChild };
+
+const fetchDetailCategoryChildFollowFather = (headers, MaLSPCha) => { // Lấy danh sách loại sản phẩm con theo mã loại sản phẩm cha
+    return axios.get(`admin/lsp-con/DSLSPConTheoLSPCha/${MaLSPCha}`, { headers });
+}
+export { fetchDetailCategoryChildFollowFather };
+
+const fetchEditCategoryChild = (headers, MaLSPCon, MaLSPCha, TenLoai) => { // Chỉnh sửa thông tin loại sản phẩm
+    return axios.put(`admin/lsp-con/ChinhSua/${MaLSPCon}`, {
+        MaLSPCha: MaLSPCha,
+        TenLoai: TenLoai,
+    }, { headers });
+}
+export { fetchEditCategoryChild };
+
+const fetchAddCategoryChild = (headers, MaLSPCon, MaLSPCha, TenLoai) => { // Thêm loại sản phẩm mới
+    return axios.post(`admin/lsp-con/Them`, {
+        MaLSPCon: MaLSPCon,
+        MaLSPCha: MaLSPCha,
+        TenLoai: TenLoai,
+    }, { headers });
+}
+export { fetchAddCategoryChild };
+
+const fetchDeleteCategoryChild = (headers, MaLSPCon) => { // Xóa loại sản phẩm
+    return axios.delete(`admin/lsp-con/Xoa/${MaLSPCon}`, { headers });
+}
+export { fetchDeleteCategoryChild };
+//----------------------------------------------------------------------------------------------//
