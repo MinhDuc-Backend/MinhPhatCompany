@@ -1,8 +1,8 @@
-import "./ChuyenNganh.scss"
+import "./CategoryChild.scss"
 import { Link } from "react-router-dom";
-import TableChuyenNganh from "./TableChuyenNganh";
+import TableCategoryChild from "./TableCategoryChild";
 import { useState } from 'react';
-const ChuyenNganh = () => {
+const CategoryChild = () => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
     return (
         <>
@@ -10,26 +10,26 @@ const ChuyenNganh = () => {
                 {/* <HeaderMain title={'Chuyên ngành'} /> */}
                 <div className="head-title">
                     <div className="left">
-                        <h1>CHUYÊN NGÀNH</h1>
+                        <h1>LOẠI SẢN PHẨM NHỎ</h1>
                         <ul className="breadcrumb">
                             <li>
                                 <Link>Dashboard</Link>
                             </li>
                             <li><i className='bx bx-chevron-right'></i></li>
                             <li>
-                                <Link className="active" >Chuyên ngành</Link>
+                                <Link className="active" >Loại sản phẩm nhỏ</Link>
                             </li>
                         </ul>
                     </div>
-                    <Link to={"/admin/chuyennganh/new"} className="btn-download">
+                    <Link to={"/admin/CategoryChild/new"} className="btn-download">
                         <i className='bx bxs-cloud-download'></i>
                         <span className="text">Tạo mới</span>
                     </Link>
                 </div>
-                <TableChuyenNganh accessToken={accessToken} />
+                <TableCategoryChild accessToken={accessToken} />
 
             </main >
         </>
     )
 }
-export default ChuyenNganh;
+export default CategoryChild;

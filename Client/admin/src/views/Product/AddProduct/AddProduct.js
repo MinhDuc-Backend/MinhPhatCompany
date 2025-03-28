@@ -2,10 +2,10 @@ import "./AddProduct.scss"
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchAddProduct, fetchAllCategoryFather } from "../../GetAPI"
+import { fetchAddProduct, fetchAllCategoryFather, fetchDetailCategoryChildFollowFather } from "../../GetAPI"
 import * as React from 'react';
 import { toast } from "react-toastify";
-import moment from "moment";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const AddProduct = () => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
@@ -14,6 +14,7 @@ const AddProduct = () => {
     const [tenSP, SetTenSP] = useState('')
     const [gia, SetGia] = useState(0)
     const [listCategoryFather, setListCategoryFather] = useState([]);
+    const [listCategoryChild, setListCategoryChild] = useState([]);
     const [soluong, SetSoLuong] = useState(0)
     const [mota, SetMoTa] = useState('')
     const [lspcha, SetLSPCha] = useState('Chọn')
@@ -32,13 +33,25 @@ const AddProduct = () => {
             setListCategoryFather(res.data.DanhSach)
         }
     }
+    const getListCategoryChld = async () => {
+        const headers = { 'x-access-token': accessToken };
+        let res = await fetchDetailCategoryChildFollowFather(headers,lspcha);
+        if (res && res.data && res.data.DanhSach) {
+            setListCategoryChild(res.data.DanhSach)
+            document.getElementById('inputLSPCon').disabled = false
+        }
+        else
+            document.getElementById('inputLSPCon').disabled = true
+    }
 
     const handleAddProduct = async () => {
         const headers = { 'x-access-token': accessToken };
-        if (!headers || !maSP || !tenSP || !soluong || !lspcha || !Hinh) {
+        if (!headers || !maSP || !tenSP || !soluong || !lspcha || !lspcon || !Hinh) {
             toast.error("Vui lòng điền đầy đủ dữ liệu")
             return
         }
+        document.getElementById('btsubmit').style.display = 'none';
+        document.getElementById('btwait').style.display = 'block';
         let value_product = new FormData();
         value_product.append("MaSP", maSP);
         value_product.append("TenSP", tenSP);
@@ -49,6 +62,7 @@ const AddProduct = () => {
         value_product.append("MaLSPCon", lspcon);
         value_product.append("Hinh", Hinh);
         let res = await fetchAddProduct(headers, value_product)
+
         if (res.status === true) {
             toast.success(res.message)
             navigate("/admin/product")
@@ -120,7 +134,6 @@ const AddProduct = () => {
                 </div>
             </div>
 
-
             <form className="form-new">
                 <div className="container-edit">
                     <div className="form-row">
@@ -136,6 +149,34 @@ const AddProduct = () => {
                         </div>
                     </div>
                     <div className="form-row">
+                        <div className="form-group col-md-6">
+                            <label className="inputSP" htmlFor="inputLSPCha">Loại sản phẩm cha</label>
+                            <select value={lspcha} onChange={(event) => onChangeSelect(event, SetLSPCha)} id="inputLSPCha" className="form-control" onClick={ () => getListCategoryChld() }>
+                                <option key="NULL" value="Chọn">Chọn loại sản phẩm cha</option>
+                                {listCategoryFather && listCategoryFather.length > 0 &&
+                                    listCategoryFather.map((item, index) => {
+                                        return (
+                                            <option key={item.MaLSPCha} value={item.MaLSPCha}>{item.TenLoai}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="form-group col-md-6">
+                            <label className="inputSP" htmlFor="inputLSPCha">Loại sản phẩm con</label>
+                            <select value={lspcon} onChange={(event) => onChangeSelect(event, SetLSPCon)} id="inputLSPCon" className="form-control" disabled>
+                                <option key="NULL" value="Chọn">Chọn loại sản phẩm con</option>
+                                {listCategoryChild && listCategoryChild.length > 0 &&
+                                    listCategoryChild.map((item, index) => {
+                                        return (
+                                            <option key={item.MaLSPCon} value={item.MaLSPCon}>{item.TenLoai}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div className="form-row">
                         <div className="form-group col-md-3">
                             <label className="inputSP" htmlFor="inputGiaSP">Giá sản phẩm</label>
                             <input type="number" className="form-control" id="inputGiaSP" placeholder="Giá sản phẩm ..." value={gia} onChange={(event) => onChangeNumber(event, SetGia)} onBlur={() => checkdulieu(gia, SetCheckdulieuGia)} />
@@ -147,21 +188,6 @@ const AddProduct = () => {
                             <div className="invalid-feedback" style={{ display: checkdulieuSoLuong ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
                         </div>
                         <div className="form-group col-md-6">
-                            <label className="inputSP" htmlFor="inputLSPCha">Loại sản phẩm</label>
-                            <select value={lspcha} onChange={(event) => onChangeSelect(event, SetLSPCha)} id="inputLSPCha" className="form-control">
-                                <option key="NULL" value="Chọn">Chọn loại sản phẩm</option>
-                                {listCategoryFather && listCategoryFather.length > 0 &&
-                                    listCategoryFather.map((item, index) => {
-                                        return (
-                                            <option key={item.MaLSPCha} value={item.MaLSPCha}>{item.TenLoai}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-row">
-                        <div className="form-group col-md-12">
                             <label className="inputSP" htmlFor="inputMoTa">Mô tả</label>
                             <textarea className="form-control" id="inputMoTa" placeholder="Mô tả sản phẩm ..." value={mota} onChange={(event) => onChangeInputSL(event, SetMoTa)} onBlur={() => checkdulieu(mota, SetCheckdulieuMoTa)}></textarea>
                         </div>
@@ -181,15 +207,16 @@ const AddProduct = () => {
 
                     </div>
                     <div className="form-row">
-                        <div className="form-group col-md-12 formbtn">
+                        <div className="form-group col-md-12 formbtn" id="btsubmit">
                             <div><button className="btn btn-primary btn-sm" type="button" onClick={() => handleAddProduct()}>Lưu dữ liệu</button></div>
+                        </div>
+                        <div className="form-group col-md-12 formbtn" id="btwait" style={{ display: 'none'}}>
+                            <div><button className="btn btn-primary btn-sm" type="button" disabled>Đang xử lý, vui long đợi</button></div>
                         </div>
                     </div>
                     
                 </div>
             </form>
-
-
 
         </main >
     )

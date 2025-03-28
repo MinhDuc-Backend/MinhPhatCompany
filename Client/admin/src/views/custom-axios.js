@@ -2,6 +2,9 @@ import axios from "axios";
 const instance = axios.create({
     baseURL: 'https://minhphatcompanyapi.onrender.com/api/',
 });
+// const instance = axios.create({
+//     baseURL: 'http://127.0.0.1:8000/api/',
+// });
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger

@@ -3,6 +3,7 @@ import { sendError, sendServerError, sendSuccess } from "../../helper/client.js"
 import { TrangThaiSanPham } from "../../constant.js"
 import SanPham from "../../model/SanPham.js"
 import LoaiSanPhamCha from "../../model/LoaiSanPhamCha.js"
+import LoaiSanPhamCon from "../../model/LoaiSanPhamCon.js"
 
 const SanPhamUserRoute = express.Router()
 
@@ -33,7 +34,7 @@ SanPhamUserRoute.get('/DSSanPham', async (req, res) => {
                 path: "MaLSPCon",
                 select: "MaLSPCon TenLoai",
             },
-        ]).limit(pageSize).skip(pageSize * page)
+        ]).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).count();
 
         if (sanphams.length == 0) 
@@ -101,10 +102,10 @@ SanPhamUserRoute.get('/DSSanPhamTheoLoai', async (req, res) => {
                     { TenSP: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const isExistLSP = await LoaiSanPhamCha.findOne({ MaLSPCha: MaLSP });
+        const isExistLSP = await LoaiSanPhamCon.findOne({ MaLSPCon: MaLSP });
         if (!isExistLSP)
             return sendError(res, "Không tìm thấy mã loại sản phẩm");
-        const sanphams = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai, MaLSPCha: isExistLSP._id }).populate([
+        const sanphams = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai, MaLSPCon: isExistLSP._id }).populate([
             {
                 path: "MaLSPCha",
                 select: "MaLSPCha TenLoai",
@@ -113,8 +114,8 @@ SanPhamUserRoute.get('/DSSanPhamTheoLoai', async (req, res) => {
                 path: "MaLSPCon",
                 select: "MaLSPCon TenLoai",
             },
-        ]).limit(pageSize).skip(pageSize * page)
-        const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai, MaLSPCha: isExistLSP._id }).count();
+        ]).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
+        const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai, MaLSPCon: isExistLSP._id }).count();
 
         if (sanphams.length == 0) 
             return sendSuccess(res, "Danh sách sản phẩm trống.",{

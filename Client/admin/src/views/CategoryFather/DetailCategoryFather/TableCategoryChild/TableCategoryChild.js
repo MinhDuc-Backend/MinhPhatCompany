@@ -38,7 +38,7 @@ const TableCategoryChild = (props) => {
                 enableSorting: false,
             },
             {
-                accessorKey: 'TenLSPCon',
+                accessorKey: 'TenLoai',
                 header: 'Tên loại sản phẩm con',
                 size: 100,
                 enableEditing: false,
@@ -58,7 +58,7 @@ const TableCategoryChild = (props) => {
         // enableRowActions: true,
 
         renderTopToolbarCustomActions: ({ table }) => (
-            <label className="ds-cn" htmlFor="inputTen">Danh sách loại sản phẩm con</label>
+            <label className="ds-cn" htmlFor="inputTen">Danh sách loại sản phẩm nhỏ</label>
 
         ),
 

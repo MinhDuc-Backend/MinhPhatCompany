@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import logomp from "../logomp.jpg"
 import Introduction from "./Introduction";
-import { fetchAllCategoryUser, fetchAllProductUser, fetchAllProductUserCategory } from "../GetAPI"
+import { fetchAllCategoryChildUser, fetchAllProductUser, fetchAllProductUserCategory } from "../GetAPI"
 
 const Product = () => {
     let navigate = useNavigate();
@@ -22,7 +22,7 @@ const Product = () => {
         getListProduct(currentPage,PageSize,KeyWord,searchCategory);
     }, []);
     const getListCategory = async () => {
-        let res = await fetchAllCategoryUser();
+        let res = await fetchAllCategoryChildUser();
         if (res && res.data && res.data.DanhSach) {
             SetListData_Category(res.data.DanhSach)
         }
@@ -80,6 +80,15 @@ const Product = () => {
         navigate(`/chi-tiet/${masp}`)
         window.location.reload();
     }
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}`)
+            window.location.reload();
+        }
+    };
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Ngăn chặn tải lại trang
+    };
     return (
         <>
             <div id="header">
@@ -94,20 +103,20 @@ const Product = () => {
                         </div>
                         <div class="col-md-7 col-sm-12">
                             <div class="header-search">
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <select value={searchCategory} class="input-select" onChange={(event) => onChangeSelect(event, SetSearchCategory)}>
                                         <option value="all">Tất cả</option>
                                         {listData_category && listData_category.length > 0 &&
                                             listData_category.map((item, index) => {
                                                 return (
-                                                    <option key={item.MaLSPCha} value={item.MaLSPCha}>
+                                                    <option key={item.MaLSPCon} value={item.MaLSPCon}>
                                                         {item.TenLoai}
                                                     </option>
                                                 )
                                             })
                                         }
                                     </select>
-                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} />
+                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} onKeyDown={handleKeyDown} />
                                     <button class="search-btn" type="button" onClick={() => SearchButton()}>Tìm</button>
                                 </form>
                             </div>
@@ -153,7 +162,7 @@ const Product = () => {
                                                     <img src={item.Hinh} alt="" />
                                                 </div>
                                                 <div class="product-body">
-                                                    <p class="product-category">{item.MaLSPCha.TenLoai}</p>
+                                                    <p class="product-category">{item.MaLSPCon.TenLoai}</p>
                                                     <h3 class="product-name"><a href={`/chi-tiet/${item.MaSP}`}>{item.TenSP}</a></h3>
                                                     <h4 class="product-price">Liên hệ</h4>
                                                 </div>
