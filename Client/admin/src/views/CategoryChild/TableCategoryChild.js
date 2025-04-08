@@ -1,4 +1,3 @@
-import "./TableCategoryChild.scss"
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Button } from '@mantine/core';

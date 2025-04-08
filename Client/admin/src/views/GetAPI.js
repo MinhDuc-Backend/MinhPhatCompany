@@ -124,3 +124,257 @@ const fetchDeleteCategoryChild = (headers, MaLSPCon) => { // Xóa loại sản p
 }
 export { fetchDeleteCategoryChild };
 //----------------------------------------------------------------------------------------------//
+
+//--------------------------------Account----------------------------------------------//
+//Get List Tài khoản
+const fetchAllTaiKhoan = (headers) => {
+    return axios.get('admin/tai-khoan/DanhSachTK', { headers });
+}
+export { fetchAllTaiKhoan };
+
+//Get Chi Tiết Tài khoản
+const fetchDetailTaiKhoan = (headers, MaTK) => {
+    return axios.get(`admin/tai-khoan/ChiTietTaiKhoan/${MaTK}`, { headers });
+}
+export { fetchDetailTaiKhoan };
+
+//Sửa Tài khoản
+const fetchEditTaiKhoan = (headers, MaTK, QuyenTK) => {
+    return axios.put(`admin/tai-khoan/ChinhSua/${MaTK}`, {
+        MaTK: MaTK,
+        MaQTK: QuyenTK,
+
+    }, { headers });
+}
+export { fetchEditTaiKhoan };
+
+//Thêm Tài khoản
+const fetchAddTaiKhoan = (headers, MaTK, TenDangNhap, MatKhau, MaQTK, MaNV) => {
+    return axios.post(`admin/tai-khoan/Them`, {
+        MaTK: MaTK,
+        TenDangNhap: TenDangNhap,
+        MatKhau: MatKhau,
+        MaQTK: MaQTK,
+        MaNV: MaNV,
+    }, { headers });
+}
+export { fetchAddTaiKhoan };
+
+//Xóa  Tài khoản
+const fetchDeleteTaiKhoan = (headers, MaTK) => {
+    return axios.delete(`admin/tai-khoan/Xoa/${MaTK}`, { headers });
+}
+export { fetchDeleteTaiKhoan };
+
+//Đổi mật khẩu  Tài khoản
+const fetchEditMatKhau = (headers, MaTK, MatKhauCu, MatKhauMoi, NhapLaiMatKhauMoi) => {
+    return axios.post(`tai-khoan/DoiMatKhau`, {
+        MaSo: MaTK,
+        MatKhauCu: MatKhauCu,
+        MatKhauMoi: MatKhauMoi,
+        NhapLaiMatKhauMoi: NhapLaiMatKhauMoi,
+    }, { headers });
+}
+export { fetchEditMatKhau };
+
+//Đổi Phục hồi mật khẩu
+const fetchPhucHoiMatKhau = (headers, MaTK, MatKhauMoi) => {
+    return axios.post(`admin/tai-khoan/PhucHoiMatKhau/${MaTK}`, {
+        MaTK: MaTK,
+        MatKhauPhucHoi: MatKhauMoi,
+    }, { headers });
+}
+export { fetchPhucHoiMatKhau };
+//----------------------------------------------------------------------------------------------//
+
+//--------------------------------AccountPermissions----------------------------------------------//
+//Get List Quyền tài khoản
+const fetchAllQuyenTK = (headers) => {
+    return axios.get('admin/quyen-tai-khoan/DanhSachQuyenTK', { headers });
+}
+export { fetchAllQuyenTK };
+
+//Get Chi Tiết Quyền tài khoản
+const fetchDetailQuyenTK = (headers, MaQTK) => {
+    return axios.get(`admin/quyen-tai-khoan/ChiTietQuyenTK/${MaQTK}`, { headers });
+}
+export { fetchDetailQuyenTK };
+
+//Sửa Quyền tài khoản
+const fetchEditQuyenTK = (headers, MaQTK, TenQuyenTK, MaCN) => {
+    return axios.put(`admin/quyen-tai-khoan/ChinhSua/${MaQTK}`, {
+        TenQuyenTK: TenQuyenTK,
+        MaCN: MaCN,
+    }, { headers });
+}
+export { fetchEditQuyenTK };
+
+//Thêm Quyền tài khoản
+const fetchAddQuyenTK = (headers, MaQTK, TenQuyenTK, MaCN) => {
+    return axios.post(`admin/quyen-tai-khoan/Them`, {
+        MaQTK: MaQTK,
+        TenQuyenTK: TenQuyenTK,
+        MaCN: MaCN,
+    }, { headers });
+}
+export { fetchAddQuyenTK };
+
+//Xóa  Quyền Tài Khoản
+const fetchDeleteQuyenTK = (headers, MaQTK) => {
+    return axios.delete(`admin/quyen-tai-khoan/Xoa/${MaQTK}`, { headers });
+}
+export { fetchDeleteQuyenTK };
+//----------------------------------------------------------------------------------------------//
+
+//--------------------------------Feature----------------------------------------------//
+//Get List Chức năng
+const fetchAllChucNang = (headers) => {
+    return axios.get('admin/chuc-nang/DanhSachChucNang', { headers });
+}
+export { fetchAllChucNang };
+
+//Get Chi Tiết Chức năng
+const fetchDetailChucNang = (headers, MaCN) => {
+    return axios.get(`admin/chuc-nang/ChiTietChucNang/${MaCN}`, { headers });
+}
+export { fetchDetailChucNang };
+
+//Sửa  Chức Năng
+const fetchEditChucNang = (headers, MaCN, data) => {
+    return axios.post(`admin/chuc-nang/ChinhSua/${MaCN}`, data, { headers });
+}
+export { fetchEditChucNang };
+
+//Thêm Chức Năng
+const fetchAddChucNang = (headers, data) => {
+    // for (const pair of data.entries()) {
+    //     console.log(pair[0] + ": " + pair[1]);
+    // }
+    return axios.post(`admin/chuc-nang/Them`, data, { headers });
+}
+export { fetchAddChucNang };
+
+//Xóa  Chức năng
+const fetchDeleteChucNang = (headers, MaCN) => {
+    return axios.delete(`admin/chuc-nang/Xoa/${MaCN}`, { headers });
+}
+export { fetchDeleteChucNang };
+//----------------------------------------------------------------------------------------------//
+
+//--------------------------------Company----------------------------------------------//
+const fetchAllCompany = (headers) => { 
+    return axios.get('admin/cong-ty/DanhSachCongTy', { headers });
+}
+export { fetchAllCompany };
+
+const fetchDetailCompany = (headers, MaCongTy) => { 
+    return axios.get(`admin/cong-ty/ChiTietCongTy/${MaCongTy}`, { headers });
+}
+export { fetchDetailCompany };
+
+const fetchEditCompany = (headers, MaCongTy, TenCongTy, DiaChi) => { 
+    return axios.put(`admin/cong-ty/ChinhSua/${MaCongTy}`, {
+        TenCongTy: TenCongTy,
+        DiaChi: DiaChi,
+    }, { headers });
+}
+export { fetchEditCompany };
+
+const fetchAddCompany = (headers, MaCongTy, TenCongTy, DiaChi) => { 
+    return axios.post(`admin/cong-ty/Them`, {
+        MaCongTy: MaCongTy,
+        TenCongTy: TenCongTy,
+        DiaChi: DiaChi,
+    }, { headers });
+}
+export { fetchAddCompany };
+
+const fetchDeleteCompany = (headers, MaCongTy) => { 
+    return axios.delete(`admin/cong-ty/Xoa/${MaCongTy}`, { headers });
+}
+export { fetchDeleteCompany };
+//----------------------------------------------------------------------------------------------//
+
+//--------------------------------Customer----------------------------------------------//
+const fetchAllCustomer = (headers) => { 
+    return axios.get('admin/khach-hang/DanhSachKhachHang', { headers });
+}
+export { fetchAllCustomer };
+
+const fetchDetailCustomer = (headers, MaKH) => { 
+    return axios.get(`admin/khach-hang/ChiTietKhachHang/${MaKH}`, { headers });
+}
+export { fetchDetailCustomer };
+
+const fetchAddCustomer = (headers, MaKH, HoKH, TenKH, Email, SoDienThoai, GioiTinh, MaCongTy) => { 
+    return axios.post(`admin/khach-hang/Them`, {
+        MaKH: MaKH,
+        HoKH: HoKH,
+        TenKH: TenKH,
+        Email: Email,
+        SoDienThoai: SoDienThoai,
+        GioiTinh: GioiTinh,
+        MaCongTy: MaCongTy,
+    }, { headers });
+}
+export { fetchAddCustomer };
+
+const fetchEditCustomer = (headers, MaKH, HoKH, TenKH, Email, SoDienThoai, GioiTinh, MaCongTy) => { 
+    return axios.put(`admin/khach-hang/ChinhSua/${MaKH}`, {
+        HoKH: HoKH,
+        TenKH: TenKH,
+        Email: Email,
+        SoDienThoai: SoDienThoai,
+        GioiTinh: GioiTinh,
+        MaCongTy: MaCongTy,
+    }, { headers });
+}
+export { fetchEditCustomer };
+
+const fetchDeleteCustomer = (headers, MaKH) => { 
+    return axios.delete(`admin/khach-hang/Xoa/${MaKH}`, { headers });
+}
+export { fetchDeleteCustomer };
+//----------------------------------------------------------------------------------------------//
+
+//--------------------------------Staff----------------------------------------------//
+const fetchAllStaff = (headers) => { 
+    return axios.get('admin/nhan-vien/DanhSachNhanVien', { headers });
+}
+export { fetchAllStaff };
+
+const fetchDetailStaff = (headers, MaNV) => { 
+    return axios.get(`admin/nhan-vien/ChiTietNhanVien/${MaNV}`, { headers });
+}
+export { fetchDetailStaff };
+
+const fetchAddStaff = (headers, MaNV, HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh) => { 
+    return axios.post(`admin/nhan-vien/Them`, {
+        MaNV: MaNV,
+        HoNV: HoNV,
+        TenNV: TenNV,
+        Email: Email,
+        SoDienThoai: SoDienThoai,
+        GioiTinh: GioiTinh,
+        NgaySinh: NgaySinh,
+    }, { headers });
+}
+export { fetchAddStaff };
+
+const fetchEditStaff = (headers, MaNV, HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh) => { 
+    return axios.put(`admin/nhan-vien/ChinhSua/${MaNV}`, {
+        HoNV: HoNV,
+        TenNV: TenNV,
+        Email: Email,
+        SoDienThoai: SoDienThoai,
+        GioiTinh: GioiTinh,
+        NgaySinh: NgaySinh,
+    }, { headers });
+}
+export { fetchEditStaff };
+
+const fetchDeleteStaff = (headers, MaNV) => { 
+    return axios.delete(`admin/nhan-vien/Xoa/${MaNV}`, { headers });
+}
+export { fetchDeleteStaff };
+//----------------------------------------------------------------------------------------------//

@@ -32,6 +32,10 @@ tags:
   description: "Các API của model SanPhamUser"
 - name: "LoaiSanPhamUser"
   description: "Các API của model LoaiSanPhamUser"
+- name: "CongTy"
+  description: "Các API của model CongTy"
+- name: "ThongTinCongTy"
+  description: "Các API của model ThongTinCongTy"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
     get: 
@@ -319,10 +323,6 @@ paths:
           name: MaCN
           type: string
           description: Mảng các mã chức năng con được cách nhau bởi dấu ";". Ví dụ (CN;TK;CHNG)
-        - in: body
-          name: ChucNangCon
-          type: string
-          description: Mảng các tên chức năng con được cách nhau bởi dấu ";" ứng với mã chức năng, các tên cách nhau bởi dấu ",". Ví dụ (Thêm,Sửa,Xóa;Sửa,Xóa;Xem danh sách)
       responses:
         200:
           description: Thêm quyền tài khoản thành công.
@@ -364,10 +364,6 @@ paths:
           name: MaCN
           type: string
           description: Mảng các mã chức năng con được cách nhau bởi dấu ";". Ví dụ (CN;TK;CHNG)
-        - in: body
-          name: ChucNangCon
-          type: string
-          description: Mảng các tên chức năng con được cách nhau bởi dấu ";" ứng với mã chức năng, các tên cách nhau bởi dấu ",". Ví dụ (Thêm,Sửa,Xóa;Sửa,Xóa;Xem danh sách)
       responses:
         200:
           description: Chỉnh sửa quyền tài khoản thành công.
@@ -1421,7 +1417,7 @@ paths:
       security:
         - ApiKeyAuth: [] 
   /admin/nhan-vien/ChinhSua/{MaNV}:
-    post: 
+    put: 
       tags:
         - "NhanVien"
       summary: Chỉnh sửa thông tin nhân viên
@@ -2523,6 +2519,367 @@ paths:
               "status": false,
               "message": "Lấy danh sách loại sản phẩm thất bại",
             }
+  /admin/cong-ty/DanhSachCongTy:
+    get: 
+      tags:
+        - "CongTy"
+      summary: Admin lấy danh sách công ty
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: mã công ty, tên công ty
+      responses:
+        200: 
+          description: Lấy danh sách công ty thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách công ty thành công",
+            }
+        400:
+          description: Lấy danh sách công ty thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách công ty thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/cong-ty/ChiTietCongTy/{MaCongTy}:
+    get:
+      tags:
+        - "CongTy"
+      summary: "Chi tiết thông tin công ty"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaCongTy
+          type: string
+          required: true
+          description: Mã công ty
+      responses:
+        200:
+          description: Chi tiết thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin công ty thành công.",
+            }
+        400:
+          description: Chi tiết thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/cong-ty/Them:
+    post: 
+      tags:
+        - "CongTy"
+      summary: Thêm công ty
+      produces:
+        - application/json    
+      parameters:
+        - in: body
+          name: MaCongTy
+          type: string
+          description: Mã công ty
+          required: true
+        - in: body
+          name: TenCongTy
+          type: string
+          description: Họ công ty
+          required: true
+        - in: body
+          name: DiaChi
+          type: string
+          description: Địa chỉ công ty
+          required: true
+      responses:
+        200:
+          description: Thêm công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm công ty thành công.",
+            }          
+        400:
+          description: Thêm công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/cong-ty/ChinhSua/{MaCongTy}:
+    put: 
+      tags:
+        - "CongTy"
+      summary: Chỉnh sửa thông tin công ty
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaCongTy
+          type: string
+          required: true
+          description: Mã công ty
+        - in: formData
+          name: TenCongTy
+          type: string
+          description: Tên công ty
+          required: true
+        - in: formData
+          name: DiaChi
+          type: string
+          description: Địa chỉ công ty
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin công ty thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/cong-ty/Xoa/{MaCongTy}:
+    delete:
+      tags:
+        - "CongTy"
+      summary: "Xóa thông tin công ty"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaCongTy
+          type: string
+          required: true
+          description: Mã công ty
+      responses:
+        200:
+          description: Xóa thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin công ty thành công.",
+            }
+        400:
+          description: Xóa thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/thong-tin-cty/ChiTietThongTinCty/{MaTTCty}:
+    get:
+      tags:
+        - "ThongTinCongTy"
+      summary: "Chi tiết thông tin công ty"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaTTCty
+          type: string
+          required: true
+          description: Mã công ty
+      responses:
+        200:
+          description: Chi tiết thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin công ty thành công.",
+            }
+        400:
+          description: Chi tiết thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/thong-tin-cty/Them:
+    post: 
+      tags:
+        - "ThongTinCongTy"
+      summary: Thêm thông tin công ty
+      produces:
+        - multipart/form-data    
+      parameters:
+        - in: formData
+          name: MaTTCty
+          type: string
+          description: Mã thông tin công ty
+          required: true
+        - in: formData
+          name: TenCty
+          type: string
+          description: Tên thông tin công ty
+          required: true
+        - in: formData
+          name: MaSoThue
+          type: string
+          description: Mã số thuế
+          required: true
+        - in: formData
+          name: DiaChi
+          type: string
+          description: Địa chỉ
+          required: true
+        - in: formData
+          name: GiamDoc
+          type: string
+          description: Mã nhân viên
+          required: true
+        - in: formData
+          name: Logo
+          type: file
+          description: Logo công ty
+      responses:
+        200:
+          description: Thêm thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm thông tin công ty thành công.",
+            }          
+        400:
+          description: Thêm thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/thong-tin-cty/ChinhSua/{MaTTCty}:
+    post: 
+      tags:
+        - "ThongTinCongTy"
+      summary: Chỉnh sửa thông tin công ty
+      produces:
+        - application/json      
+      parameters:
+        - in: path
+          name: MaTTCty
+          type: string
+          required: true
+          description: Mã thông tin công ty
+        - in: formData
+          name: TenCty
+          type: string
+          description: Tên thông tin công ty
+          required: true
+        - in: formData
+          name: MaSoThue
+          type: string
+          description: Mã số thuế
+          required: true
+        - in: formData
+          name: DiaChi
+          type: string
+          description: Địa chỉ
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin công ty thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/thong-tin-cty/ChinhSuaLogo/{MaTTCty}:
+    post: 
+      tags:
+        - "ThongTinCongTy"
+      summary: Chỉnh sửa logo công ty
+      produces:
+        - multipart/form-data      
+      parameters:
+        - in: path
+          name: MaTTCty
+          type: string
+          required: true
+          description: Mã thông tin công ty
+        - in: formData
+          name: Logo
+          type: file
+          description: Logo công ty
+      responses:
+        200:
+          description: Chỉnh sửa logo công ty thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa logo công ty thành công.",
+            }          
+        400:
+          description: Chỉnh sửa logo công ty thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa logo công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
 securityDefinitions:
   ApiKeyAuth:
     type: apiKey

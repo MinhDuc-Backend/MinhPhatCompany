@@ -25,7 +25,7 @@ LoaiSanPhamChaAdminRoute.get('/DanhSachLSPCha', async (req, res) => {
                     { TenLoai: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const lspchas = await LoaiSanPhamCha.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).limit(pageSize).skip(pageSize * page)
+        const lspchas = await LoaiSanPhamCha.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await LoaiSanPhamCha.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
         if (lspchas.length == 0) 

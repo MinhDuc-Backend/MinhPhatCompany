@@ -1,17 +1,9 @@
 import express from "express"
-import fs from 'fs'
 import { sendError, sendServerError, sendSuccess } from "../../helper/client.js"
 import { TrangThaiTonTai } from "../../constant.js"
 import KhachHang from "../../model/KhachHang.js"
 import { KtraDuLieuKhachHangKhiThem, KtraDuLieuKhachHangKhiChinhSua } from "../../validation/KhachHang.js"
-import TaiKhoan from "../../model/TaiKhoan.js"
-import QuyenTaiKhoan from "../../model/QuyenTaiKhoan.js"
-import argon2 from "argon2"
 import CongTy from "../../model/CongTy.js"
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 
 const KhachHangAdminRoute = express.Router()
 
@@ -37,6 +29,11 @@ KhachHangAdminRoute.get('/DanhSachKhachHang', async (req, res) => {
                 ],
             } : {};
         const khachhangs = await KhachHang.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page)
+                                            .populate(
+                                            {
+                                                path: "CongTy",
+                                                select: "MaCongTy TenCongTy",
+                                            }).sort({ createdAt: -1 })
         const length = await KhachHang.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
 
         if (khachhangs.length == 0) 
@@ -64,7 +61,11 @@ KhachHangAdminRoute.get('/DanhSachKhachHang', async (req, res) => {
 KhachHangAdminRoute.get('/ChiTietKhachHang/:MaKH', async (req, res) => {
     try {
         const { MaKH } = req.params;
-        const isExist = await KhachHang.findOne({ MaKH: MaKH }).lean();
+        const isExist = await KhachHang.findOne({ MaKH: MaKH }).populate(
+            {
+                path: "CongTy",
+                select: "MaCongTy TenCongTy",
+            }).lean();
         if (!isExist)
             return sendError(res, "Khách hàng không tồn tại");
         return sendSuccess(res, "Chi tiết thông tin khách hàng.", isExist);
@@ -92,7 +93,7 @@ KhachHangAdminRoute.post('/Them', async (req, res) => {
         const isExistCty = await CongTy.findOne({ MaCongTy: MaCongTy });
         if (!isExistCty)
             return sendError(res, "Công ty này không tồn tại");
-        const khachhang = await KhachHang.create({ MaKH, HoKH, TenKH, Email, SoDienThoai, GioiTinh, CongTy: isExistCty.MaCongTy });
+        const khachhang = await KhachHang.create({ MaKH, HoKH, TenKH, Email, SoDienThoai, GioiTinh, CongTy: isExistCty._id });
 
         return sendSuccess(res, "Thêm khách hàng thành công", khachhang);
     }
@@ -121,7 +122,7 @@ KhachHangAdminRoute.put('/ChinhSua/:MaKH', async (req, res) => {
         if (!isExistCty)
             return sendError(res, "Công ty này không tồn tại");
         
-        await KhachHang.findOneAndUpdate({ MaKH: MaKH },{ HoKH, TenKH, Email, SoDienThoai, GioiTinh, CongTy: isExistCty.MaCongTy });
+        await KhachHang.findOneAndUpdate({ MaKH: MaKH },{ HoKH, TenKH, Email, SoDienThoai, GioiTinh, CongTy: isExistCty._id });
 
         return sendSuccess(res, "Chỉnh sửa thông tin khách hàng thành công");
     }

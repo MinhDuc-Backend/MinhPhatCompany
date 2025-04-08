@@ -19,9 +19,6 @@ const Nav = (props) => {
             <input type="checkbox" id="switch-mode" hidden />
             {/* <label htmlFor="switch-mode" className="switch-mode" onClick={() => onChangleSwitchMode()}></label> */}
             <label className="name-gv">Xin chào, {TenGV}</label>
-            <a className="profile">
-                <img src={avt} />
-            </a>
         </nav>
 
     )

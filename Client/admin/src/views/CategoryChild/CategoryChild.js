@@ -1,4 +1,3 @@
-import "./CategoryChild.scss"
 import { Link } from "react-router-dom";
 import TableCategoryChild from "./TableCategoryChild";
 import { useState } from 'react';

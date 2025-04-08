@@ -28,7 +28,7 @@ NhanVienAdminRoute.get('/DanhSachNhanVien', async (req, res) => {
                     { SoDienThoai: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const nhanviens = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page)
+        const nhanviens = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
 
         if (nhanviens.length == 0) 
@@ -92,11 +92,11 @@ NhanVienAdminRoute.post('/Them', async (req, res) => {
 })
 
 /**
- * @route POST /api/admin/nhan-vien/ChinhSua/{MaNV}
+ * @route PUT /api/admin/nhan-vien/ChinhSua/{MaNV}
  * @description Chỉnh sửa thông tin nhân viên
  * @access public
 */
-NhanVienAdminRoute.post('/ChinhSua/:MaNV', async (req, res) => {
+NhanVienAdminRoute.put('/ChinhSua/:MaNV', async (req, res) => {
     try{
         const errors = KtraDuLieuNhanVienKhiChinhSua(req.body)
         if (errors)
@@ -108,7 +108,6 @@ NhanVienAdminRoute.post('/ChinhSua/:MaNV', async (req, res) => {
             return sendError(res, "Mã nhân viên không tồn tại");
 
         await NhanVien.findOneAndUpdate({ MaNV: MaNV },{ HoNV, TenNV, Email, SoDienThoai, GioiTinh, NgaySinh });
-
         return sendSuccess(res, "Chỉnh sửa thông tin nhân viên thành công");
     }
     catch (error){
@@ -125,7 +124,7 @@ NhanVienAdminRoute.post('/ChinhSua/:MaNV', async (req, res) => {
 NhanVienAdminRoute.delete('/Xoa/:MaNV', async (req, res) => {
     try {
         const { MaNV } = req.params
-        const isExist = await GiangVien.findOne({ MaGV: MaGV })
+        const isExist = await NhanVien.findOne({ MaNV: MaNV })
         if (!isExist) 
             return sendError(res, "Nhân viên này không tồn tại");
 

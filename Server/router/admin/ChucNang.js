@@ -28,7 +28,7 @@ ChucNangAdminRoute.get('/DanhSachChucNang', async (req, res) => {
                     { TenChucNang: { $regex: keyword, $options: "i" } },
                 ],
             } : {};
-        const chucnangs = await ChucNang.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).limit(pageSize).skip(pageSize * page)
+        const chucnangs = await ChucNang.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await ChucNang.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
         if (chucnangs.length == 0) 

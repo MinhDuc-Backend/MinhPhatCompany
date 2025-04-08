@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { TrangThaiKhoaLuan, TrangThaiSinhVien, TrangThaiSinhVienTotNghiep, TrangThaiThucTap, TrangThaiTonTai } from "../constant.js";
+import { TrangThaiTonTai } from "../constant.js";
 const { Schema } = mongoose;
 
 const KhachHangSchema = new Schema(

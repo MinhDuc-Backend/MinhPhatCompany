@@ -200,7 +200,7 @@ SanPhamAdminRoute.post('/ChinhSuaHinhAnh/:MaSP', createSanPhamDir, uploadImg.sin
         
         let resultImage = ''
         if (req.file){
-	    let tensp = sanpham.TenSP;
+	        let tensp = sanpham.TenSP;
             let fileImage = await `${req.file.destination}${req.file.filename}`;
             let nameImage = await tensp.normalize('NFD')
                                         .replace(/[\u0300-\u036f]/g, '')

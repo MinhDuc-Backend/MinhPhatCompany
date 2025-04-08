@@ -29,7 +29,7 @@ LoaiSanPhamConAdminRoute.get('/DanhSachLSPCon', async (req, res) => {
             {
                 path: "MaLSPCha",
                 select: "MaLSPCha TenLoai",
-            })
+            }).sort({ createdAt: -1 })
         const length = await LoaiSanPhamCon.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
         if (lspcons.length == 0) 

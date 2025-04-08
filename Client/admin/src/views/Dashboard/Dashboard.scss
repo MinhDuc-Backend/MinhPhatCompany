@@ -50,19 +50,20 @@ body {
 }
 
 #sidebar {
-    position          : fixed;
+    position          : absolute;
     top               : 0;
     left              : 0;
-    width             : 320px;
+    width             : 250px;
     height            : 100%;
     background        : var(--light);
     font-family       : 'Montserrat';
     // z-index        : 2000;
-    z-index           : 5;
     font-family       : var(--lato);
     transition        : .3s ease;
     overflow-x        : hidden;
     scrollbar-width   : none;
+    z-index: 100;
+    border-right: solid 1px var(--grey);
 }
 
 #sidebar::--webkit-scrollbar {
@@ -91,7 +92,10 @@ body {
 
     img {
         margin-top : 10%;
-        height     : 3.9rem;
+        height     : 100%;
+        width: 100px;
+        object-fit   : cover;
+        border-radius: 50%;
     }
 }
 
@@ -261,4 +265,11 @@ body {
     #content main .table-data .todo .todo-list {
         min-width: 420px;
     }
+}
+
+#sidebar .bx-menu{
+    cursor: pointer;
+    font-size: 30px;
+    float: right;
+    margin-right: 10px;
 }
