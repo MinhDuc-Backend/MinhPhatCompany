@@ -34,6 +34,7 @@ TaiKhoanAdminRoute.get('/DanhSachTK', async (req, res) => {
                                                     path: "MaQTK",
                                                     select: "MaQTK TenQuyenTK",
                                                 })
+                                        .sort({ createdAt: -1 })
         const length = await TaiKhoan.find({ $and: [keywordCondition], TrangThai: { $in: [TrangThaiTaiKhoan.ChuaKichHoat, TrangThaiTaiKhoan.DaKichHoat]} }).count();
 
         if (taikhoans.length == 0) 

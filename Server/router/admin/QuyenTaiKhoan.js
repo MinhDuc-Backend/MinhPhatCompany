@@ -34,7 +34,7 @@ QuyenTaiKhoanAdminRoute.get('/DanhSachQuyenTK', async (req, res) => {
                     select: "MaCN TenChucNang"
                 }
             },
-        ]);
+        ]).sort({ createdAt: -1 });
         const length = await QuyenTaiKhoan.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
         if (quyentks.length == 0) 

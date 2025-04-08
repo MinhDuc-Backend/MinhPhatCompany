@@ -20,6 +20,22 @@ import EditProduct from "./Product/EditProduct/EditProduct";
 import CategoryChild from "./CategoryChild/CategoryChild";
 import AddCategoryChild from "./CategoryChild/AddCategoryChild/AddCategoryChild"
 import EditCategoryChild from "./CategoryChild/EditCategoryChild/EditCategoryChild"
+import TaiKhoan from "./Account/Account";
+import AddTaiKhoan from "./Account/AddAccount/AddAccount";
+import EditTaiKhoan from "./Account/EditAccount/EditAccount";
+import QuyenTaiKhoan from "./AccountPermissions/AccountPermissions"
+import AddQuyenTaiKhoan from "./AccountPermissions/AddAccountPermissions/AddAccountPermissions";
+import EditQuyenTaiKhoan from "./AccountPermissions/EditAccountPermissions/EditAccountPermissions";
+import SingleQuyenTaiKhoan from "./AccountPermissions/SingleAccountPermissions/SingleAccountPermissions";
+import Company from "./Company/Company";
+import AddCompany from "./Company/AddCompany/AddCompany";
+import EditCompany from "./Company/EditCompany/EditCompany";
+import Customer from "./Customer/Customer";
+import AddCustomer from "./Customer/AddCustomer/AddCustomer";
+import EditCustomer from "./Customer/EditCustomer/EditCustomer";
+import Staff from "./Staff/Staff";
+import AddStaff from "./Staff/AddStaff/AddStaff";
+import EditStaff from "./Staff/EditStaff/EditStaff";
 
 const AdminPage = () => {
     const [hiddenDB, setHiddenDB] = useState(false);
@@ -55,7 +71,7 @@ const AdminPage = () => {
     return (
         <>
             <div className={switchmode ? "dark" : ""}>
-                <Dashboard hiddenDB={hiddenDB} />
+                <Dashboard hiddenDB={hiddenDB} changleHidden={changleHidden} />
                 <section id="content">
                     <Nav changleHidden={changleHidden} changleSwitchMode={changleSwitchMode} />
                     <Routes >
@@ -80,6 +96,32 @@ const AdminPage = () => {
                             <Route index element={<CategoryChild />}></Route>
                             <Route path="new" element={<AddCategoryChild />} ></Route>
                             <Route path="edit/:MaLSPCon" element={<EditCategoryChild />} ></Route>
+                        </Route>
+                        <Route path='Account'  >
+                            <Route index element={<TaiKhoan />}></Route>
+                            <Route path="new" element={<AddTaiKhoan />} ></Route>
+                            <Route path="edit/:MaTK" element={<EditTaiKhoan />} ></Route>
+                        </Route>
+                        <Route path='AccountPermissions'  >
+                            <Route index element={<QuyenTaiKhoan />}></Route>
+                            <Route path="new" element={<AddQuyenTaiKhoan />} ></Route>
+                            <Route path="single/:MaQTK" element={<SingleQuyenTaiKhoan />} ></Route>
+                            <Route path="edit/:MaQTK" element={<EditQuyenTaiKhoan />} ></Route>
+                        </Route>
+                        <Route path='Company'  >
+                            <Route index element={<Company />}></Route>
+                            <Route path="new" element={<AddCompany />} ></Route>
+                            <Route path="edit/:MaCongTy" element={<EditCompany />} ></Route>
+                        </Route>
+                        <Route path='Customer'  >
+                            <Route index element={<Customer />}></Route>
+                            <Route path="new" element={<AddCustomer />} ></Route>
+                            <Route path="edit/:MaKH" element={<EditCustomer />} ></Route>
+                        </Route>
+                        <Route path='Staff'  >
+                            <Route index element={<Staff />}></Route>
+                            <Route path="new" element={<AddStaff />} ></Route>
+                            <Route path="edit/:MaNV" element={<EditStaff />} ></Route>
                         </Route>
                     </Routes >
                 </section>

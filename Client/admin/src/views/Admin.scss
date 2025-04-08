@@ -1,16 +1,16 @@
 /* CONTENT */
 #content {
     position: relative;
-    width: calc(100% - 320px);
-    left: 320px;
+    width: calc(100% - 100px);
+    left: 100px;
     transition: .3s ease;
 
 }
 
-#sidebar.hide~#content {
-    width: calc(100% - 100px);
-    left: 100px;
-}
+// #sidebar.hide~#content {
+//     width: calc(100% - 100px);
+//     left: 100px;
+// }
 
 
 

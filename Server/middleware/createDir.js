@@ -16,3 +16,11 @@ export const createSanPhamDir = (req, res, next) => {
     req.dirName = 'SanPham'
     next()
 }
+
+export const createThongTinCtyDir = (req, res, next) => {
+    mkdir(`public/ThongTinCty`, { recursive: true }, (err) => {
+        if (err) return sendError(res, 'Không thể tải tập tin lên.')
+    })
+    req.dirName = 'ThongTinCty'
+    next()
+}
