@@ -114,8 +114,6 @@ const TableCompany = (props) => {
 
         ),
 
-
-
         renderTopToolbarCustomActions: ({ table }) => (
             <Box
                 sx={{
@@ -152,9 +150,7 @@ const TableCompany = (props) => {
 
     return (
         <>
-
             <MantineReactTable table={table} />
-
         </>
     )
 

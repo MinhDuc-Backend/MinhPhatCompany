@@ -202,21 +202,27 @@ body {
 
 @media screen and (max-width: 768px) {
     #sidebar {
-        width: 200px;
+        width: 250px;
+    }
+
+    #sidebar.hide {
+        width: 0px;
+    }
+
+    #sidebar.hide .side-menu li a {
+        width     : calc(100%);
+        transition: .3s ease;
     }
 
     #content {
-        width: calc(100% - 60px);
-        left : 200px;
+        width: calc(100% - 0px);
+        left : 0px;
     }
 
     #content nav .nav-link {
         display: none;
     }
 
-    #sidebar .brand img {
-        visibility: hidden;
-    }
 }
 
 @media screen and (max-width: 576px) {
