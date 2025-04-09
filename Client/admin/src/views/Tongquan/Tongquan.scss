@@ -261,67 +261,7 @@
 /* CONTENT */
 
 
-
-
-
-
-
-
-
-@media screen and (max-width: 768px) {
-    #sidebar {
-        width: 200px;
-    }
-
-    // #content {
-    //     width: calc(100% - 60px);
-    //     left : 200px;
-    // }
-
-    // nav .nav-link {
-    //     display: none;
-    // }
-
-    #sidebar .brand img {
-        visibility: hidden;
-    }
-}
-
-
-
-
-
-
 @media screen and (max-width: 576px) {
-    // nav form .form-input input {
-    //     display: none;
-    // }
-
-    // nav form .form-input button {
-    //     width        : auto;
-    //     height       : auto;
-    //     background   : transparent;
-    //     border-radius: none;
-    //     color        : var(--dark);
-    // }
-
-    // nav form.show .form-input input {
-    //     display: block;
-    //     width  : 100%;
-    // }
-
-    // nav form.show .form-input button {
-    //     width        : 36px;
-    //     height       : 100%;
-    //     border-radius: 0 36px 36px 0;
-    //     color        : var(--light);
-    //     background   : var(--red);
-    // }
-
-    // nav form.show~.notification,
-    // nav form.show~.profile {
-    //     display: none;
-    // }
 
     .main2 .box-info {
         grid-template-columns: 1fr;
