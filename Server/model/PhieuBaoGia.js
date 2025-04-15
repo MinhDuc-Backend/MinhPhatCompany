@@ -30,41 +30,34 @@ const PhieuBaoGiaSchema = new Schema(
             {
                 TenSP: {
                     type: String,
-                    required: true,
                 },
                 QuyCachKyThuat: {
                     type: String,
-                    required: true,
                 },
                 DonViTinh: {
                     type: String,
-                    required: true,
                 },
                 SoLuong: {
                     type: Number,
-                    required: true,
                 },
-                VAT: {
+                Thue: {
                     type: Number,
-                    required: true,
                 },
                 DonGia: {
                     type: Number,
-                    required: true,
                 },
                 ThanhTien: {
                     type: Number,
-                    required: true,
                 },
                 ThanhTienSauThue: {
                     type: Number,
-                    required: true,
                 },
             }
         ],
         TongTien: {
             type: Number,
             required: true,
+            default: 0,
         },
         ThoiGianGiaoHang: {
             type: String,

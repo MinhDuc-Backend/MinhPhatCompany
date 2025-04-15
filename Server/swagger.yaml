@@ -36,6 +36,8 @@ tags:
   description: "Các API của model CongTy"
 - name: "ThongTinCongTy"
   description: "Các API của model ThongTinCongTy"
+- name: "PhieuBaoGia"
+  description: "Các API của model PhieuBaoGia"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
     get: 
@@ -2877,6 +2879,448 @@ paths:
             example: {
               "status": false,
               "message": "Chỉnh sửa logo công ty thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/phieu-bao-gia/DanhSachPBG:
+    get: 
+      tags:
+        - "PhieuBaoGia"
+      summary: Admin lấy danh sách phiếu báo giá
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: tên phiếu báo giá
+      responses:
+        200: 
+          description: Lấy danh sách phiếu báo giá thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách phiếu báo giá thành công",
+            }
+        400:
+          description: Lấy danh sách phiếu báo giá thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách phiếu báo giá thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/phieu-bao-gia/ChiTietPBG/{MaPBG}:
+    get:
+      tags:
+        - "PhieuBaoGia"
+      summary: "Chi tiết thông tin phiếu báo giá"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaPBG
+          type: string
+          required: true
+          description: Mã phiếu báo giá
+      responses:
+        200:
+          description: Chi tiết thông tin phiếu báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin phiếu báo giá thành công.",
+            }
+        400:
+          description: Chi tiết thông tin phiếu báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin phiếu báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/phieu-bao-gia/Them:
+    post: 
+      tags:
+        - "PhieuBaoGia"
+      summary: Thêm phiếu báo giá
+      produces:
+        - application/json   
+      parameters:
+        - in: body #MaPBG, NgayBaoGia, SoBaoGia, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia
+          name: MaPBG
+          type: string
+          description: Mã phiếu báo giá
+          required: true
+        - in: body
+          name: NgayBaoGia
+          type: string
+          description: Ngày báo giá
+          required: true
+        - in: body
+          name: SoBaoGia
+          type: string
+          description: Số phiếu báo giá
+        - in: body
+          name: TenPBG
+          type: string
+          description: Tên phiếu báo giá
+          required: true
+        - in: body
+          name: KhachHangPBG
+          type: string
+          description: Khách hàng cần báo giá
+          required: true
+        - in: body
+          name: ThoiGianGiaoHang
+          type: string
+          description: Thời gian giao hàng
+          required: true
+        - in: body
+          name: DiaDiemGiaoHang
+          type: string
+          description: Địa điểm giao hàng
+          required: true
+        - in: body
+          name: ThoiGianBaoHanh
+          type: string
+          description: Thời gian bảo hành
+          required: true
+        - in: body
+          name: ThanhToan
+          type: string
+          description: Thanh toán
+          required: true
+        - in: body
+          name: HieuLucBaoGia
+          type: string
+          description: Hiệu lực báo giá
+          required: true
+      responses:
+        200:
+          description: Thêm phiếu báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm phiếu báo giá thành công.",
+            }          
+        400:
+          description: Thêm phiếu báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm phiếu báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/phieu-bao-gia/ChinhSua/{MaPBG}:
+    put: 
+      tags:
+        - "PhieuBaoGia"
+      summary: Chỉnh sửa thông tin phiếu báo giá
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaPBG
+          type: string
+          required: true
+          description: Mã phiếu báo giá
+        - in: body
+          name: NgayBaoGia
+          type: string
+          description: Ngày báo giá
+          required: true
+        - in: body
+          name: SoBaoGia
+          type: string
+          description: Số phiếu báo giá
+        - in: body
+          name: TenPBG
+          type: string
+          description: Tên phiếu báo giá
+          required: true
+        - in: body
+          name: KhachHangPBG
+          type: string
+          description: Khách hàng cần báo giá
+          required: true
+        - in: body
+          name: ThoiGianGiaoHang
+          type: string
+          description: Thời gian giao hàng
+          required: true
+        - in: body
+          name: DiaDiemGiaoHang
+          type: string
+          description: Địa điểm giao hàng
+          required: true
+        - in: body
+          name: ThoiGianBaoHanh
+          type: string
+          description: Thời gian bảo hành
+          required: true
+        - in: body
+          name: ThanhToan
+          type: string
+          description: Thanh toán
+          required: true
+        - in: body
+          name: HieuLucBaoGia
+          type: string
+          description: Hiệu lực báo giá
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin phiếu báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin phiếu báo giá thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin phiếu báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin phiếu báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/phieu-bao-gia/Xoa/{MaPBG}:
+    delete:
+      tags:
+        - "PhieuBaoGia"
+      summary: "Xóa thông tin phiếu báo giá"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaPBG
+          type: string
+          required: true
+          description: Mã phiếu báo giá
+      responses:
+        200:
+          description: Xóa thông tin phiếu báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin phiếu báo giá thành công.",
+            }
+        400:
+          description: Xóa thông tin phiếu báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin phiếu báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/phieu-bao-gia/ThemSanPhamBaoGia/{MaPBG}:
+    post: 
+      tags:
+        - "PhieuBaoGia"
+      summary: Thêm sản phẩm báo giá
+      produces:
+        - application/json   
+      parameters:
+        - in: path #TenSP, QuyCachKyThuat, DonViTinh, SoLuong, Thue, DonGia, ThanhTien, ThanhTienSauThue
+          name: MaPBG
+          type: string
+          description: Mã phiếu báo giá
+          required: true
+        - in: body
+          name: TenSP
+          type: string
+          description: Tên sản phẩm
+          required: true
+        - in: body
+          name: QuyCachKyThuat
+          type: string
+          description: Quy cách kỹ thuật
+        - in: body
+          name: DonViTinh
+          type: string
+          description: Đơn vị tính
+          required: true
+        - in: body
+          name: SoLuong
+          type: number
+          description: Số lượng sản phẩm
+          required: true
+        - in: body
+          name: Thue
+          type: number
+          description: Thuế
+          required: true
+        - in: body
+          name: DonGia
+          type: number
+          description: Đơn giá sản phẩm
+          required: true
+        - in: body
+          name: ThanhTien
+          type: number
+          description: Thành tiền
+          required: true
+        - in: body
+          name: ThanhTienSauThue
+          type: number
+          description: Thành tiền sau thuế
+          required: true
+      responses:
+        200:
+          description: Thêm sản phẩm báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm sản phẩm báo giá thành công.",
+            }          
+        400:
+          description: Thêm sản phẩm báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm sản phẩm báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/phieu-bao-gia/ChinhSuaSanPhamBaoGia/{MaPBG}:
+    put: 
+      tags:
+        - "PhieuBaoGia"
+      summary: Chỉnh sửa sản phẩm báo giá
+      produces:
+        - application/json   
+      parameters:
+        - in: path
+          name: MaPBG
+          type: string
+          description: Mã phiếu báo giá
+          required: true
+        - in: body
+          name: id
+          type: string
+          description: ObjectId sản phẩm
+          required: true
+        - in: body
+          name: TenSP
+          type: string
+          description: Tên sản phẩm
+          required: true
+        - in: body
+          name: QuyCachKyThuat
+          type: string
+          description: Quy cách kỹ thuật
+        - in: body
+          name: DonViTinh
+          type: string
+          description: Đơn vị tính
+          required: true
+        - in: body
+          name: SoLuong
+          type: number
+          description: Số lượng sản phẩm
+          required: true
+        - in: body
+          name: Thue
+          type: number
+          description: Thuế
+          required: true
+        - in: body
+          name: DonGia
+          type: number
+          description: Đơn giá sản phẩm
+          required: true
+        - in: body
+          name: ThanhTien
+          type: number
+          description: Thành tiền
+          required: true
+        - in: body
+          name: ThanhTienSauThue
+          type: number
+          description: Thành tiền sau thuế
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa sản phẩm báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa sản phẩm báo giá thành công.",
+            }          
+        400:
+          description: Chỉnh sửa sản phẩm báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa sản phẩm báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/phieu-bao-gia/XoaSanPhamBaoGia/{MaPBG}:
+    put: 
+      tags:
+        - "PhieuBaoGia"
+      summary: Xóa sản phẩm báo giá
+      produces:
+        - application/json   
+      parameters:
+        - in: path
+          name: MaPBG
+          type: string
+          description: Mã phiếu báo giá
+          required: true
+        - in: body
+          name: id
+          type: string
+          description: ObjectId sản phẩm
+          required: true
+      responses:
+        200:
+          description: Xóa sản phẩm báo giá thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa sản phẩm báo giá thành công.",
+            }          
+        400:
+          description: Xóa sản phẩm báo giá thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Xóa sản phẩm báo giá thất bại.",
             }
       security:
         - ApiKeyAuth: [] 
