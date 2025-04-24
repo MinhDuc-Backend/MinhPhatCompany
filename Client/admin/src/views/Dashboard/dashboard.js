@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Dashboard.scss";
-import logo from "../logomp.jpg";
+import logo from "../logotronMP.png";
 import dashboard from "./dashboard.png"
 
 const Dashboard = (props) => {
@@ -21,6 +21,11 @@ const Dashboard = (props) => {
         changleHidden();
     }
 
+    const onCheckHidden = () => {
+        if (hiddenDB == false)
+            changleHidden();
+    }
+
     return (
         < section id="sidebar" className={hiddenDB ? "hide" : ""} >
             <a className="brand">
@@ -29,7 +34,7 @@ const Dashboard = (props) => {
             <i className='bx bx-menu' id="menuhide" onClick={() => onChangleHidden()} style={{display: hiddenDB ? "none" : "block"}} ></i>
             <ul className="side-menu top">
                 <li>
-                    <NavLink to={"/admin/Dashboard"} className={({ isActive }) => isActive ? "active" : ''}>
+                    <NavLink to={"/admin/Dashboard"} className={({ isActive }) => isActive ? "active" : ''} onClick={() => onCheckHidden()}>
                         <img style={{ objectFit: 'cover', height: '20px', width: '20px', marginRight: '10px', marginLeft: '10px' }} src={dashboard} />
                         <span className="text">Dashboard</span>
                     </NavLink>
@@ -37,7 +42,7 @@ const Dashboard = (props) => {
                 {catalog && catalog.length > 0 && catalog.map((item, index) => {
                     return (
                         <li key={item.MaCN.MaCN} >
-                            <NavLink to={"/admin/" + item.MaCN.MaCN} className={({ isActive }) => isActive ? "active" : ''}>
+                            <NavLink to={"/admin/" + item.MaCN.MaCN} className={({ isActive }) => isActive ? "active" : ''} onClick={() => onCheckHidden()}>
                                 <img style={{ objectFit: 'cover', height: '25px', width: '25px', marginRight: '10px', marginLeft: '10px' }} src={item.MaCN.Hinh} />
                                 <span className="text">{item.MaCN.TenChucNang}</span>
                             </NavLink>

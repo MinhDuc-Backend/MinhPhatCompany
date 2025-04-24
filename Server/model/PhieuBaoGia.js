@@ -10,7 +10,7 @@ const PhieuBaoGiaSchema = new Schema(
             required: true,
         },
         NgayBaoGia: {
-            type: String,
+            type: Date,
             required: true,
         },
         SoBaoGia: {

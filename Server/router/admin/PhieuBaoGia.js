@@ -71,7 +71,7 @@ PhieuBaoGiaAdminRoute.get('/ChiTietPBG/:MaPBG', async (req, res) => {
         const isExist = await PhieuBaoGia.findOne({ MaPBG: MaPBG }).populate([
             {
                 path: "KhachHangPBG",
-                select: "HoKH TenKH SoDienThoai Email",
+                select: "MaKH HoKH TenKH SoDienThoai Email",
                 populate: {
                     path: "CongTy",
                     select: "MaCongTy TenCongTy"
@@ -110,11 +110,10 @@ PhieuBaoGiaAdminRoute.post('/Them', async (req, res) => {
             return sendError(res, "Khách hàng không tồn tại");
 
         const MaPBG = TaoMaPhieuBaoGia();
-        let ngaybaogia = DinhDangNgayBaoGia(NgayBaoGia);
         let macty = isExistKhachHang.CongTy
         let sobaogia = DinhDangSoBaoGia(macty.MaCongTy, NgayBaoGia);
 
-        const pbg = await PhieuBaoGia.create({ MaPBG: MaPBG, NgayBaoGia: ngaybaogia, SoBaoGia: sobaogia, TenPBG: TenPBG, 
+        const pbg = await PhieuBaoGia.create({ MaPBG: MaPBG, NgayBaoGia: NgayBaoGia, SoBaoGia: sobaogia, TenPBG: TenPBG, 
                                                 KhachHangPBG: isExistKhachHang._id, ThoiGianGiaoHang: ThoiGianGiaoHang, DiaDiemGiaoHang: DiaDiemGiaoHang,
                                                 ThoiGianBaoHanh: ThoiGianBaoHanh, ThanhToan: ThanhToan, HieuLucBaoGia: HieuLucBaoGia, SanPhamPBG: [] });
                                             
@@ -151,11 +150,10 @@ PhieuBaoGiaAdminRoute.put('/ChinhSua/:MaPBG', async (req, res) => {
         if (!isExistKhachHang)
             return sendError(res, "Khách hàng không tồn tại");
 
-        let ngaybaogia = DinhDangNgayBaoGia(NgayBaoGia);
         let macty = isExistKhachHang.CongTy
         let sobaogia = DinhDangSoBaoGia(macty.MaCongTy, NgayBaoGia);
 
-        await PhieuBaoGia.findOneAndUpdate({ MaPBG: MaPBG }, { NgayBaoGia: ngaybaogia, SoBaoGia: sobaogia, TenPBG: TenPBG, 
+        await PhieuBaoGia.findOneAndUpdate({ MaPBG: MaPBG }, { NgayBaoGia: NgayBaoGia, SoBaoGia: sobaogia, TenPBG: TenPBG, 
                                             KhachHangPBG: isExistKhachHang._id, ThoiGianGiaoHang: ThoiGianGiaoHang, DiaDiemGiaoHang: DiaDiemGiaoHang,
                                             ThoiGianBaoHanh: ThoiGianBaoHanh, ThanhToan: ThanhToan, HieuLucBaoGia: HieuLucBaoGia });
         return sendSuccess(res, "Chỉnh sửa phiếu báo giá thành công");
