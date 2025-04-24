@@ -1,5 +1,5 @@
 import "./Nav3.scss"
-import avt from "../logomp.jpg"
+import avt from "../logoMP.png"
 
 const Nav = (props) => {
     const { changleHidden, changleSwitchMode } = props;

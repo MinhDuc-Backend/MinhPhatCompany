@@ -36,9 +36,13 @@ import EditCustomer from "./Customer/EditCustomer/EditCustomer";
 import Staff from "./Staff/Staff";
 import AddStaff from "./Staff/AddStaff/AddStaff";
 import EditStaff from "./Staff/EditStaff/EditStaff";
+import Quotation from "./Quotation/Quotation";
+import AddQuotation from "./Quotation/AddQuotation/AddQuotation";
+import SingleQuotation from "./Quotation/DetailQuotation/DetailQuotation";
+import EditQuotation from "./Quotation/EditQuotation/EditQuotation";
 
 const AdminPage = () => {
-    const [hiddenDB, setHiddenDB] = useState(false);
+    const [hiddenDB, setHiddenDB] = useState(true);
     const [switchmode, setSwitchmode] = useState(false);
     useEffect(() => {
         GetToken()
@@ -122,6 +126,12 @@ const AdminPage = () => {
                             <Route index element={<Staff />}></Route>
                             <Route path="new" element={<AddStaff />} ></Route>
                             <Route path="edit/:MaNV" element={<EditStaff />} ></Route>
+                        </Route>
+                        <Route path='Quotation'  >
+                            <Route index element={<Quotation />}></Route>
+                            <Route path="new" element={<AddQuotation />} ></Route>
+                            <Route path="single/:MaPBG" element={<SingleQuotation />} ></Route>
+                            <Route path="edit/:MaPBG" element={<EditQuotation />} ></Route>
                         </Route>
                     </Routes >
                 </section>

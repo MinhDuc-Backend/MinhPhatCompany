@@ -378,3 +378,84 @@ const fetchDeleteStaff = (headers, MaNV) => {
 }
 export { fetchDeleteStaff };
 //----------------------------------------------------------------------------------------------//
+
+//--------------------------------Quotation----------------------------------------------//
+const fetchAllQuotation = (headers) => { 
+    return axios.get('admin/phieu-bao-gia/DanhSachPBG', { headers });
+}
+export { fetchAllQuotation };
+
+const fetchDetailQuotation= (headers, MaPBG) => { 
+    return axios.get(`admin/phieu-bao-gia/ChiTietPBG/${MaPBG}`, { headers });
+}
+export { fetchDetailQuotation };
+
+const fetchAddQuotation = (headers, NgayBaoGia, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia) => { 
+    return axios.post(`admin/phieu-bao-gia/Them`, { //NgayBaoGia, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia
+        NgayBaoGia: NgayBaoGia,
+        TenPBG: TenPBG,
+        KhachHangPBG: KhachHangPBG,
+        ThoiGianGiaoHang: ThoiGianGiaoHang,
+        DiaDiemGiaoHang: DiaDiemGiaoHang,
+        ThoiGianBaoHanh: ThoiGianBaoHanh,
+        ThanhToan: ThanhToan,
+        HieuLucBaoGia: HieuLucBaoGia,
+    }, { headers });
+}
+export { fetchAddQuotation };
+
+const fetchEditQuotation = (headers, MaPBG, NgayBaoGia, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia) => { 
+    return axios.put(`admin/phieu-bao-gia/ChinhSua/${MaPBG}`, {
+        NgayBaoGia: NgayBaoGia,
+        TenPBG: TenPBG,
+        KhachHangPBG: KhachHangPBG,
+        ThoiGianGiaoHang: ThoiGianGiaoHang,
+        DiaDiemGiaoHang: DiaDiemGiaoHang,
+        ThoiGianBaoHanh: ThoiGianBaoHanh,
+        ThanhToan: ThanhToan,
+        HieuLucBaoGia: HieuLucBaoGia,
+    }, { headers });
+}
+export { fetchEditQuotation };
+
+const fetchDeleteQuotation = (headers, MaPBG) => { 
+    return axios.delete(`admin/phieu-bao-gia/Xoa/${MaPBG}`, { headers });
+}
+export { fetchDeleteQuotation };
+
+const fetchAddProductQuotation = (headers, MaPBG, TenSP, QuyCachKyThuat, DonViTinh, SoLuong, Thue, DonGia, ThanhTien, ThanhTienSauThue) => { 
+    return axios.post(`admin/phieu-bao-gia/ThemSanPhamBaoGia/${MaPBG}`, { 
+        TenSP: TenSP,
+        QuyCachKyThuat: QuyCachKyThuat,
+        DonViTinh: DonViTinh,
+        SoLuong: SoLuong,
+        Thue: Thue,
+        DonGia: DonGia,
+        ThanhTien: ThanhTien,
+        ThanhTienSauThue: ThanhTienSauThue,
+    }, { headers });
+}
+export { fetchAddProductQuotation };
+
+const fetchEditProductQuotation = (headers, MaPBG, id, TenSP, QuyCachKyThuat, DonViTinh, SoLuong, Thue, DonGia, ThanhTien, ThanhTienSauThue) => { 
+    return axios.put(`admin/phieu-bao-gia/ChinhSuaSanPhamBaoGia/${MaPBG}`, {
+        id: id,
+        TenSP: TenSP,
+        QuyCachKyThuat: QuyCachKyThuat,
+        DonViTinh: DonViTinh,
+        SoLuong: SoLuong,
+        Thue: Thue,
+        DonGia: DonGia,
+        ThanhTien: ThanhTien,
+        ThanhTienSauThue: ThanhTienSauThue,
+    }, { headers });
+}
+export { fetchEditProductQuotation };
+
+const fetchDeleteProductQuotation = (headers, MaPBG, id) => { 
+    return axios.delete(`admin/phieu-bao-gia/XoaSanPhamBaoGia/${MaPBG}`, {
+        id: id,
+    } , { headers });
+}
+export { fetchDeleteProductQuotation };
+//----------------------------------------------------------------------------------------------//

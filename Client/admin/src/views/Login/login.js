@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../../css/bootstrap.min.css";
 import "./login.scss";
-import logomp from "../logomp.jpg"
+import logomp from "../logoMP.png"
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { fetchLoginAdmin } from "../GetAPI"

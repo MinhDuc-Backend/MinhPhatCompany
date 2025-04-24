@@ -5,7 +5,6 @@ export const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
 
 export const XuLyNgaySinh = (data) => {
     const date = new Date(data);
-    const vietnamTime = date.toLocaleString('vi-VN', options);
     let ngay = date.getDate();
     let thang = date.getMonth() + 1;
     let nam = date.getFullYear();

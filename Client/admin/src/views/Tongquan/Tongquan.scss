@@ -16,7 +16,7 @@
     display        : flex;
     align-items    : center;
     justify-content: space-between;
-    grid-gap       : 16px;
+    // grid-gap       : 16px;
     flex-wrap      : wrap;
 }
 
@@ -57,10 +57,10 @@
 
 .main2 .head-title .btn-download {
     // height            : 36px;
-    height            : 2.7rem;
+    height            : 2.2rem;
     padding           : 0 16px;
     // border-radius  : 36px;
-    border-radius     : 0.25rem;
+    border-radius     : 0.5rem;
     background        : var(--blue);
     color             : var(--light);
     display           : flex;
@@ -277,5 +277,10 @@
 
     .main2 .table-data .todo .todo-list {
         min-width: 420px;
+    }
+
+    .main2 .head-title .btn-download {
+        margin-bottom: 10px;
+        float: right;
     }
 }

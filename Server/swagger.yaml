@@ -2964,20 +2964,11 @@ paths:
       produces:
         - application/json   
       parameters:
-        - in: body #MaPBG, NgayBaoGia, SoBaoGia, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia
-          name: MaPBG
-          type: string
-          description: Mã phiếu báo giá
-          required: true
         - in: body
           name: NgayBaoGia
           type: string
           description: Ngày báo giá
           required: true
-        - in: body
-          name: SoBaoGia
-          type: string
-          description: Số phiếu báo giá
         - in: body
           name: TenPBG
           type: string
@@ -3050,10 +3041,6 @@ paths:
           type: string
           description: Ngày báo giá
           required: true
-        - in: body
-          name: SoBaoGia
-          type: string
-          description: Số phiếu báo giá
         - in: body
           name: TenPBG
           type: string
