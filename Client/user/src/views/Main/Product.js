@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import logomp from "../logomp.jpg"
+import logomp from "../logoMP.png"
 import Introduction from "./Introduction";
 import { fetchAllCategoryChildUser, fetchAllProductUser, fetchAllProductUserCategory } from "../GetAPI"
 

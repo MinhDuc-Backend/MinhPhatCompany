@@ -1,6 +1,4 @@
-import { useState,useEffect } from "react";
 import { Routes,Route, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "../css/bootstrap.min.css";
 import "../css/font-awesome.min.css";
 import "../css/nouislider.min.css";
