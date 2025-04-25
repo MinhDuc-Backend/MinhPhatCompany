@@ -48,8 +48,13 @@
     font-size: 18px;
 }
 
-.logoCompany {
+.logoCompany{
     text-align: center;
+}
+
+.logoCompany img{
+    width: 200px;
+    height: 200px;
 }
 
 .infoCompany p{

@@ -453,7 +453,7 @@ const fetchEditProductQuotation = (headers, MaPBG, id, TenSP, QuyCachKyThuat, Do
 export { fetchEditProductQuotation };
 
 const fetchDeleteProductQuotation = (headers, MaPBG, id) => { 
-    return axios.delete(`admin/phieu-bao-gia/XoaSanPhamBaoGia/${MaPBG}`, {
+    return axios.put(`admin/phieu-bao-gia/XoaSanPhamBaoGia/${MaPBG}`, {
         id: id,
     } , { headers });
 }

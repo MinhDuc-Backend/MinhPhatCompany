@@ -71,7 +71,7 @@ body {
 }
 
 #sidebar.hide {
-    width: 100px;
+    width: 0px;
 }
 
 #sidebar .brand {
@@ -156,8 +156,8 @@ body {
 }
 
 #sidebar.hide .side-menu li a {
-    width     : calc(48px - (4px * 2));
-    transition: width .3s ease;
+    width     : calc(100%);
+    transition: .3s ease;
 }
 
 #sidebar .side-menu li a.logout:hover {

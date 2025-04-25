@@ -186,7 +186,7 @@ const EditQuotation = () => {
                         </div>
                         <div className="form-row">
                             <div className="form-group col-md-12 formbtn" id="btsubmit">
-                                <div><button className="btn" type="button" onClick={() => handleEditQuotation()}>Cập nhật dữ liệu</button></div>
+                                <div><button className="btn" type="button" style={{color: 'white'}} onClick={() => handleEditQuotation()}>Cập nhật dữ liệu</button></div>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@ const EditQuotation = () => {
                     </Box>
                     <TabPanel value="Các sản phẩm báo giá" >
                         <div className="table">
-                            <TableProductQuotation listData={SanPhamPBG} MaPBG={baogia.MaPBG} />
+                            <TableProductQuotation listData={SanPhamPBG} MaPBG={baogia.MaPBG} SetListData={SetSanPhamPBG} SetTongTien={SetTongTien} />
                         </div>
                     </TabPanel>
                 </TabContext>

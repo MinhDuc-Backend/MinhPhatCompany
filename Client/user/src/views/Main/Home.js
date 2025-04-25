@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import logomp from "../logomp.jpg"
+import logomp from "../logoMP.png"
 import mangluoi from "../MangLuoi.jpg"
 import linhvuc from "../LinhVuc.png"
 import gtck1 from "../gtck1.png"

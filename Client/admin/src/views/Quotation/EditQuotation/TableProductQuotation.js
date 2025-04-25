@@ -7,7 +7,7 @@ import "./TableProductQuotation.scss"
 import { IconButton, } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import { Delete, Edit, Visibility } from '@mui/icons-material';
-import { fetchDeleteProductQuotation } from "../../GetAPI"
+import { fetchDeleteProductQuotation, fetchAddProductQuotation, fetchDetailQuotation, fetchEditProductQuotation } from "../../GetAPI"
 import { toast } from "react-toastify";
 import { AxiosRequestConfig } from 'axios';
 import { CSVLink, CSVDownload } from "react-csv";
@@ -24,9 +24,20 @@ const csvConfig = mkConfig({
 });
 
 const TableProductQuotation = (props) => {
-    const { listData, MaPBG } = props
+    const { listData, MaPBG, SetListData, SetTongTien } = props
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
+    const [hiddenFormAddProductQuotation, SetHiddenFormAddProductQuotation] = useState(true);
+    const [hiddenFormEditProductQuotation, SetHiddenFormEditProductQuotation] = useState(true);
+    const [id, SetID] = useState("")
+    const [TenSP, SetTenSP] = useState("")
+    const [QuyCachKyThuat, SetQuyCachKyThuat] = useState("")
+    const [DonViTinh, SetDonViTinh] = useState("")
+    const [SoLuong, SetSoLuong] = useState(0)
+    const [Thue, SetThue] = useState(8)
+    const [DonGia, SetDonGia] = useState(0)
+    const [ThanhTien, SetThanhTien] = useState(0)
+    const [ThanhTienSauThue, SetThanhTienSauThue] = useState(0)
 
     // const handleExportFile = async () => {
     //     const headers = { 'x-access-token': accessToken }
@@ -51,19 +62,127 @@ const TableProductQuotation = (props) => {
         setOpen(false);
     };
 
+    const hiddenAddForm = () => {
+        ClearData()
+        SetHiddenFormAddProductQuotation(!hiddenFormAddProductQuotation);
+    }
+
+    const hiddenEditForm = () => {
+        SetHiddenFormEditProductQuotation(!hiddenFormEditProductQuotation);
+    }
+    
+    const getDetailQuotation = async () => {
+            const headers = { 'x-access-token': accessToken };
+            let res = await fetchDetailQuotation(headers, MaPBG);
+            if (res && res.data) {
+                SetListData(res.data.SanPhamPBG)
+                SetTongTien(res.data.TongTien)
+            }
+        }
+
 
     const handleDeleteRows = async (row) => {
         const headers = { 'x-access-token': accessToken };
-        let res = await fetchDeleteProductQuotation(headers, MaPBG, row.original.Id)
+        let res = await fetchDeleteProductQuotation(headers, MaPBG, row.original._id)
         if (res.status === true) {
             toast.success(res.message)
-            navigate(`/admin/Quotation/single/${MaPBG}`)
+            getDetailQuotation();
+            setOpen(false);
             return;
         }
         if (res.success === false) {
             toast.error(res.message)
             return;
         }
+    }
+
+    const ClearData = () => {
+        SetTenSP("")
+        SetQuyCachKyThuat("")
+        SetDonViTinh("")
+        SetSoLuong(0)
+        SetThue(8)
+        SetDonGia(0)
+        SetThanhTien(0)
+        SetThanhTienSauThue(0)
+    }
+
+    const onChangeThanhTien = (event, setSL) => {
+        let changeValue = event.target.value;
+        setSL(changeValue);
+        let tien = changeValue*SoLuong;
+        SetThanhTien(tien)
+        let tiensauthue = ( (tien*Thue) / 100 ) + tien;
+        SetThanhTienSauThue(tiensauthue);
+    }
+
+    const onChangeThanhTienSauThue = (event, setSL) => {
+        let changeValue = event.target.value;
+        setSL(changeValue);
+        let tiensauthue = ( (ThanhTien*changeValue) / 100 ) + ThanhTien;
+        SetThanhTienSauThue(tiensauthue);
+    }
+
+    const OpenEditForm = (row) => {
+        SetID(row.original._id)
+        SetTenSP(row.original.TenSP)
+        SetQuyCachKyThuat(row.original.QuyCachKyThuat)
+        SetDonViTinh(row.original.DonViTinh)
+        SetSoLuong(row.original.SoLuong)
+        SetThue(row.original.Thue)
+        SetDonGia(row.original.DonGia)
+        SetThanhTien(row.original.ThanhTien)
+        SetThanhTienSauThue(row.original.ThanhTienSauThue)
+        SetHiddenFormEditProductQuotation(false)
+    }
+
+    const handleAddProductQuotation = async () => {
+        const headers = { 'x-access-token': accessToken };
+        if (!headers || !TenSP || !QuyCachKyThuat || !DonViTinh || !SoLuong || !Thue || !DonGia) {
+            toast.error("Vui lòng điền đầy đủ dữ liệu")
+            return
+        }
+        let res = await fetchAddProductQuotation(headers, MaPBG, TenSP, QuyCachKyThuat, DonViTinh, SoLuong, Thue, DonGia, ThanhTien, ThanhTienSauThue)
+        if (res.status === true) {
+            toast.success(res.message)
+            getDetailQuotation();
+            SetHiddenFormAddProductQuotation(!hiddenFormAddProductQuotation);
+            ClearData();
+            return;
+        }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
+        }
+    }
+
+    const handleEditProductQuotation = async () => {
+        const headers = { 'x-access-token': accessToken };
+        if (!headers || !TenSP || !QuyCachKyThuat || !DonViTinh || !SoLuong || !Thue || !DonGia) {
+            toast.error("Vui lòng điền đầy đủ dữ liệu")
+            return
+        }
+        let res = await fetchEditProductQuotation(headers, MaPBG, id, TenSP, QuyCachKyThuat, DonViTinh, SoLuong, Thue, DonGia, ThanhTien, ThanhTienSauThue)
+        if (res.status === true) {
+            toast.success(res.message)
+            getDetailQuotation();
+            SetHiddenFormEditProductQuotation(!hiddenFormEditProductQuotation);
+            ClearData();
+            return;
+        }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
+        }
+    }
+
+    const onChangeInputSL = (event, setSL) => {
+        let changeValue = event.target.value;
+        setSL(changeValue);
+    }
+    const onChangeSelect = (event, setSelect) => {
+        let changeValue = event.target.value;
+        setSelect(changeValue);
     }
 
     const columns = useMemo(
@@ -97,6 +216,11 @@ const TableProductQuotation = (props) => {
             {
                 accessorKey: 'DonViTinh',
                 header: 'ĐVT',
+                size: 50,
+            },
+            {
+                accessorKey: 'SoLuong',
+                header: 'Số lượng',
                 size: 50,
             },
             {
@@ -151,7 +275,7 @@ const TableProductQuotation = (props) => {
         paginationDisplayMode: 'pages',
         positionToolbarAlertBanner: 'bottom',
         enableColumnActions: true,
-        enableRowActions: true,
+        enableRowActions: true, 
         positionActionsColumn: 'last',
         state: {
             columnVisibility: { _id: false },
@@ -159,11 +283,9 @@ const TableProductQuotation = (props) => {
 
         renderRowActions: ({ row }) => (
             <Box sx={{ display: 'flex', gap: '0.3rem' }}>
-                <Link to={`/admin/khoaluan/${MaPBG}/detai/edit/` + row.original.Id}>
-                    <IconButton  >
-                        <Edit fontSize="small" />
-                    </IconButton>
-                </Link>
+                <IconButton onClick={() => OpenEditForm(row)} >
+                    <Edit fontSize="small" />
+                </IconButton>
 
                 <IconButton onClick={() => handleClickOpen(row)}>
                     <Delete fontSize="small" sx={{ color: 'red' }} />
@@ -179,9 +301,7 @@ const TableProductQuotation = (props) => {
                     padding: '8px',
                     flexWrap: 'wrap',
                 }}>
-                <Link to={`/admin/khoaluan/${MaPBG}/detai/new`}>
-                    <Button>Thêm sản phẩm</Button>
-                </Link>
+                <Button onClick={hiddenAddForm}>Thêm sản phẩm</Button>
             </Box>
 
         ),
@@ -214,6 +334,122 @@ const TableProductQuotation = (props) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <div className='OpacityDiv' style={{display: hiddenFormAddProductQuotation ? "none" : "block"}}>
+                <div className='ProductQuotation'>
+                    <form className="form-edit">
+                        <div className="container-edit">
+                            <div className="form-row titleAddProduct">
+                                <div className='form-group col-md-12'><h4>Thêm sản phẩm</h4></div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputNgayBD">Tên sản phẩm</label>
+                                    <input type="text" value={TenSP} className="form-control customInput" id="inputNgayBD" placeholder='Điền tên sản phẩm ...' onChange={(event) => onChangeInputSL(event, SetTenSP)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputTen">Quy cách kỹ thuật</label>
+                                    <input type="text" value={QuyCachKyThuat} className="form-control customInput" id="inputTen" placeholder="Điền quy cách kỹ thuật ..." onChange={(event) => onChangeInputSL(event, SetQuyCachKyThuat)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-3">
+                                    <label className="titleLabel" for="inputNgayBD">Đơn vị tính</label>
+                                    <input type="text" value={DonViTinh} className="form-control customInput" id="inputNgayBD" placeholder='VD: Cái, Bộ ...' onChange={(event) => onChangeInputSL(event, SetDonViTinh)} />
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <label className="titleLabel" for="inputTen">Số lượng</label>
+                                    <input type="number" value={SoLuong} className="form-control customInput" id="inputTen" onChange={(event) => onChangeInputSL(event, SetSoLuong)} />
+                                </div>
+                                <div className="form-group col-md-5">
+                                    <label className="titleLabel" for="inputTen">Đơn giá</label>
+                                    <input type="number" value={DonGia} className="form-control customInput" id="inputTen" onChange={(event) => onChangeThanhTien(event, SetDonGia)} />
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <label className="titleLabel" for="inputTen">Thuế</label>
+                                    <select id="inputNganh" value={Thue} onChange={(event) => onChangeThanhTienSauThue(event, SetThue)} className="form-control customInput">
+                                        <option key="8" value='8'>8%</option>
+                                        <option key="10" value='10'>10%</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputNgayBD">Thành tiền</label>
+                                    <input type="text" value={ThanhTien} className="form-control customInput" id="inputNgayBD" readOnly />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputTen">Thành tiền sau thuế</label>
+                                    <input type="text" value={ThanhTienSauThue} className="form-control customInput" id="inputTen" readOnly />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-12 formbtnProductQuotation" id="btsubmit">
+                                    <button className="btn btnClose" onClick={hiddenAddForm} type="button">Đóng</button>
+                                    <button className="btn" type="button" onClick={() => handleAddProductQuotation()}>Thêm sản phẩm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div className='OpacityDiv' style={{display: hiddenFormEditProductQuotation ? "none" : "block"}}>
+                <div className='ProductQuotation'>
+                    <form className="form-edit">
+                        <div className="container-edit">
+                            <div className="form-row titleAddProduct">
+                                <div className='form-group col-md-12'><h4>Điều chỉnh thông tin</h4></div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputNgayBD">Tên sản phẩm</label>
+                                    <input type="text" value={TenSP} className="form-control customInput" id="inputNgayBD" placeholder='Điền tên sản phẩm ...' onChange={(event) => onChangeInputSL(event, SetTenSP)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputTen">Quy cách kỹ thuật</label>
+                                    <input type="text" value={QuyCachKyThuat} className="form-control customInput" id="inputTen" placeholder="Điền quy cách kỹ thuật ..." onChange={(event) => onChangeInputSL(event, SetQuyCachKyThuat)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-3">
+                                    <label className="titleLabel" for="inputNgayBD">Đơn vị tính</label>
+                                    <input type="text" value={DonViTinh} className="form-control customInput" id="inputNgayBD" placeholder='VD: Cái, Bộ ...' onChange={(event) => onChangeInputSL(event, SetDonViTinh)} />
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <label className="titleLabel" for="inputTen">Số lượng</label>
+                                    <input type="number" value={SoLuong} className="form-control customInput" id="inputTen" onChange={(event) => onChangeInputSL(event, SetSoLuong)} />
+                                </div>
+                                <div className="form-group col-md-5">
+                                    <label className="titleLabel" for="inputTen">Đơn giá</label>
+                                    <input type="number" value={DonGia} className="form-control customInput" id="inputTen" onChange={(event) => onChangeThanhTien(event, SetDonGia)} />
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <label className="titleLabel" for="inputTen">Thuế</label>
+                                    <select id="inputNganh" value={Thue} onChange={(event) => onChangeThanhTienSauThue(event, SetThue)} className="form-control customInput">
+                                        <option key="8" value='8'>8%</option>
+                                        <option key="10" value='10'>10%</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputNgayBD">Thành tiền</label>
+                                    <input type="text" value={ThanhTien} className="form-control customInput" id="inputNgayBD" readOnly />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label className="titleLabel" for="inputTen">Thành tiền sau thuế</label>
+                                    <input type="text" value={ThanhTienSauThue} className="form-control customInput" id="inputTen" readOnly />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-12 formbtnProductQuotation" id="btsubmit">
+                                    <button className="btn btnClose" onClick={hiddenEditForm} type="button">Đóng</button>
+                                    <button className="btn" type="button" onClick={() => handleEditProductQuotation()}>Cập nhật</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </>
     )
 
