@@ -17,6 +17,7 @@ const Product = () => {
     const [KeyWord, SetKeyWord] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchCategory, SetSearchCategory] = useState('all');
+    const [name, SetName] = useState('Phụ tùng máy');
     useEffect(() => {
         getListCategory();
         getListProduct(currentPage,PageSize,KeyWord,searchCategory);
@@ -40,6 +41,10 @@ const Product = () => {
             keyword = searchParams.get('searchKey');
             SetKeyWord(keyword);
         }
+        if (searchParams.get('nameKey')){
+            let nameword = searchParams.get('nameKey');
+            SetName(nameword);
+        }
         let res = null;
         if (search == 'all')
             res = await fetchAllProductUser(page-1,pagesize,keyword);
@@ -57,8 +62,10 @@ const Product = () => {
     }
     const onChangeSelect = (event, SetSelect) => {
         let changeValue = event.target.value;
+        const selectedOption = event.target.options[event.target.selectedIndex];
+        const selectedName = selectedOption.getAttribute('name');
         SetSelect(changeValue);
-        navigate(`/san-pham/?page=1&cate=${changeValue}&searchKey=${KeyWord}`)
+        navigate(`/san-pham/?page=1&cate=${changeValue}&searchKey=${KeyWord}&nameKey=${selectedName}`)
         window.location.reload();
     }
     const onChangeInput = (event, SetInput) => {
@@ -66,7 +73,7 @@ const Product = () => {
         SetInput(changeValue);
     }
     const SearchButton = () => {
-        navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}`)
+        navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`)
         window.location.reload();
     }
     const ReturnHome = () => {
@@ -82,7 +89,7 @@ const Product = () => {
     }
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}`)
+            navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`)
             window.location.reload();
         }
     };
@@ -105,19 +112,22 @@ const Product = () => {
                             <div class="header-search">
                                 <form onSubmit={handleSubmit}>
                                     <select value={searchCategory} class="input-select" onChange={(event) => onChangeSelect(event, SetSearchCategory)}>
-                                        <option value="all">Tất cả</option>
+                                        <option value="all" name="Phụ tùng máy">Tất cả</option>
                                         {listData_category && listData_category.length > 0 &&
                                             listData_category.map((item, index) => {
                                                 return (
-                                                    <option key={item.MaLSPCon} value={item.MaLSPCon}>
+                                                    <option key={item.MaLSPCon} value={item.MaLSPCon} name={item.TenLoai}>
                                                         {item.TenLoai}
                                                     </option>
                                                 )
                                             })
                                         }
                                     </select>
-                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} onKeyDown={handleKeyDown} />
-                                    <button class="search-btn" type="button" onClick={() => SearchButton()}>Tìm</button>
+                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm sản phẩm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} onKeyDown={handleKeyDown} />
+                                    <span class="iconsearch" onClick={() => SearchButton()}><i class="bx bx-search"></i></span>
+                                    {/* <button class="search-btn" type="button" onClick={() => SearchButton()}>
+                                        Tìm
+                                    </button> */}
                                 </form>
                             </div>
                         </div>
@@ -149,7 +159,7 @@ const Product = () => {
                     <div id="store" class="col-md-12">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-xs-12" style={{textAlign: "center"}}>
-                                <h2>Phụ tùng máy</h2>
+                                <h2>{name}</h2>
                             </div>
                         </div>
                         <div class="row">
@@ -184,7 +194,7 @@ const Product = () => {
                                             pageNumber.map((item, index) => {
                                                 return (
                                                     <li key={item} class={item==currentPage ? "active" : ""}>
-                                                        <a href={`/san-pham/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                        <a href={`/san-pham/?page=${item}&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`}>{item}</a>
                                                     </li>
                                                 )
                                             })
@@ -194,7 +204,7 @@ const Product = () => {
                                                 if (Number(item) == 1){
                                                     return (
                                                         <li key={item} class={item==currentPage ? "active" : ""}>
-                                                            <a href={`/san-pham/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                            <a href={`/san-pham/?page=${item}&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`}>{item}</a>
                                                         </li>
                                                     )
                                                 }
@@ -209,7 +219,7 @@ const Product = () => {
                                                     if (Number(item) >= (Number(currentPage)-2) && Number(item) <= (Number(currentPage)+2)){
                                                         return (
                                                             <li key={item} class={item==currentPage ? "active" : ""}>
-                                                                <a href={`/san-pham/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                                <a href={`/san-pham/?page=${item}&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`}>{item}</a>
                                                             </li>
                                                         )
                                                     }
@@ -217,7 +227,7 @@ const Product = () => {
                                                 else{
                                                     return (
                                                         <li key={item} class={item==currentPage ? "active" : ""}>
-                                                            <a href={`/san-pham/?page=${item}&cate=${searchCategory}`}>{item}</a>
+                                                            <a href={`/san-pham/?page=${item}&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`}>{item}</a>
                                                         </li>
                                                     )
                                                 }

@@ -16,6 +16,7 @@ const DetailProduct = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchCategory, SetSearchCategory] = useState('all');
     const [activeMenu, SetActiveMenu] = useState(false);
+    const [name, SetName] = useState('Phụ tùng máy');
     useEffect(() => {
         getListCategory();
         getDetailProduct();
@@ -37,7 +38,7 @@ const DetailProduct = () => {
         }
     }
     const ReturnPageProduct = () => {
-        navigate(`/san-pham/?page=1&cate=all&searchKey=`)
+        navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`)
         window.location.reload();
     }
     const ReturnHome = () => {
@@ -46,8 +47,10 @@ const DetailProduct = () => {
     }
     const onChangeSelect = (event, SetSelect) => {
         let changeValue = event.target.value;
+        const selectedOption = event.target.options[event.target.selectedIndex];
+        const selectedName = selectedOption.getAttribute('name');
         SetSelect(changeValue);
-        navigate(`/san-pham/?page=1&cate=${changeValue}&searchKey=${KeyWord}`)
+        navigate(`/san-pham/?page=1&cate=${changeValue}&searchKey=${KeyWord}&nameKey=${selectedName}`)
         window.location.reload();
     }
     const onChangeInput = (event, SetInput) => {
@@ -55,7 +58,7 @@ const DetailProduct = () => {
         SetInput(changeValue);
     }
     const SearchButton = () => {
-        navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}`)
+        navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`)
         window.location.reload();
     }
     const ActiveMenu = () => {
@@ -63,7 +66,7 @@ const DetailProduct = () => {
     }
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}`)
+            navigate(`/san-pham/?page=1&cate=${searchCategory}&searchKey=${KeyWord}&nameKey=${name}`)
             window.location.reload();
         }
     };
@@ -90,15 +93,16 @@ const DetailProduct = () => {
                                         {listData_category && listData_category.length > 0 &&
                                             listData_category.map((item, index) => {
                                                 return (
-                                                    <option key={item.MaLSPCon} value={item.MaLSPCon}>
+                                                    <option key={item.MaLSPCon} value={item.MaLSPCon} name={item.TenLoai}>
                                                         {item.TenLoai}
                                                     </option>
                                                 )
                                             })
                                         }
                                     </select>
-                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} onKeyDown={handleKeyDown} />
-                                    <button class="search-btn" type="button" onClick={() => SearchButton()}>Tìm</button>
+                                    <input class="input" id="inputsearch" placeholder="Tìm kiếm sản phẩm" value={KeyWord} onChange={(event) => onChangeInput(event, SetKeyWord)} onKeyDown={handleKeyDown} />
+                                    <span class="iconsearch" onClick={() => SearchButton()}><i class="bx bx-search"></i></span>
+                                    {/* <button class="search-btn" type="button" onClick={() => SearchButton()}>Tìm</button> */}
                                 </form>
                             </div>
                         </div>
