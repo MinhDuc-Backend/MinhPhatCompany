@@ -459,3 +459,69 @@ const fetchDeleteProductQuotation = (headers, MaPBG, id) => {
 }
 export { fetchDeleteProductQuotation };
 //----------------------------------------------------------------------------------------------//
+
+//--------------------------------PurchaseOrder----------------------------------------------//
+const fetchAllPurchaseOrder = (headers) => { 
+    return axios.get('admin/don-dat-hang/DanhSachDDH', { headers });
+}
+export { fetchAllPurchaseOrder };
+
+const fetchDetailPurchaseOrder= (headers, MaDDH) => { 
+    return axios.get(`admin/don-dat-hang/ChiTietDDH/${MaDDH}`, { headers });
+}
+export { fetchDetailPurchaseOrder };
+
+const fetchAddPurchaseOrder = (headers, CongTyDatHang, NgayDatHang, NgayHetHan, TenDDH, ThoiHanGiaoHang) => { 
+    return axios.post(`admin/don-dat-hang/Them`, {
+        CongTyDatHang: CongTyDatHang,
+        NgayDatHang: NgayDatHang,
+        NgayHetHan: NgayHetHan,
+        TenDDH: TenDDH,
+        ThoiHanGiaoHang: ThoiHanGiaoHang,
+    }, { headers });
+}
+export { fetchAddPurchaseOrder };
+
+const fetchEditPurchaseOrder = (headers, MaDDH, CongTyDatHang, NgayDatHang, NgayHetHan, TenDDH, ThoiHanGiaoHang, TrangThaiDonHang) => { 
+    return axios.put(`admin/don-dat-hang/ChinhSua/${MaDDH}`, {
+        CongTyDatHang: CongTyDatHang,
+        NgayDatHang: NgayDatHang,
+        NgayHetHan: NgayHetHan,
+        TenDDH: TenDDH,
+        ThoiHanGiaoHang: ThoiHanGiaoHang,
+        TrangThaiDonHang: TrangThaiDonHang,
+    }, { headers });
+}
+export { fetchEditPurchaseOrder };
+
+const fetchDeletePurchaseOrder = (headers, MaDDH) => { 
+    return axios.delete(`admin/don-dat-hang/Xoa/${MaDDH}`, { headers });
+}
+export { fetchDeletePurchaseOrder };
+
+const fetchAddProductPurchaseOrder = (headers, MaDDH, TenSP, DonViTinh, SoLuong) => { 
+    return axios.post(`admin/don-dat-hang/ThemSanPhamDatHang/${MaDDH}`, { 
+        TenSP: TenSP,
+        DonViTinh: DonViTinh,
+        SoLuong: SoLuong,
+    }, { headers });
+}
+export { fetchAddProductPurchaseOrder };
+
+const fetchEditProductPurchaseOrder = (headers, MaDDH, id, TenSP, DonViTinh, SoLuong) => { 
+    return axios.put(`admin/don-dat-hang/ChinhSuaSanPhamDatHang/${MaDDH}`, {
+        id: id,
+        TenSP: TenSP,
+        DonViTinh: DonViTinh,
+        SoLuong: SoLuong,
+    }, { headers });
+}
+export { fetchEditProductPurchaseOrder };
+
+const fetchDeleteProductPurchaseOrder = (headers, MaDDH, id) => { 
+    return axios.put(`admin/don-dat-hang/XoaSanPhamDatHang/${MaDDH}`, {
+        id: id,
+    } , { headers });
+}
+export { fetchDeleteProductPurchaseOrder };
+//----------------------------------------------------------------------------------------------//

@@ -1,0 +1,86 @@
+import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
+import React, { useMemo, useState } from 'react';
+import { Box, Button } from '@mantine/core';
+import { IconUpload } from '@tabler/icons-react';
+import { mkConfig, generateCsv, download } from 'export-to-csv'; //or use your library of choice here
+import "./TableProductPurchaseOrder.scss"
+import { IconButton, } from '@mui/material';
+import { Link, useNavigate } from "react-router-dom";
+import { Delete, Edit, Visibility } from '@mui/icons-material';
+import { toast } from "react-toastify";
+import { AxiosRequestConfig } from 'axios';
+import { CSVLink, CSVDownload } from "react-csv";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+});
+
+const TableProductPurchaseOrder = (props) => {
+    const { listData } = props
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    let navigate = useNavigate();
+
+    const columns = useMemo(
+        () => [
+            {
+                accessorKey: '_id',
+                header: 'Id',
+                size: 10,
+                enableEditing: false,
+            },
+            {
+                accessorKey: 'STT',
+                header: 'STT',
+                size: 50,
+                Cell: ({ row }) => {
+                    return <div>{row.index + 1}</div>;
+                },
+
+            },
+            {
+                accessorKey: 'TenSP',
+                header: 'Tên sản phẩm',
+                size: 500,
+
+            },
+            {
+                accessorKey: 'DonViTinh',
+                header: 'ĐVT',
+                size: 100,
+            },
+            {
+                accessorKey: 'SoLuong',
+                header: 'Số lượng',
+                size: 100,
+            },
+        ]
+    );
+
+    const table = useMantineReactTable({
+        columns,
+        data: listData,
+        paginationDisplayMode: 'pages',
+        positionToolbarAlertBanner: 'bottom',
+        enableColumnActions: true,
+        enableRowActions: false,
+        state: {
+            columnVisibility: { _id: false },
+        },
+    });
+
+    return (
+        <>
+            <MantineReactTable table={table} />
+        </>
+    )
+
+};
+
+export default TableProductPurchaseOrder;

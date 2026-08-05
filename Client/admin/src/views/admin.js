@@ -40,6 +40,10 @@ import Quotation from "./Quotation/Quotation";
 import AddQuotation from "./Quotation/AddQuotation/AddQuotation";
 import SingleQuotation from "./Quotation/DetailQuotation/DetailQuotation";
 import EditQuotation from "./Quotation/EditQuotation/EditQuotation";
+import PurchaseOrder from "./PurchaseOrder/PurchaseOrder";
+import AddPurchaseOrder from "./PurchaseOrder/AddPurchaseOrder/AddPurchaseOrder";
+import SinglePurchaseOrder from "./PurchaseOrder/DetailPurchaseOrder/DetailPurchaseOrder";
+import EditPurchaseOrder from "./PurchaseOrder/EditPurchaseOrder/EditPurchaseOrder";
 
 const AdminPage = () => {
     const [hiddenDB, setHiddenDB] = useState(true);
@@ -132,6 +136,12 @@ const AdminPage = () => {
                             <Route path="new" element={<AddQuotation />} ></Route>
                             <Route path="single/:MaPBG" element={<SingleQuotation />} ></Route>
                             <Route path="edit/:MaPBG" element={<EditQuotation />} ></Route>
+                        </Route>
+                        <Route path='PurchaseOrder'  >
+                            <Route index element={<PurchaseOrder />}></Route>
+                            <Route path="new" element={<AddPurchaseOrder />} ></Route>
+                            <Route path="single/:MaDDH" element={<SinglePurchaseOrder />} ></Route>
+                            <Route path="edit/:MaDDH" element={<EditPurchaseOrder />} ></Route>
                         </Route>
                     </Routes >
                 </section>
