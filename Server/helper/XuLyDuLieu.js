@@ -49,3 +49,10 @@ export const DinhDangSoBaoGia = (macty, ngaybaogia) => {
         thang = "0" + thang;
     return "MP-" + macty + "/" + nam + "-" + thang;
 }
+
+export const TaoMaDonDatHang = () => {
+    const date = new Date();
+    const vietnamTime = toZonedTime(date, vietnamTimeZone);
+    const formattedTimeVN = format(vietnamTime, 'ddMMyyyyHHmmss', { timeZone: vietnamTimeZone });
+    return "DDH" + formattedTimeVN;
+}

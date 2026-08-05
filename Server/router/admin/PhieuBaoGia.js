@@ -3,16 +3,11 @@ import mongoose from "mongoose";
 import fs from 'fs'
 import ExcelJS from 'exceljs'
 import { sendError, sendServerError, sendSuccess } from "../../helper/client.js"
-// import { DoiDinhDangNgay, XuLyNgaySinh } from "../../helper/XuLyDuLieu.js"
 import path from "path"
-import { fileURLToPath } from 'url'
-import { dirname } from 'path'
 import PhieuBaoGia from "../../model/PhieuBaoGia.js"
 import KhachHang from "../../model/KhachHang.js"
 import { KtraDuLieuPhieuBaoGiaKhiChinhSua, KtraDuLieuPhieuBaoGiaKhiThem, KtraDuLieuSanPhamBaoGia } from "../../validation/PhieuBaoGia.js"
 import { DinhDangNgayBaoGia, DinhDangSoBaoGia, TaoMaPhieuBaoGia } from "../../helper/XuLyDuLieu.js"
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const PhieuBaoGiaAdminRoute = express.Router()
 

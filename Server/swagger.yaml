@@ -38,6 +38,8 @@ tags:
   description: "Các API của model ThongTinCongTy"
 - name: "PhieuBaoGia"
   description: "Các API của model PhieuBaoGia"
+- name: "DonDatHang"
+  description: "Các API của model DonDatHang"
 paths:
   /admin/chuc-nang/DanhSachChucNang:
     get: 
@@ -3308,6 +3310,362 @@ paths:
             example: {
               "status": false,
               "message": "Xóa sản phẩm báo giá thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/don-dat-hang/DanhSachDDH:
+    get: 
+      tags:
+        - "DonDatHang"
+      summary: Admin lấy danh sách đơn đặt hàng
+      produces:
+        - application/json     
+      parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+        description: số trang (ví dụ trang 1, trang 2), giá trị > 0
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+        description: giới hạn số lượng 1 trang, giá trị > 0
+      - in: query
+        name: keyword
+        type: string
+        required: true
+        description: tên đơn đặt hàng
+      responses:
+        200: 
+          description: Lấy danh sách đơn đặt hàng thành công
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đơn đặt hàng thành công",
+            }
+        400:
+          description: Lấy danh sách đơn đặt hàng thất bại
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Lấy danh sách đơn đặt hàng thất bại",
+            }
+      security:
+      - ApiKeyAuth: []
+  /admin/don-dat-hang/ChiTietDDH/{MaDDH}:
+    get:
+      tags:
+        - "DonDatHang"
+      summary: "Chi tiết thông tin đơn đặt hàng"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDDH
+          type: string
+          required: true
+          description: Mã đơn đặt hàng
+      responses:
+        200:
+          description: Chi tiết thông tin đơn đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chi tiết thông tin đơn đặt hàng thành công.",
+            }
+        400:
+          description: Chi tiết thông tin đơn đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Chi tiết thông tin đơn đặt hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/don-dat-hang/Them:
+    post: 
+      tags:
+        - "DonDatHang"
+      summary: Thêm đơn đặt hàng
+      produces:
+        - application/json   
+      parameters:
+        - in: body
+          name: CongTyDatHang
+          type: string
+          description: Công ty đặt hàng
+          required: true
+        - in: body
+          name: NgayDatHang
+          type: string
+          description: Ngày đặt hàng
+          required: true
+        - in: body
+          name: NgayHetHan
+          type: string
+          description: Ngày hết hạn
+          required: true
+        - in: body
+          name: TenDDH
+          type: string
+          description: Tên đơn đặt hàng
+          required: true
+        - in: body
+          name: ThoiHanGiaoHang
+          type: string
+          description: Thời gian giao hàng
+          required: true
+      responses:
+        200:
+          description: Thêm đơn đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm đơn đặt hàng thành công.",
+            }          
+        400:
+          description: Thêm đơn đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm đơn đặt hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: [] 
+  /admin/don-dat-hang/ChinhSua/{MaDDH}:
+    put: 
+      tags:
+        - "DonDatHang"
+      summary: Chỉnh sửa thông tin đơn đặt hàng
+      produces:
+        - application/json     
+      parameters:
+        - in: path
+          name: MaDDH
+          type: string
+          required: true
+          description: Mã đơn đặt hàng
+        - in: body
+          name: MaPBG
+          type: string
+          description: Mã phiếu báo giá
+          required: true
+        - in: body
+          name: CongTyDatHang
+          type: string
+          description: Công ty đặt hàng
+          required: true
+        - in: body
+          name: NgayDatHang
+          type: string
+          description: Ngày đặt hàng
+          required: true
+        - in: body
+          name: NgayHetHan
+          type: string
+          description: Ngày hết hạn
+          required: true
+        - in: body
+          name: TenDDH
+          type: string
+          description: Tên đơn đặt hàng
+          required: true
+        - in: body
+          name: ThoiHanGiaoHang
+          type: string
+          description: Thời gian giao hàng
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa thông tin đơn đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa thông tin đơn đặt hàng thành công.",
+            }          
+        400:
+          description: Chỉnh sửa thông tin đơn đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa thông tin đơn đặt hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []     
+  /admin/don-dat-hang/Xoa/{MaDDH}:
+    delete:
+      tags:
+        - "DonDatHang"
+      summary: "Xóa thông tin đơn đặt hàng"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaDDH
+          type: string
+          required: true
+          description: Mã đơn đặt hàng
+      responses:
+        200:
+          description: Xóa thông tin đơn đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa thông tin đơn đặt hàng thành công.",
+            }
+        400:
+          description: Xóa thông tin đơn đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Xóa thông tin đơn đặt hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/don-dat-hang/ThemSanPhamDatHang/{MaDDH}:
+    post: 
+      tags:
+        - "DonDatHang"
+      summary: Thêm sản phẩm đặt hàng
+      produces:
+        - application/json   
+      parameters:
+        - in: path 
+          name: MaDDH
+          type: string
+          description: Mã đơn đặt hàng
+          required: true
+        - in: body
+          name: TenSP
+          type: string
+          description: Tên sản phẩm
+          required: true
+        - in: body
+          name: DonViTinh
+          type: string
+          description: Đơn vị tính
+          required: true
+        - in: body
+          name: SoLuong
+          type: number
+          description: Số lượng sản phẩm
+          required: true
+      responses:
+        200:
+          description: Thêm sản phẩm đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Thêm sản phẩm đặt hàng thành công.",
+            }          
+        400:
+          description: Thêm sản phẩm đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Thêm sản phẩm đặt hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/don-dat-hang/ChinhSuaSanPhamDatHang/{MaDDH}:
+    put: 
+      tags:
+        - "DonDatHang"
+      summary: Chỉnh sửa sản phẩm đặt hàng
+      produces:
+        - application/json   
+      parameters:
+        - in: path
+          name: MaDDH
+          type: string
+          description: Mã đơn đặt hàng
+          required: true
+        - in: body
+          name: id
+          type: string
+          description: ObjectId sản phẩm
+          required: true
+        - in: body
+          name: TenSP
+          type: string
+          description: Tên sản phẩm
+          required: true
+        - in: body
+          name: DonViTinh
+          type: string
+          description: Đơn vị tính
+          required: true
+        - in: body
+          name: SoLuong
+          type: number
+          description: Số lượng sản phẩm
+          required: true
+      responses:
+        200:
+          description: Chỉnh sửa sản phẩm đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Chỉnh sửa sản phẩm đặt hàng thành công.",
+            }          
+        400:
+          description: Chỉnh sửa sản phẩm đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Chỉnh sửa sản phẩm đặt hàng thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/don-dat-hang/XoaSanPhamDatHang/{MaDDH}:
+    put: 
+      tags:
+        - "DonDatHang"
+      summary: Xóa sản phẩm đặt hàng
+      produces:
+        - application/json   
+      parameters:
+        - in: path
+          name: MaDDH
+          type: string
+          description: Mã đơn đặt hàng
+          required: true
+        - in: body
+          name: id
+          type: string
+          description: ObjectId sản phẩm
+          required: true
+      responses:
+        200:
+          description: Xóa sản phẩm đặt hàng thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Xóa sản phẩm đặt hàng thành công.",
+            }          
+        400:
+          description: Xóa sản phẩm đặt hàng thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message": "Xóa sản phẩm đặt hàng thất bại.",
             }
       security:
         - ApiKeyAuth: [] 

@@ -10,6 +10,7 @@ import CongTyAdminRoute from "./CongTy.js";
 import KhachHangAdminRoute from "./KhachHang.js";
 import ThongTinCtyAdminRoute from "./ThongTinCty.js";
 import PhieuBaoGiaAdminRoute from "./PhieuBaoGia.js";
+import DonDatHangAdminRoute from "./DonDatHang.js";
 
 
 const adminRoute = express.Router();
@@ -25,6 +26,7 @@ adminRoute.use('/chuc-nang', ChucNangAdminRoute)
         .use('/khach-hang', KhachHangAdminRoute)
         .use('/thong-tin-cty', ThongTinCtyAdminRoute)
         .use('/phieu-bao-gia', PhieuBaoGiaAdminRoute)
+        .use('/don-dat-hang', DonDatHangAdminRoute)
 
 export default adminRoute
 

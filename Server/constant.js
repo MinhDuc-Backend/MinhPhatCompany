@@ -21,3 +21,10 @@ export const TrangThaiSanPham = {
     Con: 'Còn hàng',
     Het: 'Hết hàng'
 }
+
+export const TrangThaiDonDatHang = {
+    ChuaGiaoHang: 'Chưa giao hàng',
+    DaGiaoHang: 'Đã giao hàng',
+    DaXuatHoaDon: 'Đã xuất hóa đơn',
+    DaXoa: 'Đã xóa'
+}
