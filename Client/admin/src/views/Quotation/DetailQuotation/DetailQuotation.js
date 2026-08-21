@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -10,11 +10,9 @@ import TabPanel from '@mui/lab/TabPanel';
 import "./DetailQuotation.scss"
 import TableProductQuotation from "./TableProductQuotation";
 import { fetchDetailQuotation } from "../../GetAPI"
-import moment from "moment";
-import { toast } from "react-toastify";
 
 const SingleQuotation = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const baogia = useParams();
     const [SoBaoGia, SetSoBaoGia] = useState("")
     const [NgayBaoGia, SetNgayBaoGia] = useState("")
@@ -33,12 +31,7 @@ const SingleQuotation = () => {
     const [SanPhamPBG, SetSanPhamPBG] = useState([])
     const [TongTien, SetTongTien] = useState(0)
 
-    // component didmount
-    useEffect(() => {
-        getDetailQuotation();
-    }, []);
-
-    const getDetailQuotation = async () => {
+    const getDetailQuotation = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailQuotation(headers, baogia.MaPBG);
         if (res && res.data) {
@@ -59,7 +52,11 @@ const SingleQuotation = () => {
             SetSanPhamPBG(res.data.SanPhamPBG)
             SetTongTien(res.data.TongTien)
         }
-    }
+    }, [accessToken, baogia.MaPBG]);
+
+    useEffect(() => {
+        getDetailQuotation();
+    }, [getDetailQuotation]);
 
     return (
         <main className="main2">
@@ -154,7 +151,6 @@ const SingleQuotation = () => {
                     </div>
                 </form>
             </div>
-
             <div className="customDiv">
                 <TabContext value="Các sản phẩm báo giá">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -181,7 +177,6 @@ const SingleQuotation = () => {
                     </div>
                 </div>
             </div>
-
         </main >
     )
 }

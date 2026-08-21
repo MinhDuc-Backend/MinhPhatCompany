@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useCallback } from "react";
 import { Routes,Route, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../css/bootstrap.min.css";
@@ -48,17 +48,9 @@ import EditPurchaseOrder from "./PurchaseOrder/EditPurchaseOrder/EditPurchaseOrd
 const AdminPage = () => {
     const [hiddenDB, setHiddenDB] = useState(true);
     const [switchmode, setSwitchmode] = useState(false);
-    useEffect(() => {
-        GetToken()
-    }, [])
-    const changleHidden = () => {
-        setHiddenDB(!hiddenDB);
-    }
-    const changleSwitchMode = () => {
-        setSwitchmode(!switchmode);
-    }
     let navigate = useNavigate();
-    const GetToken = async () => {
+    
+    const GetToken = useCallback(async () => {
         if (!localStorage.getItem("accessToken")) {
             navigate("/")
             return
@@ -66,7 +58,7 @@ const AdminPage = () => {
         let token = localStorage.getItem("accessToken");
         const headers = { 'x-access-token': token };
         let res = await fetchVerifyToken(headers);
-        if (res.status == false) {
+        if (res.status === false) {
             toast.error(res.message)
             window.localStorage.clear();
             navigate("/")
@@ -74,6 +66,17 @@ const AdminPage = () => {
         }
         navigate("/admin/Dashboard")
         return
+    }, [navigate])
+
+    useEffect(() => {
+        GetToken()
+    }, [GetToken])
+
+    const changleHidden = () => {
+        setHiddenDB(!hiddenDB);
+    }
+    const changleSwitchMode = () => {
+        setSwitchmode(!switchmode);
     }
     
     return (

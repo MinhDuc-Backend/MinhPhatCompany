@@ -36,14 +36,11 @@ KhachHangAdminRoute.get('/DanhSachKhachHang', async (req, res) => {
                                             }).sort({ createdAt: -1 })
         const length = await KhachHang.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
 
-        if (khachhangs.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách khách hàng.")
-        if (khachhangs) 
-            return sendSuccess(res, "Lấy danh sách khách hàng thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: khachhangs
-            })
+        return sendSuccess(res, "Lấy danh sách khách hàng thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: khachhangs
+        })
 
         return sendError(res, "Không tìm thấy danh sách khách hàng.")
     }

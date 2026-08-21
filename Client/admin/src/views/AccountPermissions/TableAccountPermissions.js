@@ -9,7 +9,7 @@ import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { fetchAllQuyenTK, fetchDeleteQuyenTK } from "../GetAPI"
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const csvConfig = mkConfig({
     fieldSeparator: ',',
@@ -20,18 +20,15 @@ const csvConfig = mkConfig({
 const TableQuyenTaiKhoan = (props) => {
     const accessToken = props.accessToken;
     const [listData_QuyenTaiKhoan, setListData_QuyenTaiKhoan] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListQuyenTaiKhoan();
-    }, []);
 
-    const getListQuyenTaiKhoan = async () => {
+    const getListQuyenTaiKhoan = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllQuyenTK(headers);
         if (res && res.data && res.data.DanhSach) {
             setListData_QuyenTaiKhoan(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
             const headers = { 'x-access-token': accessToken };
@@ -47,6 +44,10 @@ const TableQuyenTaiKhoan = (props) => {
             }
         }
     }
+
+    useEffect(() => {
+        getListQuyenTaiKhoan();
+    }, [getListQuyenTaiKhoan]);
 
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
@@ -74,7 +75,7 @@ const TableQuyenTaiKhoan = (props) => {
                 size: 100,
                 enableEditing: false,
             },
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({
@@ -141,14 +142,6 @@ const TableQuyenTaiKhoan = (props) => {
                 >
                     Export Selected Rows
                 </Button>
-
-                {/* <Button
-                    //only export selected rows
-                    // onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
-                    leftIcon={<IconDownload />}
-                    variant="filled" >
-                    Import Data
-                </Button> */}
             </Box>
 
         ),

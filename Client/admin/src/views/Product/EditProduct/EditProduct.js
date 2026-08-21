@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./EditProduct.scss"
 import { fetchAllCategoryFather, fetchDetailCategoryChildFollowFather, fetchDetailProduct, fetchEditProduct, fetchEditImageProduct } from "../../GetAPI"
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 
 const EditProduct = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const product = useParams();
     const [maSP, SetMaSP] = useState('')
@@ -22,18 +22,14 @@ const EditProduct = () => {
     const [lspcon, SetLSPCon] = useState('')
     const [Hinh, setHinh] = useState("")
     const [checkHinh, setCheckHinh] = useState(true)
-    // component didmount
-    useEffect(() =>{
-        getListCategoryFather();
-        getDetailProduct();
-    }, []);
-    const getListCategoryFather = async () => {
+
+    const getListCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
             setListCategoryFather(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const getListCategoryChild = async (lspcha) => {
         const headers = { 'x-access-token': accessToken };
@@ -43,7 +39,7 @@ const EditProduct = () => {
         }
     }
 
-    const getDetailProduct = async () => {
+    const getDetailProduct = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailProduct(headers, product.MaSP);
         if (res && res.data) {
@@ -57,7 +53,8 @@ const EditProduct = () => {
             setHinh(res.data.Hinh)
             getListCategoryChild(res.data.MaLSPCha.MaLSPCha);
         }
-    }
+    }, [accessToken, product.MaSP]);
+
     const handleEditProduct = async () => {
         const headers = { 'x-access-token': accessToken };
         if (!headers || !maSP || !tenSP || !soluong || !lspcha || !Hinh) {
@@ -97,9 +94,13 @@ const EditProduct = () => {
         if (res.status === false) {
             toast.error(res.message)
             return;
-
         }
     }
+
+    useEffect(() =>{
+        getListCategoryFather();
+        getDetailProduct();
+    }, [getListCategoryFather, getDetailProduct]);
 
     const onChangeFile = (event, setSL) => {
         const img = event.target.files[0];
@@ -141,7 +142,6 @@ const EditProduct = () => {
     }
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>CHỈNH SỬA</h1>
@@ -159,9 +159,7 @@ const EditProduct = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
-
 
             <form className="form-edit">
                 <div className="container-edit">
@@ -221,7 +219,6 @@ const EditProduct = () => {
                             <button className="btn btn-primary btn-sm" type="button" onClick={() => handleEditProduct()}>Cập nhật</button>
                         </div>
                     </div>
-                    
                     <div className="form-row">
                         <div className="form-group col-md-7">
                             <div className="custom-file">
@@ -238,15 +235,8 @@ const EditProduct = () => {
                             <button className="btn btn-primary btn-sm" type="button" onClick={() => handleEditImageProduct()}>Cập nhật hình mới</button>
                         </div>
                     </div>
-                    
                 </div>
-
-
-
             </form>
-
-
-
         </main >
     )
 }

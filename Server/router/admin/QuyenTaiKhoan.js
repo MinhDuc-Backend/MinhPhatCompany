@@ -37,14 +37,11 @@ QuyenTaiKhoanAdminRoute.get('/DanhSachQuyenTK', async (req, res) => {
         ]).sort({ createdAt: -1 });
         const length = await QuyenTaiKhoan.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
-        if (quyentks.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách quyền tài khoản.")
-        if (quyentks) 
-            return sendSuccess(res, "Lấy danh sách quyền tài khoản thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: quyentks
-            })
+        return sendSuccess(res, "Lấy danh sách quyền tài khoản thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: quyentks
+        })
 
         return sendError(res, "Không tìm thấy danh sách quyền tài khoản.")
     }

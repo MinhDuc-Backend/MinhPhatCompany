@@ -1,32 +1,21 @@
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import React, { useMemo, useState } from 'react';
 import { Box, Button } from '@mantine/core';
-import { IconUpload } from '@tabler/icons-react';
-import { mkConfig, generateCsv, download } from 'export-to-csv'; //or use your library of choice here
 import "./TableProductQuotation.scss"
 import { IconButton, } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
-import { Delete, Edit, Visibility } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import { fetchDeleteProductQuotation, fetchAddProductQuotation, fetchDetailQuotation, fetchEditProductQuotation } from "../../GetAPI"
 import { toast } from "react-toastify";
-import { AxiosRequestConfig } from 'axios';
-import { CSVLink, CSVDownload } from "react-csv";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const csvConfig = mkConfig({
-    fieldSeparator: ',',
-    decimalSeparator: '.',
-    useKeysAsHeaders: true,
-});
 
 const TableProductQuotation = (props) => {
     const { listData, MaPBG, SetListData, SetTongTien } = props
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
-    let navigate = useNavigate();
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const [hiddenFormAddProductQuotation, SetHiddenFormAddProductQuotation] = useState(true);
     const [hiddenFormEditProductQuotation, SetHiddenFormEditProductQuotation] = useState(true);
     const [id, SetID] = useState("")
@@ -38,18 +27,6 @@ const TableProductQuotation = (props) => {
     const [DonGia, SetDonGia] = useState(0)
     const [ThanhTien, SetThanhTien] = useState(0)
     const [ThanhTienSauThue, SetThanhTienSauThue] = useState(0)
-
-    // const handleExportFile = async () => {
-    //     const headers = { 'x-access-token': accessToken }
-    //     let res = await fetchExportFileDSDeTai(headers, MaKLTN)
-    //     const url = URL.createObjectURL(new Blob([res]));
-    //     const aTag = document.createElement('a')
-    //     aTag.href = url
-    //     aTag.setAttribute('download', `DanhsachKhoaLuan_${MaKLTN}.xlsx`)
-    //     document.body.appendChild(aTag)
-    //     aTag.click();
-    //     aTag.remove();
-    // }
 
     const [ma_xoa, setMa_xoa] = useState({})
     const [open, setOpen] = useState(false);
@@ -70,7 +47,7 @@ const TableProductQuotation = (props) => {
     const hiddenEditForm = () => {
         SetHiddenFormEditProductQuotation(!hiddenFormEditProductQuotation);
     }
-    
+
     const getDetailQuotation = async () => {
             const headers = { 'x-access-token': accessToken };
             let res = await fetchDetailQuotation(headers, MaPBG);
@@ -79,7 +56,6 @@ const TableProductQuotation = (props) => {
                 SetTongTien(res.data.TongTien)
             }
         }
-
 
     const handleDeleteRows = async (row) => {
         const headers = { 'x-access-token': accessToken };
@@ -180,10 +156,6 @@ const TableProductQuotation = (props) => {
         let changeValue = event.target.value;
         setSL(changeValue);
     }
-    const onChangeSelect = (event, setSelect) => {
-        let changeValue = event.target.value;
-        setSelect(changeValue);
-    }
 
     const columns = useMemo(
         () => [
@@ -265,7 +237,8 @@ const TableProductQuotation = (props) => {
                     return <div>{formattedAmount}</div>;
                 },
             },
-        ]
+        ],
+        []
     );
 
     const table = useMantineReactTable({
@@ -303,7 +276,6 @@ const TableProductQuotation = (props) => {
                 }}>
                 <Button onClick={hiddenAddForm}>Thêm sản phẩm</Button>
             </Box>
-
         ),
     });
 

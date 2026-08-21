@@ -2,39 +2,30 @@ import "./TablePurchaseOrder.scss"
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import React, { useMemo } from 'react';
 import { Box, Button } from '@mantine/core';
-import { mkConfig, generateCsv, download } from 'export-to-csv';
 import { Link } from "react-router-dom";
 import { IconButton, } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchAllPurchaseOrder, fetchDeletePurchaseOrder } from "../GetAPI"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-const csvConfig = mkConfig({
-    fieldSeparator: ',',
-    decimalSeparator: '.',
-    useKeysAsHeaders: true,
-});
+
 
 const TablePurchaseOrder = (props) => {
     const accessToken = props.accessToken;
     const [listData_purchaseOrder, SetListData_PurchaseOrder] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListPurchaseOrder();
-    }, []);
 
-    const getListPurchaseOrder = async () => {
+    const getListPurchaseOrder = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllPurchaseOrder(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_PurchaseOrder(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const [ma_xoa, setMa_xoa] = useState({})
     const [open, setOpen] = useState(false);
@@ -62,16 +53,10 @@ const TablePurchaseOrder = (props) => {
         }
     }
 
-    const handleExportRows = (rows) => {
-        const rowData = rows.map((row) => row.original);
-        const csv = generateCsv(csvConfig)(rowData);
-        download(csvConfig)(csv);
-    };
+    useEffect(() => {
+        getListPurchaseOrder();
+    }, [getListPurchaseOrder]);
 
-    const handleExportData = () => {
-        const csv = generateCsv(csvConfig)(listData_purchaseOrder);
-        download(csvConfig)(csv);
-    };
     const columns = useMemo(
         () => [
             {
@@ -138,7 +123,7 @@ const TablePurchaseOrder = (props) => {
                     return <div className='TotalPrice'>{trangthai}</div>;
                 },
             },
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({
@@ -162,25 +147,20 @@ const TablePurchaseOrder = (props) => {
                         <Visibility fontSize="small" />
                     </IconButton>
                 </Link>
-
                 <Link to={"/admin/PurchaseOrder/edit/" + row.original.MaDDH}>
                     <IconButton  >
                         <Edit fontSize="small" />
                     </IconButton>
                 </Link>
-
                 <IconButton onClick={() => handleClickOpen(row)}>
                     <Delete fontSize="small" sx={{ color: 'red' }} />
                 </IconButton>
-
             </Box >
-
         ),
     });
 
     return (
         <>
-
             <MantineReactTable table={table} />
             <Dialog
                 open={open}

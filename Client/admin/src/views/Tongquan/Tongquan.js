@@ -1,13 +1,10 @@
-import { useParams } from "react-router-dom";
 import "./Tongquan.scss"
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import avt from "./da.png"
 
 const Tongquan = () => {
 
     return (
-
         <>
             {/* <!-- MAIN --> */}
             <main className="main2">
@@ -21,12 +18,10 @@ const Tongquan = () => {
                             <li><i className='bx bx-chevron-right'></i></li>
                             <li>
                                 <Link className="active">Home</Link>
-                                {/* <a className="active" href="#">Home</a> */}
                             </li>
                         </ul>
                     </div>
                 </div>
-
                 <ul className="box-info">
                     <li>
                         <i className='bx bxs-calendar-check'></i>
@@ -50,8 +45,6 @@ const Tongquan = () => {
                         </span>
                     </li>
                 </ul>
-
-
                 <div className="table-data">
                     <div className="order">
                         <div className="head">
@@ -70,7 +63,7 @@ const Tongquan = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src={avt} />
+                                        <img src={avt} alt="" />
                                         <p>John Doe</p>
                                     </td>
                                     <td>01-10-2021</td>
@@ -78,7 +71,7 @@ const Tongquan = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src={avt} />
+                                        <img src={avt} alt="" />
                                         <p>John Doe</p>
                                     </td>
                                     <td>01-10-2021</td>
@@ -86,7 +79,7 @@ const Tongquan = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src={avt} />
+                                        <img src={avt} alt="" />
                                         <p>John Doe</p>
                                     </td>
                                     <td>01-10-2021</td>
@@ -94,7 +87,7 @@ const Tongquan = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src={avt} />
+                                        <img src={avt} alt="" />
                                         <p>John Doe</p>
                                     </td>
                                     <td>01-10-2021</td>
@@ -102,7 +95,7 @@ const Tongquan = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src={avt} />
+                                        <img src={avt} alt="" />
                                         <p>John Doe</p>
                                     </td>
                                     <td>01-10-2021</td>

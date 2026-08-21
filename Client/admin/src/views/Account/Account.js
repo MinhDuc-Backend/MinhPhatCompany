@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 const TaiKhoan = () => {
     const [value, setValue] = useState('dstk');
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

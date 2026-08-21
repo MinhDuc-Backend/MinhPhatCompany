@@ -10,8 +10,9 @@ import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { fetchAllProduct, fetchDeleteProduct } from "../GetAPI"
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import moment from "moment";
+
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -22,18 +23,13 @@ const TableProduct = (props) => {
     const accessToken = props.accessToken;
     const [listData_product, SetListData_Product] = useState([]);
 
-    // component didmount
-    useEffect(() => {
-        getListProduct();
-    }, []);
-
-    const getListProduct = async () => {
+    const getListProduct = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllProduct(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_Product(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
@@ -51,6 +47,9 @@ const TableProduct = (props) => {
         }
     }
 
+    useEffect(() => {
+        getListProduct();
+    }, [getListProduct]);
 
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
@@ -62,6 +61,7 @@ const TableProduct = (props) => {
         const csv = generateCsv(csvConfig)(listData_product);
         download(csvConfig)(csv);
     };
+
     const columns = useMemo(
         () => [
             {
@@ -113,7 +113,7 @@ const TableProduct = (props) => {
                 size: 160,
                 enableEditing: false,
             },
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({
@@ -127,31 +127,18 @@ const TableProduct = (props) => {
         enableColumnActions: true,
         enableRowActions: true,
 
-
-
         renderRowActions: ({ row, table }) => (
             <Box sx={{ display: 'flex', gap: '0.3rem' }}>
-                {/* <Link onClick={() => table.setEditingRow(row)}>
-                    <IconButton>
-                        <Visibility fontSize="medium" />
-                    </IconButton>
-                </Link> */}
-
-
                 <Link to={"/admin/product/edit/" + row.original.MaSP}>
                     <IconButton onClick={() => table.setEditingRow(row)}>
                         <Edit fontSize="small" />
                     </IconButton>
                 </Link>
-
                 <IconButton onClick={() => handleDeleteRows(row)}>
                     <Delete fontSize="small" sx={{ color: 'red' }} />
                 </IconButton>
             </Box >
-
         ),
-
-
 
         renderTopToolbarCustomActions: ({ table }) => (
             <Box
@@ -164,19 +151,16 @@ const TableProduct = (props) => {
             >
                 <Button
                     color="lightblue"
-                    //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
                     onClick={handleExportData}
                     leftIcon={<IconUpload />}
                     variant="filled"
                 >
                     Export All Data
                 </Button>
-
                 <Button
                     disabled={
                         !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
                     }
-                    //only export selected rows
                     onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
                     leftIcon={<IconUpload />}
                     variant="filled"
@@ -184,7 +168,6 @@ const TableProduct = (props) => {
                     Export Selected Rows
                 </Button>
             </Box>
-
         ),
     });
 

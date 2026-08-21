@@ -1,31 +1,21 @@
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import React, { useMemo, useState } from 'react';
 import { Box, Button } from '@mantine/core';
-import { IconUpload } from '@tabler/icons-react';
-import { mkConfig, generateCsv, download } from 'export-to-csv'; //or use your library of choice here
 import "./TableProductPurchaseOrder.scss"
-import { IconButton, } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
-import { Delete, Edit, Visibility } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import { fetchDeleteProductPurchaseOrder, fetchAddProductPurchaseOrder, fetchDetailPurchaseOrder, fetchEditProductPurchaseOrder } from "../../GetAPI"
 import { toast } from "react-toastify";
-import { AxiosRequestConfig } from 'axios';
-import { CSVLink, CSVDownload } from "react-csv";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const csvConfig = mkConfig({
-    fieldSeparator: ',',
-    decimalSeparator: '.',
-    useKeysAsHeaders: true,
-});
-
 const TableProductPurchaseOrder = (props) => {
     const { listData, MaDDH, SetListData } = props
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [hiddenFormAddProductPurchaseOrder, SetHiddenFormAddProductPurchaseOrder] = useState(true);
     const [hiddenFormEditProductPurchaseOrder, SetHiddenFormEditProductPurchaseOrder] = useState(true);
@@ -36,6 +26,7 @@ const TableProductPurchaseOrder = (props) => {
 
     const [ma_xoa, setMa_xoa] = useState({})
     const [open, setOpen] = useState(false);
+
     const handleClickOpen = (row) => {
         setOpen(true);
         setMa_xoa(row)
@@ -61,7 +52,6 @@ const TableProductPurchaseOrder = (props) => {
                 SetListData(res.data.SanPhamDatHang)
             }
         }
-
 
     const handleDeleteRows = async (row) => {
         const headers = { 'x-access-token': accessToken };
@@ -174,7 +164,7 @@ const TableProductPurchaseOrder = (props) => {
                 header: 'Số lượng',
                 size: 100,
             },
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({

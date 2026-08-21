@@ -6,7 +6,7 @@ import { fetchAddCompany } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const AddCompany = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [macty, SetMaCongTy] = useState('')
     const [tencty, SetTenCongTy] = useState('')
@@ -45,7 +45,6 @@ const AddCompany = () => {
     }
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>TẠO MỚI</h1>
@@ -61,8 +60,6 @@ const AddCompany = () => {
                         <li>
                             <Link className="active" >Tạo mới</Link>
                         </li>
-
-
                     </ul>
                 </div>
 

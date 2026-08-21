@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import moment from 'moment';
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import TableProductPurchaseOrder from "./TableProductPurchaseOrder";
 import { fetchDetailPurchaseOrder, fetchAllCompany, fetchEditPurchaseOrder } from "../../GetAPI"
 
 const EditPurchaseOrder = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const ddh = useParams();
     let navigate = useNavigate();
     const [listData_CongTy, SetListData_CongTy] = useState([]);
@@ -27,21 +27,15 @@ const EditPurchaseOrder = () => {
     const [SanPhamDatHang, SetSanPhamDatHang] = useState([])
     const [TrangThaiDonHang, SetTrangThaiDonHang] = useState("")
 
-    // component didmount
-    useEffect(() => {
-        getDetailPurchaseOrder();
-        getListCompany();
-    }, []);
-
-    const getListCompany = async () => {
+    const getListCompany = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCompany(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_CongTy(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
-    const getDetailPurchaseOrder = async () => {
+    const getDetailPurchaseOrder = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailPurchaseOrder(headers, ddh.MaDDH);
         if (res && res.data) {
@@ -54,27 +48,32 @@ const EditPurchaseOrder = () => {
             SetSanPhamDatHang(res.data.SanPhamDatHang)
             SetTrangThaiDonHang(res.data.TrangThaiDDH)
         }
-    }
+    }, [accessToken, ddh.MaDDH]);
 
     const handleEditPurchaseOrder = async () => {
-            const headers = { 'x-access-token': accessToken };
-            if (!headers || !NgayDatHang || !NgayHetHan || CongTyDatHang == "Chọn" || !TenDDH || !ThoiHanGiaoHang) {
-                toast.error("Vui lòng điền đầy đủ dữ liệu")
-                return
-            }
-            const ngaydathang = new Date(NgayDatHang);
-            const ngayhethan = new Date(NgayHetHan);
-            let res = await fetchEditPurchaseOrder(headers, MaDDH, CongTyDatHang, ngaydathang, ngayhethan, TenDDH, ThoiHanGiaoHang, TrangThaiDonHang)
-            if (res.status === true) {
-                toast.success(res.message)
-                navigate("/admin/PurchaseOrder")
-                return;
-            }
-            if (res.status === false) {
-                toast.error(res.message)
-                return;
-            }
+        const headers = { 'x-access-token': accessToken };
+        if (!headers || !NgayDatHang || !NgayHetHan || CongTyDatHang == "Chọn" || !TenDDH || !ThoiHanGiaoHang) {
+            toast.error("Vui lòng điền đầy đủ dữ liệu")
+            return
         }
+        const ngaydathang = new Date(NgayDatHang);
+        const ngayhethan = new Date(NgayHetHan);
+        let res = await fetchEditPurchaseOrder(headers, MaDDH, CongTyDatHang, ngaydathang, ngayhethan, TenDDH, ThoiHanGiaoHang, TrangThaiDonHang)
+        if (res.status === true) {
+            toast.success(res.message)
+            navigate("/admin/PurchaseOrder")
+            return;
+        }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
+        }
+    }
+
+    useEffect(() => {
+        getDetailPurchaseOrder();
+        getListCompany();
+    }, [getDetailPurchaseOrder, getListCompany]);
 
     const onChangeInputSL = (event, setSL) => {
         let changeValue = event.target.value;
@@ -112,7 +111,6 @@ const EditPurchaseOrder = () => {
                         </ul>
                     </div>
                 </div>
-
                 <form className="form-edit">
                     <div className="container-edit">
                         <div className="form-row">
@@ -170,7 +168,6 @@ const EditPurchaseOrder = () => {
                     </div>
                 </form>
             </div>
-
             <div className="customDiv">
                 <TabContext value="Các sản phẩm đặt hàng">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -185,7 +182,6 @@ const EditPurchaseOrder = () => {
                     </TabPanel>
                 </TabContext>
             </div>
-
         </main >
     )
 }

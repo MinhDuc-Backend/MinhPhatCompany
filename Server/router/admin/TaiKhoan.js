@@ -37,14 +37,11 @@ TaiKhoanAdminRoute.get('/DanhSachTK', async (req, res) => {
                                         .sort({ createdAt: -1 })
         const length = await TaiKhoan.find({ $and: [keywordCondition], TrangThai: { $in: [TrangThaiTaiKhoan.ChuaKichHoat, TrangThaiTaiKhoan.DaKichHoat]} }).count();
 
-        if (taikhoans.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách tài khoản.")
-        if (taikhoans) 
-            return sendSuccess(res, "Lấy danh sách tài khoản thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: taikhoans
-            })
+        return sendSuccess(res, "Lấy danh sách tài khoản thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: taikhoans
+        })
 
         return sendError(res, "Không tìm thấy danh sách tài khoản.")
     }

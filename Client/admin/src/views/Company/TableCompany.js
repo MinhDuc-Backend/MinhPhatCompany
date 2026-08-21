@@ -1,5 +1,5 @@
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { Box, Button } from '@mantine/core';
 import { IconUpload } from '@tabler/icons-react';
 import { mkConfig, generateCsv, download } from 'export-to-csv'; //or use your library of choice here
@@ -20,18 +20,15 @@ const csvConfig = mkConfig({
 const TableCompany = (props) => {
     const accessToken = props.accessToken;
     const [listData_company, SetListData_Company] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListCompany();
-    }, []);
 
-    const getListCompany = async () => {
+    const getListCompany = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCompany(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_Company(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
             const headers = { 'x-access-token': accessToken };
@@ -48,6 +45,10 @@ const TableCompany = (props) => {
         }
         
     }
+
+    useEffect(() => {
+        getListCompany();
+    }, [getListCompany]);
 
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
@@ -84,7 +85,7 @@ const TableCompany = (props) => {
                 enableEditing: false,
 
             },
-        ]
+        ],[]
     );
 
 

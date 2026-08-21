@@ -2,39 +2,29 @@ import "./TableQuotation.scss"
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import React, { useMemo } from 'react';
 import { Box, Button } from '@mantine/core';
-import { mkConfig, generateCsv, download } from 'export-to-csv';
 import { Link } from "react-router-dom";
-import { IconButton, } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchAllQuotation, fetchDeleteQuotation } from "../GetAPI"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-const csvConfig = mkConfig({
-    fieldSeparator: ',',
-    decimalSeparator: '.',
-    useKeysAsHeaders: true,
-});
 
 const TableQuotation = (props) => {
     const accessToken = props.accessToken;
     const [listData_quotation, SetListData_Quotation] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListQuotation();
-    }, []);
 
-    const getListQuotation = async () => {
+    const getListQuotation = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllQuotation(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_Quotation(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const [ma_xoa, setMa_xoa] = useState({})
     const [open, setOpen] = useState(false);
@@ -62,16 +52,10 @@ const TableQuotation = (props) => {
         }
     }
 
-    const handleExportRows = (rows) => {
-        const rowData = rows.map((row) => row.original);
-        const csv = generateCsv(csvConfig)(rowData);
-        download(csvConfig)(csv);
-    };
+    useEffect(() => {
+        getListQuotation();
+    }, [getListQuotation]);
 
-    const handleExportData = () => {
-        const csv = generateCsv(csvConfig)(listData_quotation);
-        download(csvConfig)(csv);
-    };
     const columns = useMemo(
         () => [
             {
@@ -129,7 +113,8 @@ const TableQuotation = (props) => {
                     return <div className='TotalPrice'>{formattedAmount}</div>;
                 },
             },
-        ]
+        ],
+        []
     );
 
     const table = useMantineReactTable({

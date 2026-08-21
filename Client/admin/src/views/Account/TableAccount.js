@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchAllTaiKhoan, fetchDeleteTaiKhoan } from "../GetAPI"
 const csvConfig = mkConfig({
     fieldSeparator: ',',
@@ -23,19 +23,14 @@ const TableTaiKhoan = (props) => {
     const [listData, SetListData] = useState([]);
     const [trangthaiTK, setTrangthaiTK] = useState('Đã kích hoạt')
 
-    // component didmount
-    useEffect(() => {
-        getListTaiKhoan();
-    }, []);
-
-    const getListTaiKhoan = async () => {
+    const getListTaiKhoan = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllTaiKhoan(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_TK(res.data.DanhSach)
             SetListData(res.data.DanhSach.filter(item => item.TrangThai === 'Đã kích hoạt'))
         }
-    }
+    }, [accessToken]);
 
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
@@ -52,6 +47,10 @@ const TableTaiKhoan = (props) => {
             }
         }
     }
+
+    useEffect(() => {
+        getListTaiKhoan();
+    }, [getListTaiKhoan]);
 
     const onChangeSelect = (event, SetSelect) => {
         let changeValue = event.target.value;
@@ -93,7 +92,7 @@ const TableTaiKhoan = (props) => {
                 size: 200,
                 enableEditing: false,
             },
-        ]
+        ], []
     );
 
     const table = useMantineReactTable({

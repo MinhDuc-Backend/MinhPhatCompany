@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import * as React from 'react';
 import { fetchAddChucNang } from "./APIFeature"
 import { toast } from "react-toastify";
+
 const AddFeature = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [MaCN, SetMaCN] = useState("")
     const [TenChucNang, SetTenChucNang] = useState("")
@@ -53,7 +54,6 @@ const AddFeature = () => {
 
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>TẠO MỚI</h1>
@@ -71,9 +71,7 @@ const AddFeature = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
-
 
             <form className="form-edit">
                 <div className="container-edit">
@@ -98,17 +96,9 @@ const AddFeature = () => {
                             <div className="invalid-feedback" style={{ display: 'block' }}>Chỉ chấp nhận các file có đuôi là png, ...</div>
                         </div>
                     </div>
-
-
                     <button className="btn" type="button" onClick={() => handleAddChucNang()}>Lưu</button>
                 </div>
-
-
-
             </form>
-
-
-
         </main >
     )
 }

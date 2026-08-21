@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./EditCategoryChild.scss";
 import { fetchDetailCategoryChild, fetchEditCategoryChild, fetchAllCategoryFather } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const EditCategoryChild = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const lspcon = useParams();
     let navigate = useNavigate();
     const [listData_categoryFather, SetListData_CategoryFather] = useState([]);
@@ -19,19 +19,15 @@ const EditCategoryChild = () => {
         SetSL(changeValue);
     }
 
-    useEffect(() => {
-        getDetailCategoryChild();
-        getListCategoryFather();
-
-    }, []);
-    const getListCategoryFather = async () => {
+    const getListCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_CategoryFather(res.data.DanhSach)
         }
-    }
-    const getDetailCategoryChild = async () => {
+    }, [accessToken]);
+
+    const getDetailCategoryChild = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailCategoryChild(headers, lspcon.MaLSPCon);
         if (res && res.data) {
@@ -39,8 +35,7 @@ const EditCategoryChild = () => {
             SetTenLoai(res.data.TenLoai)
             SetMaLSPCha(res.data.MaLSPCha.MaLSPCha)
         }
-    }
-
+    }, [accessToken, lspcon.MaLSPCon]);
 
     const handleEditCategoryChild = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -59,6 +54,11 @@ const EditCategoryChild = () => {
             return;
         }
     }
+
+    useEffect(() => {
+        getDetailCategoryChild();
+        getListCategoryFather();
+    }, [getDetailCategoryChild, getListCategoryFather]);
 
     const onChangeSelect = (event, SetSelect) => {
         let changeValue = event.target.value;

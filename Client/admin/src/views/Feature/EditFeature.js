@@ -1,12 +1,12 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import { fetchDetailChucNang, fetchEditChucNang } from "./APIFeature"
 import { toast } from "react-toastify";
+
 const EditFeature = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const chucnang = useParams();
     let navigate = useNavigate();
     const [MaCN, setMaCN] = useState("")
@@ -15,11 +15,7 @@ const EditFeature = () => {
 
     const [loadingAPI, setLoadingAPI] = useState(false)
 
-    useEffect(() => {
-        getDetailChucNang();
-
-    }, []);
-    const getDetailChucNang = async () => {
+    const getDetailChucNang = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailChucNang(headers, chucnang.MaCN);
         if (res && res.data) {
@@ -27,16 +23,15 @@ const EditFeature = () => {
             setTenChucNang(res.data.TenChucNang)
             setHinh(res.data.Hinh)
         }
-    }
+    }, [accessToken, chucnang.MaCN]);
+
     const handleEditChucNang = async () => {
-        // console.log(Hinh)
         const headers = { 'x-access-token': accessToken };
         if (!TenChucNang) {
             toast.error("Vui lòng điền đầy đủ dữ liệu !")
             return
         }
         let value_img = new FormData();
-        // value_img.TenChucNang = TenChucNang;
         value_img.append("MaCN", MaCN);
         value_img.append("TenChucNang", TenChucNang);
         value_img.append("Hinh", Hinh);
@@ -59,6 +54,10 @@ const EditFeature = () => {
         setSL(img)
     }
 
+    useEffect(() => {
+        getDetailChucNang();
+    }, [getDetailChucNang]);
+
     const onChangeInputSL = (event, setSL) => {
         let changeValue = event.target.value;
         setSL(changeValue);
@@ -74,7 +73,6 @@ const EditFeature = () => {
 
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>CHỈNH SỬA</h1>
@@ -92,10 +90,7 @@ const EditFeature = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
-
-
             <form className="form-edit">
                 <div className="container-edit">
                     <div className="form-row">
@@ -121,17 +116,9 @@ const EditFeature = () => {
                         </div>
                         {Hinh ? <img className="img-preview" src={Hinh.preview} /> : ""}
                     </div>
-
-
                     <button className="btn" type="button" onClick={() => handleEditChucNang()}>{loadingAPI ? "Đang lưu ..." : "Lưu"}</button>
                 </div>
-
-
-
             </form>
-
-
-
         </main >
     )
 }

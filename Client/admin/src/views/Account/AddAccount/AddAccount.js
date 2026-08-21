@@ -1,10 +1,10 @@
 import "./AddAccount.scss"
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchAddTaiKhoan, fetchAllQuyenTK } from "../../GetAPI"
 import { toast } from "react-toastify";
 const AddTaiKhoan = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [MaTK, setMaTK] = useState("")
     const [TenDangNhap, setTenDangNhap] = useState("")
@@ -13,18 +13,13 @@ const AddTaiKhoan = () => {
     const [QuyenTK, setQuyenTK] = useState("Chọn")
     const [listQuyenTK, setListQuyenTK] = useState([]);
 
-    // component didmount
-    useEffect(() => {
-        getListQuyenTK();
-    }, []);
-
-    const getListQuyenTK = async () => {
+    const getListQuyenTK = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllQuyenTK(headers);
         if (res && res.data && res.data.DanhSach) {
             setListQuyenTK(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleAddTaiKhoan = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -43,6 +38,10 @@ const AddTaiKhoan = () => {
             return;
         }
     }
+
+    useEffect(() => {
+        getListQuyenTK();
+    }, [getListQuyenTK]);
 
     const onChangeInputSL = (event, setState) => {
         let changeValue = event.target.value;

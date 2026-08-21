@@ -4,12 +4,13 @@ import * as React from 'react';
 import "./AddCategoryFather.scss"
 import { fetchAddCategoryFather } from "../../GetAPI"
 import { toast } from "react-toastify";
-const AddCategoryFather = () => {
 
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+const AddCategoryFather = () => {
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [MaLSPCha, SetMaLSPCha] = useState('')
     const [TenLoai, SetTenLoai] = useState('')
+    
     const handleAddCategoryFather = async () => {
         const headers = { 'x-access-token': accessToken };
         if (!MaLSPCha || !TenLoai) {

@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./EditCustomer.scss"
 import { fetchAllCompany, fetchEditCustomer, fetchDetailCustomer } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const EditCustomer = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const khachhang = useParams();
     const [MaKH, SetMaKH] = useState('')
@@ -18,20 +18,16 @@ const EditCustomer = () => {
     const [SoDienThoai, SetSoDienThoai] = useState('')
     const [GioiTinh, SetGioiTinh] = useState('Chọn')
     const [MaCongTy, SetMaCongTy] = useState('')
-    // component didmount
-    useEffect(() =>{
-        getListCompany();
-        getDetailCustomer();
-    }, []);
-    const getListCompany = async () => {
+
+    const getListCompany = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCompany(headers);
         if (res && res.data && res.data.DanhSach) {
             setListCompany(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
-    const getDetailCustomer = async () => {
+    const getDetailCustomer = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailCustomer(headers, khachhang.MaKH);
         if (res && res.data) {
@@ -43,14 +39,14 @@ const EditCustomer = () => {
             SetGioiTinh(res.data.GioiTinh)
             SetMaCongTy(res.data.CongTy.MaCongTy)
         }
-    }
+    }, [accessToken, khachhang.MaKH]);
+
     const handleEditCustomer = async () => {
         const headers = { 'x-access-token': accessToken };
         if (!headers || !MaKH || !HoKH || !TenKH || !Email || !SoDienThoai || GioiTinh == "Chọn" || !MaCongTy) {
             toast.error("Vui lòng điền đầy đủ dữ liệu")
             return
         }
-
         let res = await fetchEditCustomer(headers, MaKH, HoKH, TenKH, Email, SoDienThoai, GioiTinh, MaCongTy)
         if (res.status === true) {
             toast.success(res.message)
@@ -60,9 +56,13 @@ const EditCustomer = () => {
         if (res.status === false) {
             toast.error(res.message)
             return;
-
         }
     }
+
+    useEffect(() =>{
+        getListCompany();
+        getDetailCustomer();
+    }, [getListCompany, getDetailCustomer]);
 
     const onChangeInputSL = (event, setState) => {
         let changeValue = event.target.value;
@@ -87,7 +87,6 @@ const EditCustomer = () => {
     }
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>CHỈNH SỬA</h1>
@@ -105,10 +104,7 @@ const EditCustomer = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
-
-
             <form className="form-edit">
                 <div className="container-edit">
                     <div className="form-row">

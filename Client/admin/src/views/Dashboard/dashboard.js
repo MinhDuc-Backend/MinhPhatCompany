@@ -7,10 +7,12 @@ import dashboard from "./dashboard.png"
 const Dashboard = (props) => {
     const { hiddenDB, changleHidden } = props;
     let navigate = useNavigate();
+
     const LogOut = () => {
         window.localStorage.clear();
         navigate("/")
     }
+    
     const [catalog, setCatalog] = useState([]);
     useEffect(() => {
         let listdata_chucnang = JSON.parse(localStorage.getItem("listChucNang"))

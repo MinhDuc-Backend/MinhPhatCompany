@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import TableCategoryChild from "./TableCategoryChild";
 import { useState } from 'react';
 const CategoryChild = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+    
     return (
         <>
             <main className="main2">

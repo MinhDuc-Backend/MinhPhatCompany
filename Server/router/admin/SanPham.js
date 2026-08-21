@@ -42,14 +42,11 @@ SanPhamAdminRoute.get('/DanhSachSanPham', async (req, res) => {
         ]).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await SanPham.find({ $and: [keywordCondition], TrangThaiHangHoa: trangthai }).count();
 
-        if (sanphams.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách sản phẩm.")
-        if (sanphams) 
-            return sendSuccess(res, "Lấy danh sách sản phẩm thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: sanphams
-            })
+        return sendSuccess(res, "Lấy danh sách sản phẩm thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: sanphams
+        })
 
         return sendError(res, "Không tìm thấy danh sách sản phẩm.")
     }

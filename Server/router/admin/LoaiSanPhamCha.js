@@ -28,14 +28,11 @@ LoaiSanPhamChaAdminRoute.get('/DanhSachLSPCha', async (req, res) => {
         const lspchas = await LoaiSanPhamCha.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await LoaiSanPhamCha.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
-        if (lspchas.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách loại sản phẩm.")
-        if (lspchas) 
-            return sendSuccess(res, "Lấy danh sách loại sản phẩm thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: lspchas
-            })
+        return sendSuccess(res, "Lấy danh sách loại sản phẩm thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: lspchas
+        })
 
         return sendError(res, "Không tìm thấy danh sách loại sản phẩm.")
     }

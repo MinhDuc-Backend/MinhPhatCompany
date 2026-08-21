@@ -1,14 +1,14 @@
 import "./AddProduct.scss"
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchAddProduct, fetchAllCategoryFather, fetchDetailCategoryChildFollowFather } from "../../GetAPI"
 import * as React from 'react';
 import { toast } from "react-toastify";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const AddProduct = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [maSP, SetMaSP] = useState('')
     const [tenSP, SetTenSP] = useState('')
@@ -21,18 +21,14 @@ const AddProduct = () => {
     const [lspcon, SetLSPCon] = useState('')
     const [Hinh, setHinh] = useState("")
 
-    // component didmount
-    useEffect(() => {
-        getListCategoryFather();
-    }, []);
-
-    const getListCategoryFather = async () => {
+    const getListCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
             setListCategoryFather(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const getListCategoryChld = async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailCategoryChildFollowFather(headers,lspcha);
@@ -73,6 +69,11 @@ const AddProduct = () => {
             return;
         }
     }
+
+    useEffect(() => {
+        getListCategoryFather();
+    }, [getListCategoryFather]);
+    
     const onChangeInputSL = (event, SetState) => {
         let changeValue = event.target.value;
         SetState(changeValue);
@@ -112,7 +113,6 @@ const AddProduct = () => {
 
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>TẠO MỚI </h1>
@@ -128,8 +128,6 @@ const AddProduct = () => {
                         <li>
                             <Link className="active" >Tạo mới</Link>
                         </li>
-
-
                     </ul>
                 </div>
             </div>
@@ -200,11 +198,8 @@ const AddProduct = () => {
                             </div>
                             <div className="invalid-feedback" style={{ display: 'block', color: 'blue' }}>Chỉ chấp nhận các file có đuôi là png, jpeg, jpg ...</div>
                             <div className="invalid-feedback" style={{ display: checkdulieuHinh ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
-
                         </div>
-
-                        {Hinh ? <img className="img-preview" src={Hinh.preview} /> : ""}
-
+                        {Hinh ? <img className="img-preview" alt="" src={Hinh.preview} /> : ""}
                     </div>
                     <div className="form-row">
                         <div className="form-group col-md-12 formbtn" id="btsubmit">
@@ -214,10 +209,8 @@ const AddProduct = () => {
                             <div><button className="btn btn-primary btn-sm" type="button" disabled>Đang xử lý, vui long đợi</button></div>
                         </div>
                     </div>
-                    
                 </div>
             </form>
-
         </main >
     )
 }

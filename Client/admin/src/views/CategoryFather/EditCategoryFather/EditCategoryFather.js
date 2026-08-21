@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./EditCategoryFather.scss"
 import TableCategoryChild from "../DetailCategoryFather/TableCategoryChild/TableCategoryChild";
 import { fetchDetailCategoryFather, fetchEditCategoryFather } from "../../GetAPI"
 import { toast } from "react-toastify";
+
 const EditCategoryFather = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const categoryFather = useParams();
     let navigate = useNavigate();
 
@@ -17,15 +18,8 @@ const EditCategoryFather = () => {
     const [MaLSPCha, SetMaLSPCha] = useState("");
     const [TenLoai, SetTenLoai] = useState("");
 
-    // component didmount
-    useEffect(() => {
-        getDetailCategoryFather();
-
-    }, []);
-
-    const getDetailCategoryFather = async () => {
+    const getDetailCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
-
         let res = await fetchDetailCategoryFather(headers, categoryFather.MaLSPCha);
         if (res && res.data && res.data.LSPCha) {
             SetDetailCategoryFather(res.data.LSPCha)
@@ -33,7 +27,8 @@ const EditCategoryFather = () => {
             SetMaLSPCha(res.data.LSPCha.MaLSPCha)
             SetTenLoai(res.data.LSPCha.TenLoai)
         }
-    }
+    }, [accessToken, categoryFather.MaLSPCha]);
+
     const handleEditCategoryFather = async () => {
         const headers = { 'x-access-token': accessToken };
         if (!MaLSPCha || !TenLoai) {
@@ -51,6 +46,10 @@ const EditCategoryFather = () => {
             return;
         }
     }
+
+    useEffect(() => {
+        getDetailCategoryFather();
+    }, [getDetailCategoryFather]);
 
     const onChangeInputSL = (event, SetSL) => {
         let changeValue = event.target.value;
@@ -82,8 +81,6 @@ const EditCategoryFather = () => {
                         <li>
                             <Link className="active" >{TenLoai}</Link>
                         </li>
-
-
                     </ul>
                 </div>
 

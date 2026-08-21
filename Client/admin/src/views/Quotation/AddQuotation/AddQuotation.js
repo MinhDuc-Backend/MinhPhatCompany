@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import moment from 'moment';
 import * as React from 'react';
 import "./AddQuotation.scss"
@@ -7,7 +7,7 @@ import { fetchAllCustomer, fetchAddQuotation } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const AddQuotation = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [listData_KhachHang, SetListData_KhachHang] = useState([]);
     const date = moment().format("YYYY-MM-DD");
@@ -20,18 +20,13 @@ const AddQuotation = () => {
     const [ThanhToan, SetThanhToan] = useState("Chuyển khoản 100% trong vòng 15 ngày sau khi nhận hàng")
     const [HieuLucBaoGia, SetHieuLucBaoGia] = useState("15 ngày")
 
-    // component didmount
-    useEffect(() => {
-        getListCustomer();
-    }, []);
-
-    const getListCustomer = async () => {
+    const getListCustomer = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCustomer(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_KhachHang(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleAddQuotation = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -52,7 +47,9 @@ const AddQuotation = () => {
         }
     }
 
-
+    useEffect(() => {
+        getListCustomer();
+    }, [getListCustomer]);
 
     const onChangeInputSL = (event, setSL) => {
         let changeValue = event.target.value;
@@ -62,7 +59,6 @@ const AddQuotation = () => {
         let changeValue = event.target.value;
         setSelect(changeValue);
     }
-
 
     // check dữ liệu  
     const [checkdulieuTenPBG, setCheckdulieuTenPBG] = useState(true)
@@ -77,7 +73,6 @@ const AddQuotation = () => {
 
     return (
         <main className="main2">
-
             <div className="customDiv">
                 <div className="head-title">
                     <div className="left">
@@ -97,7 +92,6 @@ const AddQuotation = () => {
                         </ul>
                     </div>
                 </div>
-
                 <form className="form-edit">
                     <div className="container-edit">
                         <div className="form-row">
@@ -171,7 +165,6 @@ const AddQuotation = () => {
                     </div>
                 </form>
             </div>
-
         </main >
     )
 }

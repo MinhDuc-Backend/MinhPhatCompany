@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./EditStaff.scss"
 import { fetchEditStaff, fetchDetailStaff } from "../../GetAPI"
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 
 const EditStaff = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const nhanvien = useParams();
     const [manv, SetManv] = useState('')
@@ -18,12 +18,8 @@ const EditStaff = () => {
     const [sdt, SetSdt] = useState('')
     const [gioitinh, SetGioitinh] = useState('')
     const [ngaysinh, SetNgaysinh] = useState('')
-    // component didmount
-    useEffect(() => {
-        getDetailStaff();
-    }, []);
 
-    const getDetailStaff = async () => {
+    const getDetailStaff = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailStaff(headers, nhanvien.MaNV);
         if (res && res.data) {
@@ -35,7 +31,8 @@ const EditStaff = () => {
             SetGioitinh(res.data.GioiTinh)
             SetNgaysinh(moment(res.data.NgaySinh).format("YYYY-MM-DD"))
         }
-    }
+    }, [accessToken, nhanvien.MaNV]);
+    
     const handleEditStaff = async () => {
         const headers = { 'x-access-token': accessToken };
         if (!headers || !manv || !honv || !tennv || !email || !sdt || !gioitinh || !ngaysinh) {
@@ -52,9 +49,12 @@ const EditStaff = () => {
         if (res.status === false) {
             toast.error(res.message)
             return;
-
         }
     }
+
+    useEffect(() => {
+        getDetailStaff();
+    }, [getDetailStaff]);
 
     const onChangeInputSL = (event, setState) => {
         let changeValue = event.target.value;
@@ -76,7 +76,6 @@ const EditStaff = () => {
     }
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>CHỈNH SỬA</h1>
@@ -94,10 +93,7 @@ const EditStaff = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
-
-
             <form className="form-edit">
                 <div className="container-edit">
                 <div className="form-row">

@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import moment from 'moment';
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import TableProductQuotation from "./TableProductQuotation";
 import { fetchDetailQuotation, fetchAllCustomer, fetchEditQuotation } from "../../GetAPI"
 
 const EditQuotation = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const baogia = useParams();
     let navigate = useNavigate();
     const [listData_KhachHang, SetListData_KhachHang] = useState([]);
@@ -30,21 +30,15 @@ const EditQuotation = () => {
     const [SanPhamPBG, SetSanPhamPBG] = useState([])
     const [TongTien, SetTongTien] = useState(0)
 
-    // component didmount
-    useEffect(() => {
-        getDetailQuotation();
-        getListCustomer();
-    }, []);
-
-    const getListCustomer = async () => {
+    const getListCustomer = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCustomer(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_KhachHang(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
-    const getDetailQuotation = async () => {
+    const getDetailQuotation = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailQuotation(headers, baogia.MaPBG);
         if (res && res.data) {
@@ -61,26 +55,31 @@ const EditQuotation = () => {
             SetSanPhamPBG(res.data.SanPhamPBG)
             SetTongTien(res.data.TongTien)
         }
-    }
+    }, [accessToken, baogia.MaPBG]);
 
     const handleEditQuotation = async () => {
-            const headers = { 'x-access-token': accessToken };
-            if (!headers || !NgayBaoGia || !TenPBG || KhachHangPBG == "Chọn" || !ThoiGianGiaoHang || !DiaDiemGiaoHang || !ThoiGianBaoHanh || !ThanhToan || !HieuLucBaoGia) {
-                toast.error("Vui lòng điền đầy đủ dữ liệu")
-                return
-            }
-            const ngaybg = new Date(NgayBaoGia);
-            let res = await fetchEditQuotation(headers, MaPBG, ngaybg, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia)
-            if (res.status === true) {
-                toast.success(res.message)
-                navigate("/admin/Quotation")
-                return;
-            }
-            if (res.status === false) {
-                toast.error(res.message)
-                return;
-            }
+        const headers = { 'x-access-token': accessToken };
+        if (!headers || !NgayBaoGia || !TenPBG || KhachHangPBG == "Chọn" || !ThoiGianGiaoHang || !DiaDiemGiaoHang || !ThoiGianBaoHanh || !ThanhToan || !HieuLucBaoGia) {
+            toast.error("Vui lòng điền đầy đủ dữ liệu")
+            return
         }
+        const ngaybg = new Date(NgayBaoGia);
+        let res = await fetchEditQuotation(headers, MaPBG, ngaybg, TenPBG, KhachHangPBG, ThoiGianGiaoHang, DiaDiemGiaoHang, ThoiGianBaoHanh, ThanhToan, HieuLucBaoGia)
+        if (res.status === true) {
+            toast.success(res.message)
+            navigate("/admin/Quotation")
+            return;
+        }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
+        }
+    }
+
+    useEffect(() => {
+        getDetailQuotation();
+        getListCustomer();
+    }, [getDetailQuotation, getListCustomer]);
 
     const onChangeInputSL = (event, setSL) => {
         let changeValue = event.target.value;
@@ -122,7 +121,6 @@ const EditQuotation = () => {
                         </ul>
                     </div>
                 </div>
-
                 <form className="form-edit">
                     <div className="container-edit">
                         <div className="form-row">
@@ -192,7 +190,6 @@ const EditQuotation = () => {
                     </div>
                 </form>
             </div>
-
             <div className="customDiv">
                 <TabContext value="Các sản phẩm báo giá">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -219,7 +216,6 @@ const EditQuotation = () => {
                     </div>
                 </div>
             </div>
-
         </main >
     )
 }

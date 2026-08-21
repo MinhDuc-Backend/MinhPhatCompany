@@ -1,12 +1,12 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./EditAccountPermissions.scss"
 import { fetchDetailQuyenTK, fetchAllChucNang, fetchEditQuyenTK } from "../../GetAPI"
 import { toast } from "react-toastify";
 const EditQuyenTaiKhoan = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const quyenTK = useParams();
     const [maquyen, setMaquyen] = useState("")
@@ -16,20 +16,16 @@ const EditQuyenTaiKhoan = () => {
     const [listmachucnangTK, setListmachucnangTK] = useState([]);
 
     const [defaultChecked, setDefaultChecked] = useState(false)
-    // component didmount
-    useEffect(() => {
-        getDetailQuyenTK();
-        getListChucNang();
-    }, []);
 
-    const getListChucNang = async () => {
+    const getListChucNang = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllChucNang(headers);
         if (res && res.data && res.data.DanhSach) {
             setListchucnang(res.data.DanhSach)
         }
-    }
-    const getDetailQuyenTK = async () => {
+    }, [accessToken]);
+
+    const getDetailQuyenTK = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailQuyenTK(headers, quyenTK.MaQTK);
         // console.log(res)
@@ -47,7 +43,8 @@ const EditQuyenTaiKhoan = () => {
             })
             setListmachucnangTK(current)
         }
-    }
+    }, [accessToken, quyenTK.MaQTK]);
+
     const handleEditQuyenTK = async () => {
         const headers = { 'x-access-token': accessToken };
         let maCN = "";
@@ -73,11 +70,13 @@ const EditQuyenTaiKhoan = () => {
         if (res.status === false) {
             toast.error(res.message)
             return;
-
         }
-        // console.log("MaCN: ", maCN)
-        // console.log("ChucNangCon: ", ChucNangCon)
     }
+
+    useEffect(() => {
+        getDetailQuyenTK();
+        getListChucNang();
+    }, [getDetailQuyenTK, getListChucNang]);
 
     const onChangeInputSL = (event, SetState) => {
         let changeValue = event.target.value;

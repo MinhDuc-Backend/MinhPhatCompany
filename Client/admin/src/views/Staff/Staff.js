@@ -2,12 +2,13 @@
 import TableStaff from "./TableStaff";
 import { Link } from "react-router-dom";
 import { useState } from 'react';
+
 const Staff = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+
     return (
         <>
             <main className="main2">
-                {/* <HeaderMain title={'Chuyên ngành'} /> */}
                 <div className="head-title">
                     <div className="left">
                         <h1>NHÂN VIÊN</h1>
@@ -27,7 +28,6 @@ const Staff = () => {
                     </Link>
                 </div>
                 <TableStaff accessToken={accessToken} />
-
             </main >
         </>
     )
