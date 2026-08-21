@@ -2,13 +2,13 @@
 
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./DetailCategoryFather.scss"
 import TableCategoryChild from "./TableCategoryChild/TableCategoryChild";
 import { fetchDetailCategoryFather } from "../../GetAPI"
 const DetailCategoryFather = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const categoryFather = useParams();
 
     // get chi tiết ngành 
@@ -17,13 +17,7 @@ const DetailCategoryFather = () => {
     const [MaLSPCha, SetMaLSPCha] = useState("");
     const [TenLoai, SetTenLoai] = useState("");
 
-    // component didmount
-    useEffect(() => {
-        getDetailCategoryFather();
-
-    }, []);
-
-    const getDetailCategoryFather = async () => {
+    const getDetailCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailCategoryFather(headers, categoryFather.MaLSPCha);
         if (res && res.data && res.data.LSPCha) {
@@ -32,14 +26,17 @@ const DetailCategoryFather = () => {
             SetMaLSPCha(res.data.LSPCha.MaLSPCha)
             SetTenLoai(res.data.LSPCha.TenLoai)
         }
-    }
+    }, [accessToken, categoryFather.MaLSPCha]);
 
-
+    useEffect(() => {
+        getDetailCategoryFather();
+    }, [getDetailCategoryFather]);
 
     const onChangeInputSL = (event, SetSL) => {
         let changeValue = event.target.value;
         SetSL(changeValue);
     }
+    
     return (
         <main className="main2">
             {/* <HeaderMain title={'Chuyên ngành'} /> */}

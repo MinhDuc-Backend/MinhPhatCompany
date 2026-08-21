@@ -38,14 +38,11 @@ PhieuBaoGiaAdminRoute.get('/DanhSachPBG', async (req, res) => {
             }
         ]).sort({ createdAt: -1 })
 
-        if (pbg.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách phiếu báo giá.")
-        if (pbg) 
-            return sendSuccess(res, "Lấy danh sách phiếu báo giá thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: pbg.length,
-                DanhSach: pbg
-            })
+        return sendSuccess(res, "Lấy danh sách phiếu báo giá thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: pbg.length,
+            DanhSach: pbg
+        })
 
         return sendError(res, "Không tìm thấy danh sách phiếu báo giá.")
     }

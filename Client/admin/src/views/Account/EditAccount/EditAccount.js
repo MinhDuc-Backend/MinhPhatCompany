@@ -1,13 +1,13 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchDetailTaiKhoan, fetchEditTaiKhoan, fetchAllQuyenTK } from "../../GetAPI"
 import { toast } from "react-toastify";
 import "./EditAccount.scss"
 
 const EditTaiKhoan = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const taikhoan = useParams();
     let navigate = useNavigate();
     const [MaTK, setMaTK] = useState("")
@@ -16,12 +16,8 @@ const EditTaiKhoan = () => {
     const [QuyenTK, setQuyenTK] = useState("")
     const [listQuyenTK, setListQuyenTK] = useState([]);
     // component didmount
-    useEffect(() => {
-        getDetailTaiKhoan();
-        getListQuyenTK();
-    }, []);
 
-    const getDetailTaiKhoan = async () => {
+    const getDetailTaiKhoan = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailTaiKhoan(headers, taikhoan.MaTK);
         if (res && res.data) {
@@ -30,14 +26,15 @@ const EditTaiKhoan = () => {
             setMatKhau(res.data.MatKhau)
             setQuyenTK(res.data.MaQTK.MaQTK)
         }
-    }
-    const getListQuyenTK = async () => {
+    }, [accessToken, taikhoan.MaTK]);
+
+    const getListQuyenTK = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllQuyenTK(headers);
         if (res && res.data && res.data.DanhSach) {
             setListQuyenTK(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleEditTaiKhoan = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -57,6 +54,10 @@ const EditTaiKhoan = () => {
         }
     }
 
+    useEffect(() => {
+        getDetailTaiKhoan();
+        getListQuyenTK();
+    }, [getDetailTaiKhoan, getListQuyenTK]);
 
     const onChangeInputSL = (event, setState) => {
         let changeValue = event.target.value;

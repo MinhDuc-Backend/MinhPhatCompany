@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -14,7 +14,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 
 const SinglePurchaseOrder = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const ddh = useParams();
     const date = moment().format("YYYY-MM-DD");
     const [MaDDH, SetMaDDH] = useState("")
@@ -25,12 +25,7 @@ const SinglePurchaseOrder = () => {
     const [ThoiHanGiaoHang, SetThoiHanGiaoHang] = useState("")
     const [SanPhamDatHang, SetSanPhamDatHang] = useState([])
 
-    // component didmount
-    useEffect(() => {
-        getDetailPurchaseOrder();
-    }, []);
-
-    const getDetailPurchaseOrder = async () => {
+    const getDetailPurchaseOrder = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailPurchaseOrder(headers, ddh.MaDDH);
         if (res && res.data) {
@@ -42,7 +37,11 @@ const SinglePurchaseOrder = () => {
             SetThoiHanGiaoHang(res.data.ThoiHanGiaoHang)
             SetSanPhamDatHang(res.data.SanPhamDatHang)
         }
-    }
+    }, [accessToken, ddh.MaDDH]);
+
+    useEffect(() => {
+        getDetailPurchaseOrder();
+    }, [getDetailPurchaseOrder]);
 
     return (
         <main className="main2">
@@ -97,7 +96,6 @@ const SinglePurchaseOrder = () => {
                     </div>
                 </form>
             </div>
-
             <div className="customDiv">
                 <TabContext value="Các sản phẩm đặt hàng">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -112,7 +110,6 @@ const SinglePurchaseOrder = () => {
                     </TabPanel>
                 </TabContext>
             </div>
-
         </main >
     )
 }

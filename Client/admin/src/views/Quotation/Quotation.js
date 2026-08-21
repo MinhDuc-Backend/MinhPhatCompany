@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 import TableQuotation from "./TableQuotation";
 import { useState } from "react";
 
-
 const Quotation = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+
     return (
         <>
             <main className="main2">
-                {/* <HeaderMain title={'Chuyên ngành'} /> */}
                 <div className="head-title">
                     <div className="left">
                         <h1>PHIẾU BÁO GIÁ</h1>
@@ -29,12 +28,7 @@ const Quotation = () => {
                         <span className="text">Tạo mới</span>
                     </Link>
                 </div>
-
-                {/* <MantineReactTable table={table} />; */}
-
-
                 <TableQuotation accessToken={accessToken} />
-
             </main >
         </>
     )

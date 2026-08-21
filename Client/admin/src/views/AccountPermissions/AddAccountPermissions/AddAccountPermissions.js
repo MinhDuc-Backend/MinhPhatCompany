@@ -1,11 +1,11 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchAllChucNang, fetchAddQuyenTK } from "../../GetAPI"
 import { toast } from "react-toastify";
 import "./AddAccountPermissions.scss"
 const AddQuyenTaiKhoan = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [MaQuyen, SetMaQuyen] = useState("")
     const [TenQuyen, SetTenQuyen] = useState("")
@@ -24,16 +24,15 @@ const AddQuyenTaiKhoan = () => {
     const checkdulieu = (value, SetDuLieu) => {
         value === '' ? SetDuLieu(false) : SetDuLieu(true)
     }
-    useEffect(() => {
-        getListChucNang();
-    }, []);
-    const getListChucNang = async () => {
+
+    const getListChucNang = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllChucNang(headers);
         if (res && res.data && res.data.DanhSach) {
             setListchucnang(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const onChangeChucNang = (item2) => {
         let current = listchucnangTK;
         let current_ma = listmachucnangTK;
@@ -69,8 +68,6 @@ const AddQuyenTaiKhoan = () => {
             toast.error("Vui lòng nhập đầy đủ dữ liệu !")
             return
         }
-        // console.log("MaCN: ", maCN)
-        // console.log("ChucNangCon: ", ChucNangCon)
         let res = await fetchAddQuyenTK(headers, MaQuyen, TenQuyen, maCN)
         if (res.status === true) {
             toast.success(res.message)
@@ -80,14 +77,16 @@ const AddQuyenTaiKhoan = () => {
         if (res.status === false) {
             toast.error(res.message)
             return;
-
         }
-
     }
+
+    useEffect(() => {
+        getListChucNang();
+    }, [getListChucNang]);
+    
     return (
         <>
             <main className="main2">
-                {/* <HeaderMain title={'Chuyên ngành'} /> */}
                 <div className="head-title">
                     <div className="left">
                         <h1>TẠO MỚI</h1>

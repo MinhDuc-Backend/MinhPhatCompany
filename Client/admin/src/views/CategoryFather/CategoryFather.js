@@ -4,8 +4,8 @@ import TableCategoryFather from "./TableCategoryFather";
 import { useState } from "react";
 
 const CategoryFather = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
-    // get danh sach nganh
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+    
     return (
         <>
             <main className="main2">

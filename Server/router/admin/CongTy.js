@@ -25,15 +25,12 @@ CongTyAdminRoute.get('/DanhSachCongTy', async (req, res) => {
             } : {};
         const congtys = await CongTy.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await CongTy.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
-
-        if (congtys.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách công ty.")
-        if (congtys) 
-            return sendSuccess(res, "Lấy danh sách công ty thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: congtys
-            })
+ 
+        return sendSuccess(res, "Lấy danh sách công ty thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: congtys
+        })
 
         return sendError(res, "Không tìm thấy danh sách công ty.")
     }

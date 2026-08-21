@@ -31,14 +31,11 @@ NhanVienAdminRoute.get('/DanhSachNhanVien', async (req, res) => {
         const nhanviens = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).limit(pageSize).skip(pageSize * page).sort({ createdAt: -1 })
         const length = await NhanVien.find({ $and: [keywordCondition], TrangThai: trangthai }).count();
 
-        if (nhanviens.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách nhân viên.")
-        if (nhanviens) 
-            return sendSuccess(res, "Lấy danh sách nhân viên thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: nhanviens
-            })
+        return sendSuccess(res, "Lấy danh sách nhân viên thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: nhanviens
+        })
 
         return sendError(res, "Không tìm thấy danh sách nhân viên.")
     }

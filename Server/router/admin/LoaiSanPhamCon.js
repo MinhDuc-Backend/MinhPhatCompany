@@ -32,14 +32,11 @@ LoaiSanPhamConAdminRoute.get('/DanhSachLSPCon', async (req, res) => {
             }).sort({ createdAt: -1 })
         const length = await LoaiSanPhamCon.find({ $and: [keywordCondition], TrangThai: TrangThaiTonTai.ChuaXoa }).count();
 
-        if (lspcons.length == 0) 
-            return sendError(res, "Không tìm thấy danh sách loại sản phẩm con.")
-        if (lspcons) 
-            return sendSuccess(res, "Lấy danh sách loại sản phẩm con thành công.", { 
-                TrangThai: "Thành công",
-                SoLuong: length,
-                DanhSach: lspcons
-            })
+        return sendSuccess(res, "Lấy danh sách loại sản phẩm con thành công.", { 
+            TrangThai: "Thành công",
+            SoLuong: length,
+            DanhSach: lspcons
+        })
 
         return sendError(res, "Không tìm thấy danh sách loại sản phẩm con.")
     }

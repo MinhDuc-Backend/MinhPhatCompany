@@ -9,7 +9,8 @@ import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { fetchDeleteCategoryFather, fetchAllCategoryFather } from "../GetAPI"
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -19,18 +20,15 @@ const csvConfig = mkConfig({
 const TableCategoryFather = (props) => {
     const accessToken = props.accessToken;
     const [listData_CategoryFather, SetListData_CategoryFather] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListCategoryFather();
-    }, []);
 
-    const getListCategoryFather = async () => {
+    const getListCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_CategoryFather(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
             const headers = { 'x-access-token': accessToken };
@@ -47,6 +45,10 @@ const TableCategoryFather = (props) => {
         }
     }
 
+    useEffect(() => {
+        getListCategoryFather();
+    }, [getListCategoryFather]);
+
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
         const csv = generateCsv(csvConfig)(rowData);
@@ -57,6 +59,7 @@ const TableCategoryFather = (props) => {
         const csv = generateCsv(csvConfig)(listData_CategoryFather);
         download(csvConfig)(csv);
     };
+
     const columns = useMemo(
         () => [
             {
@@ -75,7 +78,7 @@ const TableCategoryFather = (props) => {
                 enableEditing: false,
 
             },
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({
@@ -121,7 +124,6 @@ const TableCategoryFather = (props) => {
             >
                 <Button
                     color="lightblue"
-                    //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
                     onClick={handleExportData}
                     leftIcon={<IconUpload />}
                     variant="filled"
@@ -132,7 +134,6 @@ const TableCategoryFather = (props) => {
                     disabled={
                         !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
                     }
-                    //only export selected rows
                     onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
                     leftIcon={<IconUpload />}
                     variant="filled"

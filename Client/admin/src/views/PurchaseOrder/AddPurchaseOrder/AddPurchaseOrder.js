@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import moment from 'moment';
 import * as React from 'react';
 import "./AddPurchaseOrder.scss"
@@ -7,7 +7,7 @@ import { fetchAllCompany, fetchAddPurchaseOrder } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const AddPurchaseOrder = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [listData_CongTy, SetListData_CongTy] = useState([]);
     const date = moment().format("YYYY-MM-DD");
@@ -17,18 +17,13 @@ const AddPurchaseOrder = () => {
     const [TenDDH, SetTenDDH] = useState("")
     const [ThoiHanGiaoHang, SetThoiHanGiaoHang] = useState("")
 
-    // component didmount
-    useEffect(() => {
-        getListCompany();
-    }, []);
-
-    const getListCompany = async () => {
+    const getListCompany = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCompany(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_CongTy(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleAddPurchaseOrder = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -50,7 +45,9 @@ const AddPurchaseOrder = () => {
         }
     }
 
-
+    useEffect(() => {
+        getListCompany();
+    }, [getListCompany]);
 
     const onChangeInputSL = (event, setSL) => {
         let changeValue = event.target.value;
@@ -60,7 +57,6 @@ const AddPurchaseOrder = () => {
         let changeValue = event.target.value;
         setSelect(changeValue);
     }
-
 
     // check dữ liệu  
     const [checkdulieuTenDDH, setCheckdulieuTenDDH] = useState(true)
@@ -140,7 +136,6 @@ const AddPurchaseOrder = () => {
                     </div>
                 </form>
             </div>
-
         </main >
     )
 }

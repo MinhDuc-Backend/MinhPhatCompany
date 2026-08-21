@@ -6,11 +6,12 @@ import { IconUpload } from '@tabler/icons-react';
 import { mkConfig, generateCsv, download } from 'export-to-csv'; //or use your library of choice here
 import { Link } from "react-router-dom";
 import { IconButton } from '@mui/material';
-import { Delete, Edit, Visibility } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import { fetchAllStaff, fetchDeleteStaff } from "../GetAPI"
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import moment from "moment";
+
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -21,18 +22,13 @@ const TableStaff = (props) => {
     const accessToken = props.accessToken;
     const [listData_nhanvien, SetListData_NhanVien] = useState([]);
 
-    // component didmount
-    useEffect(() => {
-        getListStaff();
-    }, []);
-
-    const getListStaff = async () => {
+    const getListStaff = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllStaff(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_NhanVien(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
@@ -50,6 +46,9 @@ const TableStaff = (props) => {
         }
     }
 
+    useEffect(() => {
+        getListStaff();
+    }, [getListStaff]);
 
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
@@ -61,6 +60,7 @@ const TableStaff = (props) => {
         const csv = generateCsv(csvConfig)(listData_nhanvien);
         download(csvConfig)(csv);
     };
+
     const columns = useMemo(
         () => [
             {
@@ -80,13 +80,10 @@ const TableStaff = (props) => {
                 
             },
             {
-
                 accessorKey: 'Email',
                 header: 'Email',
                 size: 160,
                 enableEditing: false,
-
-
             },
             {
                 accessorKey: 'SoDienThoai',
@@ -101,14 +98,14 @@ const TableStaff = (props) => {
                 enableEditing: false,
             },
             {
-
                 accessorKey: 'NgaySinh',
                 header: 'Ngày sinh',
                 accessorFn: (dataRow) => moment(dataRow.NgaySinh).format("DD-MM-YYYY"),
                 size: 100,
                 enableEditing: false,
             },
-        ]
+        ],
+        []
     );
 
     const table = useMantineReactTable({
@@ -134,7 +131,6 @@ const TableStaff = (props) => {
                     <Delete fontSize="small" sx={{ color: 'red' }} />
                 </IconButton>
             </Box >
-
         ),
 
         renderTopToolbarCustomActions: ({ table }) => (
@@ -148,19 +144,16 @@ const TableStaff = (props) => {
             >
                 <Button
                     color="lightblue"
-                    //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
                     onClick={handleExportData}
                     leftIcon={<IconUpload />}
                     variant="filled"
                 >
                     Export All Data
                 </Button>
-
                 <Button
                     disabled={
                         !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
                     }
-                    //only export selected rows
                     onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
                     leftIcon={<IconUpload />}
                     variant="filled"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../../css/bootstrap.min.css";
 import "./login.scss";
 import logomp from "../logoMP.png"
@@ -8,19 +8,22 @@ import { fetchLoginAdmin } from "../GetAPI"
 
 const LoginAdmin = (props) => {
     const { loggedIn, CheckLogin } = props
+    let navigate = useNavigate();
+    
     const OnCheckLogin = () => {
         CheckLogin();
     }
-    const GetToken = () => {
+    const GetToken = useCallback(() => {
         if (localStorage.getItem("accessToken")) {
             navigate("/admin/*")
             return
         }
-    }
+    }, [navigate]);
+
     useEffect(() => {
         GetToken()
-    }, [])
-    let navigate = useNavigate();
+    }, [GetToken])
+
     const [TenDangNhap, setTenDangNhap] = useState("");
     const [MatKhau, setMatKhau] = useState("");
     const [list_CN, setList_CN] = useState([]);

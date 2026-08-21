@@ -6,7 +6,7 @@ import * as React from 'react';
 import { toast } from "react-toastify";
 
 const AddStaff = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [manv, SetManv] = useState('')
     const [honv, SetHonv] = useState('')
@@ -56,7 +56,6 @@ const AddStaff = () => {
 
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>TẠO MỚI </h1>
@@ -72,12 +71,9 @@ const AddStaff = () => {
                         <li>
                             <Link className="active" >Tạo mới</Link>
                         </li>
-
-
                     </ul>
                 </div>
             </div>
-
             <form className="form-new">
                 <div className="container-edit">
                     <div className="form-row">
@@ -127,9 +123,6 @@ const AddStaff = () => {
                     </div>
                 </div>
             </form>
-
-
-
         </main >
     )
 }

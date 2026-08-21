@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import TableCompany from "./TableCompany";
 import { useState } from 'react';
 const Company = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+
     return (
         <>
             <main className="main2">
-                {/* <HeaderMain title={'Chuyên ngành'} /> */}
                 <div className="head-title">
                     <div className="left">
                         <h1>CÔNG TY</h1>
@@ -26,7 +26,6 @@ const Company = () => {
                     </Link>
                 </div>
                 <TableCompany accessToken={accessToken} />
-
             </main >
         </>
     )

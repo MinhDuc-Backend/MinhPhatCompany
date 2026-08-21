@@ -1,12 +1,12 @@
 import "./AddCustomer.scss"
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchAddCustomer, fetchAllCompany } from "../../GetAPI"
 import * as React from 'react';
 import { toast } from "react-toastify";
 
 const AddCustomer = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [MaKH, SetMaKH] = useState('')
     const [HoKH, SetHoKH] = useState('')
@@ -17,18 +17,13 @@ const AddCustomer = () => {
     const [GioiTinh, SetGioiTinh] = useState('Chọn')
     const [MaCongTy, SetMaCongTy] = useState('')
 
-    // component didmount
-    useEffect(() => {
-        getListCompany();
-    }, []);
-
-    const getListCompany = async () => {
+    const getListCompany = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCompany(headers);
         if (res && res.data && res.data.DanhSach) {
             setListCompany(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleAddCustomer = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -50,6 +45,11 @@ const AddCustomer = () => {
             return;
         }
     }
+
+    useEffect(() => {
+        getListCompany();
+    }, [getListCompany]);
+
     const onChangeInputSL = (event, SetState) => {
         let changeValue = event.target.value;
         SetState(changeValue);
@@ -75,7 +75,6 @@ const AddCustomer = () => {
 
     return (
         <main className="main2">
-            {/* <HeaderMain title={'Chuyên ngành'} /> */}
             <div className="head-title">
                 <div className="left">
                     <h1>TẠO MỚI</h1>

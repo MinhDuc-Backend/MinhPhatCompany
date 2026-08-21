@@ -1,8 +1,10 @@
 import TableCustomer from "./TableCustomer";
 import { Link } from "react-router-dom";
 import { useState } from 'react';
+
 const Customer = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+
     return (
         <>
             <main className="main2">
@@ -25,7 +27,6 @@ const Customer = () => {
                     </Link>
                 </div>
                 <TableCustomer accessToken={accessToken} />
-
             </main >
         </>
     )

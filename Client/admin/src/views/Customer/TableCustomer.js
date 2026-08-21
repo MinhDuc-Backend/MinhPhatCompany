@@ -8,7 +8,7 @@ import { IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { fetchAllCustomer, fetchDeleteCustomer } from "../GetAPI"
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -19,18 +19,13 @@ const TableCustomer = (props) => {
     const accessToken = props.accessToken;
     const [listData_customer, SetListData_Customer] = useState([]);
 
-    // component didmount
-    useEffect(() => {
-        getListCustomer();
-    }, []);
-
-    const getListCustomer = async () => {
+    const getListCustomer = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCustomer(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_Customer(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
 
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
@@ -48,6 +43,9 @@ const TableCustomer = (props) => {
         }
     }
 
+    useEffect(() => {
+        getListCustomer();
+    }, [getListCustomer]);
 
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
@@ -92,7 +90,7 @@ const TableCustomer = (props) => {
                 size: 240,
                 enableEditing: false,
             },
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({
@@ -106,17 +104,8 @@ const TableCustomer = (props) => {
         enableColumnActions: true,
         enableRowActions: true,
 
-
-
         renderRowActions: ({ row, table }) => (
             <Box sx={{ display: 'flex', gap: '0.3rem' }}>
-                {/* <Link onClick={() => table.setEditingRow(row)}>
-                    <IconButton>
-                        <Visibility fontSize="medium" />
-                    </IconButton>
-                </Link> */}
-
-
                 <Link to={"/admin/Customer/edit/" + row.original.MaKH}>
                     <IconButton onClick={() => table.setEditingRow(row)}>
                         <Edit fontSize="small" />
@@ -129,8 +118,6 @@ const TableCustomer = (props) => {
             </Box >
 
         ),
-
-
 
         renderTopToolbarCustomActions: ({ table }) => (
             <Box

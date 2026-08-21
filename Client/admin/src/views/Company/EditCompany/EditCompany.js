@@ -1,27 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import { fetchDetailCompany, fetchEditCompany } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const EditCompany = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const congty = useParams();
     let navigate = useNavigate();
     const [macty, SetMaCongTy] = useState('')
     const [tencty, SetTenCongTy] = useState('')
     const [diachi, SetDiaChi] = useState('')
-    const onChangeInputSL = (event, SetSL) => {
-        let changeValue = event.target.value;
-        SetSL(changeValue);
-    }
 
-    useEffect(() => {
-        getDetailCompany();
-    }, []);
-
-    const getDetailCompany = async () => {
+    const getDetailCompany = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailCompany(headers, congty.MaCongTy);
         if (res && res.data) {
@@ -29,8 +21,7 @@ const EditCompany = () => {
             SetTenCongTy(res.data.TenCongTy)
             SetDiaChi(res.data.DiaChi)
         }
-    }
-
+    }, [accessToken, congty.MaCongTy]);
 
     const handleEditCompany= async () => {
         const headers = { 'x-access-token': accessToken };
@@ -50,9 +41,18 @@ const EditCompany = () => {
         }
     }
 
+    useEffect(() => {
+        getDetailCompany();
+    }, [getDetailCompany]);
+
     const onChangeSelect = (event, SetSelect) => {
         let changeValue = event.target.value;
         SetSelect(changeValue);
+    }
+
+    const onChangeInputSL = (event, SetSL) => {
+        let changeValue = event.target.value;
+        SetSL(changeValue);
     }
 
     // check dữ liệu

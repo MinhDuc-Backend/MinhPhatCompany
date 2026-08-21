@@ -1,29 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as React from 'react';
 import "./AddCategoryChild.scss"
 import { fetchAddCategoryChild, fetchAllCategoryFather } from "../../GetAPI"
 import { toast } from "react-toastify";
 
 const AddCategoryChild = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     let navigate = useNavigate();
     const [listData_categoryFather, SetListData_CategoryFather] = useState([]);
     const [malspcon, SetMaLSPcon] = useState('')
     const [tenloai, SetTenLoai] = useState('')
     const [malspcha, SetMaLSPCha] = useState('Chọn')
 
-    useEffect(() => {
-        getListCategoryFather();
-
-    }, []);
-    const getListCategoryFather = async () => {
+    const getListCategoryFather = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCategoryFather(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_CategoryFather(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const handleAddCategoryChild = async () => {
         const headers = { 'x-access-token': accessToken };
         if (!malspcon || !tenloai || malspcha == "Chọn") {
@@ -42,6 +39,10 @@ const AddCategoryChild = () => {
             return;
         }
     }
+
+    useEffect(() => {
+        getListCategoryFather();
+    }, [getListCategoryFather]);
 
     const onChangeInputSL = (event, SetSL) => {
         let changeValue = event.target.value;

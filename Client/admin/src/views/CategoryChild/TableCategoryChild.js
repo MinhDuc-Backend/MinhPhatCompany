@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import { useEffect } from 'react';
 import { fetchAllCategoryChild, fetchDeleteCategoryChild } from "../GetAPI"
 
-
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -20,18 +19,15 @@ const csvConfig = mkConfig({
 const TableCategoryChild = (props) => {
     const accessToken = props.accessToken;
     const [listData_categoryChild, SetListData_CategoryChild] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListCategoryChild();
-    }, []);
 
-    const getListCategoryChild = async () => {
+    const getListCategoryChild = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllCategoryChild(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_CategoryChild(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
             const headers = { 'x-access-token': accessToken };
@@ -48,6 +44,10 @@ const TableCategoryChild = (props) => {
         }
         
     }
+
+    useEffect(() => {
+        getListCategoryChild();
+    }, [getListCategoryChild]);
 
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
@@ -84,7 +84,7 @@ const TableCategoryChild = (props) => {
                 enableEditing: false,
 
             },
-        ]
+        ],[]
     );
 
 

@@ -6,12 +6,10 @@ import { Box, Button } from '@mantine/core';
 import { IconDownload, IconUpload } from '@tabler/icons-react';
 import { mkConfig, generateCsv, download } from 'export-to-csv'; //or use your library of choice here
 import { Link } from "react-router-dom";
-import {
-    IconButton,
-} from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
 import { toast } from "react-toastify";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchAllChucNang, fetchDeleteChucNang } from "./APIFeature"
 
 const csvConfig = mkConfig({
@@ -23,18 +21,15 @@ const csvConfig = mkConfig({
 const TableFeature = (props) => {
     const accessToken = props.accessToken;
     const [listData_chucnang, SetListData_chucnang] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListChucNang();
-    }, []);
 
-    const getListChucNang = async () => {
+    const getListChucNang = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllChucNang(headers);
         if (res && res.data && res.data.DanhSach) {
             SetListData_chucnang(res.data.DanhSach)
         }
-    }
+    }, [accessToken]);
+
     const handleDeleteRows = async (row) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa dữ liệu này?")){
             const headers = { 'x-access-token': accessToken };
@@ -51,6 +46,10 @@ const TableFeature = (props) => {
         }
     }
 
+    useEffect(() => {
+        getListChucNang();
+    }, [getListChucNang]);
+
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => row.original);
         const csv = generateCsv(csvConfig)(rowData);
@@ -61,6 +60,7 @@ const TableFeature = (props) => {
         const csv = generateCsv(csvConfig)(listData_chucnang);
         download(csvConfig)(csv);
     };
+    
     const columns = useMemo(
         () => [
             {
@@ -70,7 +70,6 @@ const TableFeature = (props) => {
                 enableColumnOrdering: false,
                 enableEditing: false, //disable editing on this column
                 enableSorting: false,
-
             },
             {
                 accessorKey: 'TenChucNang',
@@ -79,8 +78,7 @@ const TableFeature = (props) => {
                 enableEditing: false,
 
             },
-
-        ]
+        ],[]
     );
 
     const table = useMantineReactTable({
@@ -94,28 +92,21 @@ const TableFeature = (props) => {
         enableColumnActions: true,
         enableRowActions: true,
 
-
         renderRowActions: ({ row, table }) => (
             <Box sx={{ display: 'flex', gap: '0.3rem' }}>
                 <IconButton onClick={() => table.setEditingRow(row)}>
                     <Visibility fontSize="small" />
                 </IconButton>
-
-
                 <Link to={"/admin/chucnang/edit/" + row.original.MaCN}>
                     <IconButton  >
                         <Edit fontSize="small" />
                     </IconButton>
                 </Link>
-
                 <IconButton onClick={() => handleDeleteRows(row)}>
                     <Delete fontSize="small" sx={{ color: 'red' }} />
                 </IconButton>
             </Box >
-
         ),
-
-
 
         renderTopToolbarCustomActions: ({ table }) => (
             <Box
@@ -128,7 +119,6 @@ const TableFeature = (props) => {
             >
                 <Button
                     color="lightblue"
-                    //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
                     onClick={handleExportData}
                     leftIcon={<IconUpload />}
                     variant="filled"
@@ -139,35 +129,21 @@ const TableFeature = (props) => {
                     disabled={
                         !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
                     }
-                    //only export selected rows
                     onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
                     leftIcon={<IconUpload />}
                     variant="filled"
                 >
                     Export Selected Rows
                 </Button>
-
-                {/* <Button
-                    //only export selected rows
-                    // onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
-                    leftIcon={<IconDownload />}
-                    variant="filled"
-                >
-                    Import Data
-                </Button> */}
             </Box>
-
         ),
     });
 
     return (
         <>
-
             <MantineReactTable table={table} />
-
         </>
     )
-
 };
 
 export default TableFeature;

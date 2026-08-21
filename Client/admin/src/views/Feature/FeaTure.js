@@ -4,7 +4,8 @@ import TableFeature from "./TableFeature";
 import { useState } from "react";
 
 const FeaTure = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+
     return (
         <>
             <main className="main2">
@@ -27,7 +28,6 @@ const FeaTure = () => {
                     </Link>
                 </div>
                 <TableFeature accessToken={accessToken} />
-
             </main >
         </>
     )

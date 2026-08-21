@@ -4,7 +4,8 @@ import TableQuyenTaiKhoan from "./TableAccountPermissions";
 import { useState } from 'react';
 
 const QuyenTaiKhoan = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
+    
     return (
         <>
             <main className="main2">

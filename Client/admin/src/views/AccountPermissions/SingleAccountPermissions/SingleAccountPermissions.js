@@ -1,31 +1,27 @@
 
 import "./SingleAccountPermissions.scss"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchDetailQuyenTK, fetchAllChucNang } from "../../GetAPI"
 
 const SingleQuyenTaiKhoan = () => {
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
-    let navigate = useNavigate();
+    const [accessToken] = useState(localStorage.getItem("accessToken"));
     const quyenTK = useParams();
     const [maquyen, setMaquyen] = useState("")
     const [tenquyen, setTenquyen] = useState("")
     const [listchucnangTK, setListchucnangTK] = useState([]);
     const [listchucnang, setListchucnang] = useState([]);
-    // component didmount
-    useEffect(() => {
-        getListChucNang();
-        getDetailQuyenTK();
-    }, []);
-    const getListChucNang = async () => {
+
+    const getListChucNang = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllChucNang(headers);
         if (res && res.data && res.data.DanhSach) {
             setListchucnang(res.data.DanhSach)
         }
-    }
-    const getDetailQuyenTK = async () => {
+    }, [accessToken]);
+
+    const getDetailQuyenTK = useCallback(async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailQuyenTK(headers, quyenTK.MaQTK);
         if (res && res.data) {
@@ -33,11 +29,18 @@ const SingleQuyenTaiKhoan = () => {
             setTenquyen(res.data.TenQuyenTK)
             setListchucnangTK(res.data.ChucNang)
         }
-    }
+    }, [accessToken, quyenTK.MaQTK]);
+
     const getCheckChucNang = (item) => {
         const check = listchucnangTK.filter(item2 => item2.MaCN.MaCN === item.MaCN).length;
         return check
     }
+
+    useEffect(() => {
+        getListChucNang();
+        getDetailQuyenTK();
+    }, [getListChucNang, getDetailQuyenTK]);
+    
     return (
         <>
             <main className="main2">
