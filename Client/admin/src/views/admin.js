@@ -66,7 +66,7 @@ const AdminPage = () => {
         }
         navigate("/admin/Dashboard")
         return
-    }, [navigate])
+    }, [])
 
     useEffect(() => {
         GetToken()
